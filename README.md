@@ -1,15 +1,15 @@
 # BT3103
 
-#Environment
+# Environment
 A website for environmental friendly products (e-commerce)
 Platform for environmentally-friendly companies to sell their products 
 Each product has a description on how it’s sourced and its carbon footprint
 
-#Users: 
+# Users: 
 Environmentally-conscious consumers
 Environmentally-friendly companies
 
-#Requirements: 
+# Requirements: 
 - Functional
   Easy, centralised platform to purchase eco-friendly items
   Users can create personal accounts
@@ -33,7 +33,7 @@ Environmentally-friendly companies
   Regular updates to fix bugs (once every two months)
   Immediate processing of orders and payments (database gets updated within 2 seconds)
 
-#Benefits: 
+# Benefits: 
 Helps target users source for products with lower carbon footprint more conveniently
 Increase awareness of the amount of carbon footprint taken to produce each product
 Encourage a sustainable lifestyle through usage of environmentally-friendly products 
