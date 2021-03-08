@@ -1,9 +1,9 @@
 # BT3103
 
 # Environment
-A website for environmental friendly products (e-commerce)
-Platform for environmentally-friendly companies to sell their products 
-Each product has a description on how it’s sourced and its carbon footprint
+- A website for environmental friendly products (e-commerce)
+- Platform for environmentally-friendly companies to sell their products 
+- Each product has a description on how it’s sourced and its carbon footprint
 
 # Users: 
 - Environmentally-conscious consumers
