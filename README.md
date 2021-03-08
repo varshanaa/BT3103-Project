@@ -6,13 +6,13 @@ Platform for environmentally-friendly companies to sell their products
 Each product has a description on how it’s sourced and its carbon footprint
 
 # Users: 
-Environmentally-conscious consumers
-Environmentally-friendly companies
+- Environmentally-conscious consumers
+- Environmentally-friendly companies
 
 # Requirements: 
 - Functional
-  Easy, centralised platform to purchase eco-friendly items
-  Users can create personal accounts
+  - Easy, centralised platform to purchase eco-friendly items
+  - Users can create personal accounts
   Description with carbon footprint of each item, where it came from, etc
   Direct payment gateway
   Chat feature to talk to the seller
