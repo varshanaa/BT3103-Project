@@ -4,6 +4,7 @@ import Home from "./components/Home.vue";
 import Profile from "./components/Profile.vue";
 import IPP from './components/IndividualProductPage.vue'
 import APP from './components/AllProductsPage.vue'
+import Shop from './components/Shop.vue'
 import {firebase} from './firebase'
 
 Vue.use(Router);
@@ -37,6 +38,12 @@ const router =  new Router({
           path: '/ipp',
           component: IPP,
           name: 'ipp',
+          props: true
+        },
+        { 
+          path: '/shop',
+          component: Shop,
+          name: 'shop',
           props: true
         }
       ]
