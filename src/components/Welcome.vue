@@ -1,9 +1,5 @@
 <template>
   <div id="welcome">
-    <img
-      id="dp"
-      src="https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/50hESIkAMqvhBx2QqP4JUT/13ec29c832a1a3022d836cd48ad481ee/profile-picture-04.png?w=278&q=70"
-    />
     <div id="hello">Hello, {{ user_name }}!</div>
     <div id="greeting">Welcome back!</div>
     <div id="thanks">Thank you for being part of our community to preserve our mother Earth</div>
@@ -15,19 +11,18 @@
 </template>
 
 <script>
-import db from "../firebase.js";
+import {database} from "../firebase.js";
 export default {
   data() {
     return {
       users: [],
       points: 30,
-      user_name: "Sarah Jane",
-      user_img: ""
+      user_name: "Sarah Jane"
     };
   },
   methods: {
     fetchUsers: function() {
-      db.collection("users")
+      database.collection("users")
         .get()
         .then(snapshot => {
           snapshot.docs.forEach(doc => {
@@ -38,7 +33,6 @@ export default {
     fetchUserData: function() {
       this.points = this.users[0][1]["points"];
       this.user_name = this.users[0][1]["name"];
-      this.user_img = this.users[0][1]["user_img"];
     }
   },
   created() {
