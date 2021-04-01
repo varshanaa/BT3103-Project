@@ -1,5 +1,6 @@
 <template>
 	<div class="homepage">
+		<app-header></app-header>
 		<div class="newspaper-content">
 			<div class="newspaper-feed">
 			</div>
@@ -19,12 +20,17 @@
 
 <script>
 import {database} from "../firebase.js"
+import UserHeader from './UserHeader.vue'
 
 export default({
 	data(){
 		return{
 			shopsList:[],
 		}
+	},
+
+	components: {
+		'app-header': UserHeader,
 	},
 
 	methods: {
