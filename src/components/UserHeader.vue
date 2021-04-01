@@ -57,8 +57,8 @@ export default {
     position: absolute;
     width: 95px;
     height: 40px;
-    left: 20px;
-    top: 10px;
+    right:20px;
+    top: 60px;
     border-radius: 10px;
     font-family: 'EB Garamond';
     font-size: 13px;
