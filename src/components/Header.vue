@@ -1,106 +1,57 @@
 <template>
-	<div class="homepage">
-		<Header/>
-		<div class="newspaper-content">
-			<div class="newspaper-feed">
-			</div>
-			<div class="stores-title"> Partner Stores </div>
-			<div class = "filters"> 
-				<div class= "categories-filter"> Categories </div>
-			</div>
-			<ul>
-				<li v-for="shop in shopsList" v-bind:key="shop.name">
-					<img v-bind:src="shop.img_url">
-					<h2> {{shop.name}} </h2>
-				</li>
-			</ul>
-		</div>
-	</div> 
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C1D9CA;">
+  <a class="navbar-brand" href="/" style="font-family:EB Garamond; margin-right: 10px;">
+    <img src="../../public/YGS-logo.png" width="30" height="30" class="d-inline-block align-top" style="margin: 0px 10px;">
+    Your Green Stop
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin: 0px 10px;">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#4e6657;">
+          Products
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <b-input-group id="searchBar" size="sm" class="mb-2">
+            <b-input-group-prepend is-text>
+              <b-icon icon="search"></b-icon>
+            </b-input-group-prepend>
+            <b-form-input type="search" placeholder="Search products"></b-form-input>
+          </b-input-group>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">View all products</a>
+        </div>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item justify-content-end">
+        <a class="nav-link"><LoginSignup/></a>
+      </li>
+    </ul>
+    
+  </div>
+</nav>
 </template>
 
 <script>
-import {database} from "../firebase.js"
-import Header from './Header.vue'
+import LoginSignup from './LoginSignup.vue'
 
-export default({
-	data(){
-		return{
-			shopsList:[],
-		}
-	},
-
-	components: {
-		Header,
-	},
-
-	methods: {
-		fetchItems: function(){
-			database.collection("companies").get().then((querySnapShot) =>{
-				let shop = {};
-				querySnapShot.forEach(doc => {
-					shop = doc.data();
-					this.shopsList.push(shop);
-				})
-			})
-		}
-	},
-
-	created(){
-		this.fetchItems()
-	}
-
-})
+export default {
+  components: {
+    LoginSignup
+  }
+}
 </script>
 
-
 <style scoped>
-.homepage {
-	width: 100%;
-    margin: 0px;
-    box-sizing: border-box;
+header {
+	background: #EDF6F9;
 }
 
-.newspaper-feed {
-	width: 75%;
-	height: 500px;
-    border: 2px solid rgba(104, 138, 117, 1);
-    display: inline-block;
-    margin: 50px;
-}
-
-.stores-title {
-	font-size: 40px;
-	font-family: 'EB Garamond';
-}
-
-.filters {
-	margin-top: 40px;
-	margin-bottom: 20px;
-	font-size: 30px;
-}
-
-ul {
-    display: inline-flex;
-	flex-wrap: wrap;
-	gap:60px;
-    list-style-type: none;
-	justify-content: center;
-    padding-left: 0px;
-}
-
-li {
-    text-align: center;
-}
-
-img {
-    width: 380px;
-    height: 300px;
-}
-
-h2{
-	font-family: 'EB Garamond';
-	font-size: 20px;
-	color: rgba(0, 86, 94, 1);
-	padding:10px;
+#searchBar {
+  padding: 5px;
 }
 </style>
