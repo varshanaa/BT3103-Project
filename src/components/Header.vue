@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C1D9CA;">
   <a class="navbar-brand" href="/" style="font-family:EB Garamond; margin-right: 10px;">
     <img src="../../public/YGS-logo.png" width="30" height="30" class="d-inline-block align-top" style="margin: 0px 10px;">
-    Your Green Stop
+    YOUR GREEN STOP
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
