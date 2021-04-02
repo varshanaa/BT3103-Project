@@ -1,71 +1,73 @@
 <template>
-  <div class="login">
-        
-        <button type="button" class="btn btn-primary" style="background-color: #C1D9CA; border-color: #C1D9CA;" data-toggle="modal" data-target="#login"><b-icon icon="person" style="color:black;"></b-icon>
+    <div class="login">
+        <button type="button" class="btn btn-primary" style="background-color: #C1D9CA; border-color: #C1D9CA;" data-toggle="modal" data-target="#login"><b-icon icon="person-circle" style="color:#688A75;"></b-icon>
         </button>
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                        <ul class="nav nav-fill nav-pills mb-3" id="pills-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-login" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-register-tab" data-toggle="pill" href="#pills-register" role="tab" aria-controls="pills-register" aria-selected="false">Signup</a>
-                            </li>
-                        </ul>
-
-                        <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" style="text-align:left;" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
+                    <ul class="nav nav-fill nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-login" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-register-tab" data-toggle="pill" href="#pills-register" role="tab" aria-controls="pills-register" aria-selected="false">Signup</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" style="text-align:left;" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
                             
-                            <h5 class="text-center">Login</h5>
-                            <div class="form-group">
-                                <label for="inputEmail">Enter email address</label>
-                                <input type="email" v-model="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email">
-                                <small class="form-text text-muted">We'll never share your email with anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPassword">Enter password</label>
-                                <input type="password" @keyup.enter="login" v-model="password" class="form-control" id="inputPassword" placeholder="Password">
-                            </div>
-                            <br>
-                            <div class="form-group" style="text-align:center;">
-                                <button class="btn btn-primary" @click="login">Let's go!</button>
-                            </div>
-
+                        <h5 class="text-center">Login</h5>
+                        <div class="form-group">
+                            <label for="inputEmail">Enter email address</label>
+                            <b-input-group>
+                                <b-input-group-prepend is-text><b-icon icon="envelope"></b-icon></b-input-group-prepend>
+                                <b-form-input type="email" v-model="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email"></b-form-input>
+                            </b-input-group>
+                            <small class="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div>
-                        <div class="tab-pane fade" style="text-align:left;" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+                        <div class="form-group">
+                            <label for="inputPassword">Enter password</label>
+                            <b-input-group>
+                            <b-input-group-prepend is-text><b-icon icon="lock"></b-icon></b-input-group-prepend>
+                                <b-form-input type="password" @keyup.enter="login" v-model="password" class="form-control" id="inputPassword" placeholder="Password"></b-form-input>
+                            </b-input-group>
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:center;">
+                            <button class="btn btn-primary" v-on:click="login">Let's go!</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" style="text-align:left;" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
                             
-                             <h5 class="text-center">Create New Account</h5>
-                             
-                            <div class="form-group">
-                                <label for="name">Your name</label>
-                                <input type="text" v-model="name" class="form-control" id="name" placeholder="Name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email address</label>
-                                <input type="email"  v-model="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" v-model="password" class="form-control" id="password" placeholder="Password">
-                            </div>
-                            <div class="form-group">
-                                <label for="confirmPassword">Confirm Password</label>
-                                <input type="password" v-model="confirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm Password">
-                            </div>
-                            <br>
-                            <div class="form-group" style="text-align:center;">
-                                <button class="btn btn-primary" @click="register">Sign me up!</button>
-                            </div>
+                        <h5 class="text-center">Create New Account</h5>
+                        <div class="form-group">
+                            <label for="name">Your name</label>
+                            <input type="text" v-model="name" class="form-control" id="name" placeholder="Name">
                         </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email"  v-model="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
                         </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" v-model="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" v-model="confirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                        </div>
+                        <br>
+                        <div class="form-group" style="text-align:center;">
+                            <button class="btn btn-primary" v-on:click="register">Sign me up!</button>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
         </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -89,20 +91,20 @@ export default {
             alert("Please fill in all fields!")
           } else {
             fb.auth().signInWithEmailAndPassword(this.email, this.password)
-                            .then(() => {
-                            document.getElementById('#login').modal('hide')
-                            this.$router.replace('user/home');  
-                            })
-                            .catch(function(error) {
-                                var errorCode = error.code;
-                                var errorMessage = error.message;
-                                if (errorCode === 'auth/wrong-password') {
-                                    alert('Wrong password.');
-                                } else {
-                                    alert(errorMessage);
-                                }
-                                console.log(error);
-                        });
+                .then(() => {
+                    document.getElementById('#login').modal('hide')
+                    this.$router.replace('user/home');  
+                })
+                .catch(function(error) {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    if (errorCode === 'auth/wrong-password') {
+                        alert('Wrong password.');
+                    } else {
+                        alert(errorMessage);
+                    }
+                    console.log(error);
+                });
           }
       },
       register(){
