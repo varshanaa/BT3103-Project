@@ -1,6 +1,6 @@
 <template>
 	<div class="homepage">
-		<app-header></app-header>
+		<Header/>
 		<div class="newspaper-content">
 			<div class="newspaper-feed">
 			</div>
@@ -30,7 +30,7 @@ export default({
 	},
 
 	components: {
-		'app-header': Header,
+		Header,
 	},
 
 	methods: {
@@ -54,56 +54,53 @@ export default({
 
 
 <style scoped>
-
-.homepage{
+.homepage {
 	width: 100%;
-  margin: 0px;
-  box-sizing: border-box;
+    margin: 0px;
+    box-sizing: border-box;
 }
 
-.newspaper-feed{
+.newspaper-feed {
 	width: 75%;
 	height: 500px;
-  border: 2px solid rgba(104, 138, 117, 1);
-  padding: 50px;
-  margin: 50px 100px 50px 130px ;
+    border: 2px solid rgba(104, 138, 117, 1);
+    display: inline-block;
+    margin: 50px;
 }
 
-.stores-title{
-	margin-left: 130px;
+.stores-title {
 	font-size: 40px;
 	font-family: 'EB Garamond';
 }
 
-.filters{
+.filters {
 	margin-top: 40px;
-	margin-left: 130px;
 	margin-bottom: 20px;
 	font-size: 30px;
 }
 
 ul {
-	margin-left: 70px;
-  display: inline-flex;
+    display: inline-flex;
 	flex-wrap: wrap;
 	gap:60px;
-  list-style-type: none;
+    list-style-type: none;
+	justify-content: center;
+    padding-left: 0px;
 }
 
 li {
-  text-align: center;
+    text-align: center;
 }
 
 img {
-  width: 380px;
-  height: 300px;
+    width: 380px;
+    height: 300px;
 }
 
 h2{
 	font-family: 'EB Garamond';
 	font-size: 20px;
 	color: rgba(0, 86, 94, 1);
-
+	padding:10px;
 }
-
 </style>
