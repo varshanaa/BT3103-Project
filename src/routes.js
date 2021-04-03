@@ -1,11 +1,14 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./components/Home.vue";
+import UserHeader from "./components/UserHeader.vue";
+import UserHome from "./components/UserHome.vue";
 import Profile from "./components/Profile.vue";
+import Products from "./components/Products.vue";
 import IPP from './components/IndividualProductPage.vue'
 import APP from './components/AllProductsPage.vue'
-import Shop from './components/Shop.vue'
-import {firebase} from './firebase'
+import EditProfile from "./components/EditProfile.vue";
+import {fb} from './firebase'
 
 Vue.use(Router);
 
@@ -23,9 +26,13 @@ const router =  new Router({
     },
     {
       path: "/user",
-      component: User,
       meta: { requiresAuth: true },
+      component: UserHeader,
       children:[
+        {
+          path: "home",
+          component: UserHome
+        },
         {
           path: "app",
           component: APP
@@ -35,16 +42,14 @@ const router =  new Router({
           component: Profile
         },
         { 
-          path: '/ipp',
+          path: 'ipp',
           component: IPP,
           name: 'ipp',
           props: true
         },
         { 
-          path: '/shop',
-          component: Shop,
-          name: 'shop',
-          props: true
+          path: 'editprofile',
+          component: EditProfile
         }
       ]
     }
@@ -55,7 +60,7 @@ const router =  new Router({
 router.beforeEach((to, from, next) => {
 
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
-  const currentUser = firebase.auth().currentUser
+  const currentUser = fb.auth().currentUser
 
   if (requiresAuth && !currentUser) {
       next('/')

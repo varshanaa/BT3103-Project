@@ -1,5 +1,6 @@
 <template>
-  <div class="editProfile">  
+  <div>
+  <div class="editProfile" style="margin: 50px;">    
     <div class="intro h-100">
       <div class="h-100 align-items-center">
         <h3 style="margin: 30px;">Profile settings</h3>
@@ -21,13 +22,13 @@
 
           <div class="col-sm">
             <div class="form-group">
-              <input type="text"  v-model="password" placeholder="New password" class="form-control">
+              <input type="password" v-model="password" placeholder="New password" class="form-control">
             </div>
           </div>
 
           <div class="col-sm">
             <div class="form-group">
-              <input type="text" v-model="confirmPassword" placeholder="Confirm password" class="form-control">
+              <input type="password" v-model="confirmPassword" placeholder="Confirm password" class="form-control">
             </div>
           </div>
 
@@ -37,12 +38,16 @@
             </div>
           </div>
         </div>
-      </div>            
+      </div> 
+    </div>
+    <Footer/>         
     </div>
 </template>
 
 <script>
 import {fb, database} from '../firebase';
+import Footer from './FooterComponent.vue';
+
 export default {
   data(){
     return {
@@ -56,7 +61,10 @@ export default {
       confirmPassword:null,       
     }
   },
-  methods:{
+  components: {
+    Footer
+  },
+  methods: {
       fetchProfile() {
         var user = fb.auth().currentUser;
         database.collection("users").doc(user.uid).get().then((doc) => {
@@ -65,53 +73,60 @@ export default {
         this.account.email = user.email
       },
       updateProfile(){
-        let flag = false;
+        var flag = false;
         var user = fb.auth().currentUser;
 
         if (this.password !== this.confirmPassword) {
-              alert("Passwords do not match!")
+            flag = true;
+            alert("Passwords do not match!")
         } else if (this.password !== null) {
-          user.updatePassword(this.password).then(function() {
-            console.log("Password updated successfully")
-          }).catch(function(error) {
+          user.updatePassword(this.password)
+          .catch(function(error) {
             console.error(error);
             flag = true;
           }); 
+          this.alertUser(flag);
         }       
         
         if (this.email !== null) {
-          user.updateEmail(this.email).then(function() {
-            console.log("Password updated successfully")
-          }).catch(function(error) {
+          user.updateEmail(this.email)
+          .catch(function(error) {
             console.error(error);
             flag = true;
           });
+          database.collection("users").doc(user.uid).update({
+            email:this.email
+          })
+          .catch((error) => {
+              console.error("Error updating document: ", error);
+              flag = true;
+          });
+          this.alertUser(flag);
         }
 
         if (this.name !== null) {
           database.collection("users").doc(user.uid).update({
             name:this.name
           })
-          .then(() => {
-              console.log("Document successfully updated!");
-          })
-          .catch((error) => {
-              console.error("Error updating document: ", error);
-              flag = true;
-          });
         }
+      },
+      alertUser(flag) {
         if (!flag) {
-          alert("Updated successfully!");
+        this.$router.replace('/');
+        alert("Updated successfully! Sign in again with your new email and password");
         }
-        
       }
+  },
+  created() {
+    this.fetchProfile()
   }
 };
 </script>
 
 <style scoped>
 .container {
-  max-width: 500px;
+  max-width: 400px;
+  padding-bottom: 15px;
 }
 
 .btn-primary {
