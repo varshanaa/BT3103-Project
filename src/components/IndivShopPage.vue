@@ -37,7 +37,7 @@
           <img id="productImage" v-bind:src="product[1].img_url" /><br />
           <span id="productName">
             {{ product[1].name }}
-            <likeBtn v-bind:id="product[0]" v-bind:list="likedProducts"></likeBtn>
+            <likeBtn v-bind:id="product[0]" v-on:like="onChange"></likeBtn>
           </span>
 
           <span id="productPrice"> ${{ product[1].price }} </span>
