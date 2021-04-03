@@ -18,7 +18,6 @@
   - Users can view their purchase history
   - Point system: Reward for buying more environmentally-friendly products
   - Leaderboard amongst users to encourage a friendly competition
-  - Rate and view the ratings of the items purchased
   - Fund-raising for beneficiaries that promote environmentally-friendly causes
   - Newsfeed: articles etc.
   - Search filter/Sort: product prices, categories etc.
