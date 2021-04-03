@@ -30,12 +30,12 @@
                             <label for="inputPassword">Enter password</label>
                             <b-input-group>
                             <b-input-group-prepend is-text><b-icon icon="lock"></b-icon></b-input-group-prepend>
-                                <b-form-input type="password" @keyup.enter="login" v-model="password" class="form-control" id="inputPassword" placeholder="Password"></b-form-input>
+                                <b-form-input type="password" v-model="password" class="form-control" id="inputPassword" placeholder="Password"></b-form-input>
                             </b-input-group>
                         </div>
                         <br>
                         <div class="form-group" style="text-align:center;">
-                            <button class="btn btn-primary" v-on:click="login">Let's go!</button>
+                            <button class="btn btn-primary" v-on:click="login" v-on:keyup.enter="login">Let's go!</button>
                         </div>
                     </div>
                     <div class="tab-pane fade" style="text-align:left;" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
@@ -59,7 +59,7 @@
                         </div>
                         <br>
                         <div class="form-group" style="text-align:center;">
-                            <button class="btn btn-primary" v-on:click="register">Sign me up!</button>
+                            <button class="btn btn-primary" v-on:click="register" v-on:keyup.enter="register">Sign me up!</button>
                         </div>
                     </div>
                     </div>
@@ -74,9 +74,6 @@
 import {fb, database} from '../firebase'
 export default {
   name: "Login",
-  props: {
-    msg: String
-  },
   data(){
       return {
           name:null,
@@ -138,10 +135,6 @@ export default {
                     console.log(error);
                 });
             }
-      },
-      created() {
-          let user = fb.auth().currentUser;
-          this.email = user.email;
       }
   }
 };
