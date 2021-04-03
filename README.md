@@ -15,15 +15,13 @@
   - Users can create personal accounts
   - Description with carbon footprint of each item, where it came from, etc
   - Direct payment gateway
-  - Chat feature to talk to the seller
-  - Purchase history
+  - Users can view their purchase history
   - Point system: Reward for buying more environmentally-friendly products
-  - Leaderboard amongst users for a friendly competition
-  - Rate and view the ratings of the items
+  - Leaderboard amongst users to encourage a friendly competition
+  - Rate and view the ratings of the items purchased
   - Fund-raising for beneficiaries that promote environmentally-friendly causes
   - Newsfeed: articles etc.
-  - Search filter/Sort: compare product prices, etc.
-  - Companies can view daily sales
+  - Search filter/Sort: product prices, categories etc.
   
 - Non-functional 
   - Can support up to 10,000 users
