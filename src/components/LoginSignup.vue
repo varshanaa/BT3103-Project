@@ -35,7 +35,7 @@
                         </div>
                         <br>
                         <div class="form-group" style="text-align:center;">
-                            <button class="btn btn-primary" v-on:click="login" v-on:keyup.enter="login">Let's go!</button>
+                            <button class="btn btn-primary" v-on:click="login">Let's go!</button>
                         </div>
                     </div>
                     <div class="tab-pane fade" style="text-align:left;" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
@@ -59,7 +59,7 @@
                         </div>
                         <br>
                         <div class="form-group" style="text-align:center;">
-                            <button class="btn btn-primary" v-on:click="register" v-on:keyup.enter="register">Sign me up!</button>
+                            <button class="btn btn-primary" v-on:click="register">Sign me up!</button>
                         </div>
                     </div>
                     </div>
@@ -89,7 +89,10 @@ export default {
           } else {
             fb.auth().signInWithEmailAndPassword(this.email, this.password)
                 .then(() => {
-                    document.getElementById('#login').modal('hide')
+                    const modalsBackdrops = document.getElementsByClassName('modal-backdrop');
+                        for (let i=0; i < modalsBackdrops.length; i++) {
+                            document.body.removeChild(modalsBackdrops[i]);
+                        }
                     this.$router.replace('user/home');  
                 })
                 .catch(function(error) {
@@ -112,7 +115,10 @@ export default {
             } else {
                 fb.auth().createUserWithEmailAndPassword(this.email, this.password)
                     .then((user) => {
-                        document.getElementById('#login').modal('hide')
+                        const modalsBackdrops = document.getElementsByClassName('modal-backdrop');
+                        for (let i=0; i < modalsBackdrops.length; i++) {
+                            document.body.removeChild(modalsBackdrops[i]);
+                        }
                         database.collection("users").doc(user.user.uid).set({
                             name: this.name,
                             email: this.email,
