@@ -15,12 +15,14 @@
 				</li>
 			</ul>
 		</div>
+		<Footer/>
 	</div> 
 </template>
 
 <script>
 import {database} from "../firebase.js"
 import Header from './Header.vue'
+import Footer from './FooterComponent.vue'
 
 export default({
 	data(){
@@ -31,6 +33,7 @@ export default({
 
 	components: {
 		Header,
+		Footer
 	},
 
 	methods: {
