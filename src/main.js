@@ -1,6 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
-import routes from "./routes";
+import router from "./routes";
 import jQuery from 'jquery';
 import {fb} from './firebase'
 import VueFirestore from 'vue-firestore'
@@ -54,7 +54,7 @@ fb.auth().onAuthStateChanged(function() {
 
   if(!app){
     new Vue({
-      routes,
+      router,
       render: h => h(App)
     }).$mount("#app");
     
