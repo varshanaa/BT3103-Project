@@ -27,7 +27,7 @@
                         </span>
                     </div>
                     <div style="flex: auto; text-align: right; margin: 2px 0px;">
-                    <h5 style="font-size: 17px; padding:0px 15px;">${{item.price}}</h5>
+                    <h5 style="font-size: 17px; padding:0px 15px;">${{item.price.toFixed(2)}}</h5>
                     </div>
                 </li>
                 </ul>
