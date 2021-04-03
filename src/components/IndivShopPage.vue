@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headerCom></headerCom> 
+    <headerCom></headerCom>
 
     <div id="content">
       <p id="picture">
@@ -30,13 +30,14 @@
       </div>
 
       <span id="productHeader">Products:</span>
+      
 
       <ul id="productList">
         <li id="pdt" v-for="product in products" :key="product[0]">
           <img id="productImage" v-bind:src="product[1].img_url" /><br />
           <span id="productName">
             {{ product[1].name }}
-            <likeBtn v-bind:id="product[0]" v-on:like="onChange"></likeBtn>
+            <likeBtn v-bind:id="product[0]" v-bind:list="likedProducts"></likeBtn>
           </span>
 
           <span id="productPrice"> ${{ product[1].price }} </span>
@@ -46,10 +47,9 @@
             {{ product[1].points }} points
           </span>
         </li>
-      </ul>
+      </ul> 
     </div>
-
-    <footercomp style="position: fixed;"></footercomp>
+    <footercomp></footercomp>
   </div>
 </template>
 
@@ -58,7 +58,7 @@ import database from "../firebase.js";
 // import {firebase, database} from '../firebase.js'
 import HeaderComponent from "./HeaderComponent.vue";
 import LikeButton from "./LikeButton.vue";
-import Footer from "./Footer.vue";
+import FooterComponent from "./FooterComponent.vue";
 
 export default {
   data() {
@@ -70,7 +70,7 @@ export default {
   },
   components: {
     likeBtn: LikeButton,
-    footercomp: Footer,
+    footercomp: FooterComponent,
     headerCom: HeaderComponent,
   },
   methods: {
@@ -111,7 +111,9 @@ export default {
       listOfId["pdt_id"] = this.likedProducts;
       // let user = firebase.auth().currentUser
       database.collection("liked").doc("3").set(listOfId); //doc id is user id
-    },
+    }, 
+      
+    
   },
   created() {
     this.fetchItems();
@@ -121,14 +123,11 @@ export default {
 
 <style scoped>
 #content {
-  position: absolute;
+  position: relative;
   background: #d8e2dc;
   width: 100%;
-  top: 120px;
-  height: 1500px; 
+  height: 1500px;
   left: 0px;
-
-  padding-bottom: 70px;
 }
 
 #picture {
@@ -147,7 +146,7 @@ export default {
   width: 100%;
   height: 100%;
   left: 5%;
-  top: 10%;  
+  top: 10%;
 }
 
 #shopTitle {
@@ -167,7 +166,7 @@ export default {
 }
 
 #shopInfo {
-  position: absolute; 
+  position: absolute;
   left: 65%;
   top: 8%;
 
@@ -180,7 +179,7 @@ export default {
   align-items: center;
   text-align: justify;
   color: #26413c;
-  
+
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
@@ -226,7 +225,7 @@ export default {
 
 #productImage {
   width: 250px;
-  height: 250px;    
+  height: 250px;
 }
 
 #productPrice {
@@ -259,22 +258,19 @@ export default {
 li {
   flex-grow: 1;
   padding: 10px;
-  
 }
 
 #productPoints {
   background-color: #8ec693;
-  width: 150px;
-  height: 100px;
   border-radius: 20px;
-  line-height: 35px;
-  padding: 8px;
+  line-height: 20px; 
+  padding: 6px;
 
   color: #006d77;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
 
   margin-left: 170px;
 }
