@@ -2,7 +2,7 @@
   <div class="liked">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" style="background-color: #C1D9CA; border-color: #C1D9CA;" data-toggle="modal" data-target="#likedProducts">
-        <b-icon icon="heart" style="color:#688A75;"></b-icon>
+        <b-icon icon="suit-heart" style="color:#688A75;"></b-icon>
         </button>
 
         <!-- Modal -->
@@ -15,9 +15,9 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <ul v-for="(item,index) in this.liked" :key="index">
-                <!-- Iterate through liked items, img, footprint, price -->
+            <div class="modal-body" style="padding: 0px 10px">
+                <div v-if="this.liked.length === 0" style="padding: 15px;">No products liked yet.</div>
+                <ul v-else v-for="(item,index) in this.liked" :key="index">
                 <li>
                     <img :src="item.img_url" width="90" height="90">
                     <div id="pdtCell" style="display: grid; margin: 2px 10px; align-content: start; text-align: left;">
@@ -72,7 +72,7 @@ export default {
       }
   },
   created() {
-      this.fetchLikedProducts();
+      //this.fetchLikedProducts();
   }
 };
 </script>
@@ -112,5 +112,6 @@ li {
     background-color: #EDF6F9;
     display: flex;
     padding: 15px;
+    margin:10px;
 }
 </style>
