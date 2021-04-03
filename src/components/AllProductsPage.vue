@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <headercomp></headercomp><br /> -->
+    <headercomp> </headercomp><br />
     <div id="pagebody">
       <div id="filters">
         <ul id="filtersUL">
@@ -10,19 +10,40 @@
           </li>
         </ul>
       </div>
-      <div>
+
+      <div v-if="products.length > 0">
         <ul id="pdtlist">
-          <li id="pdt" v-for= "product in products" v-bind:key= "product[0]">
-            <img v-bind:id= "product[0]" width = 250px height= 250px :src= "product[1].img_url" v-on:click= "route($event)"/> <br />
-            <span id="name_like">{{ product[1].name}}
-            <likebutton v-on:like= "onChange" v-bind:id= "product[0]"></likebutton></span>
+
+            <li id="pdt" v-for="product in products" v-bind:key="product[0]"> 
+            <img
+              v-bind:id="product[0]"
+              width="250px"
+              height="250px"
+              :src="product[1].img_url"
+              v-on:click="route($event)"
+            />
             <br />
-            <span id="cost">${{ product[1].price  }}</span>
-            <span id="points"> <img id="ecopointslogo" src= "https://www.flaticon.com/svg/vstatic/svg/525/525891.svg?token=exp=1616770944~hmac=76d70d7e6dedc91d7bd2ad46d38d22f4">
-            {{ product[1].points }} pts </span>
+            <span id="name_like">
+              {{ product[1].name }}
+              <likebutton
+                v-bind:id="product[0]"
+                v-bind:list="likedProducts"
+              ></likebutton
+            ></span>
+            <br />
+            <span id="cost">${{ product[1].price }}</span>
+            <span id="productPoints">
+              <span id="leafIcon"><i class="fa fa-leaf"></i></span>
+              {{ product[1].points }} points
+            </span>
             <br /><br />
           </li>
         </ul>
+      </div>
+      <div v-else-if="show==false">
+          <div id=noPdt>
+              No products found.
+          </div>
       </div>
     </div>
     <footercomp></footercomp>
@@ -30,57 +51,71 @@
 </template>
 
 <script>
-// import Header from "./HeaderComponent.vue";
+import Header from "./HeaderComponent.vue";
 import Footer from "./FooterComponent.vue";
-import {fb, database} from './firebase';
-import LikeButton from './LikeButton.vue';
-
+import database from "../firebase.js"; //to be changed to the line below later
+// import {fb, database} from './firebase';
+import LikeButton from "./LikeButton.vue";
 export default {
   data() {
     return {
       products: [], //products is an array, where each element is an array -> [doc.id, doc.data()]
       optionsAPP: ["PRICE RANGE", "SHOP"],
-      user: fb.auth().currentUser,
+      //user: fb.auth().currentUser,
       //user_id: user.uid
+      show: true,
+      likedProducts: [],
     };
   },
   components: {
-    //headercomp: Header,
+    headercomp: Header,
     footercomp: Footer,
-    likebutton: LikeButton
+    likebutton: LikeButton,
   },
   methods: {
     fetchProducts: function () {
+      const keyword = this.$route.query.searchTerm;
       database
-        .collection('products')
+        .collection("products")
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
+            if (keyword === "" || keyword == null) {
               this.products.push([doc.id, doc.data()]);
-            });
+            } else {
+              let pdtName = doc.data().name;
+              if (pdtName.toLowerCase().includes(keyword.toLowerCase())) {
+                this.products.push([doc.id, doc.data()]);
+              } else {
+                  this.show = false; //product is not what user wants
+              }
+            }
+          });
         });
     },
     route: function (event) {
-        let product_id = event.target.getAttribute("id");
-        this.$router.push({ name: 'ipp', params: {id: product_id}})
+      let product_id = event.target.getAttribute("id");
+      this.$router.push({ name: "ipp", params: { id: product_id } });
     },
     onChange: function (id, isClicked) {
-        // need to use this.user_idß
-      if (isClicked) { //if liked, add to likedProducts
+      // need to use this.user_idß
+      if (isClicked) {
+        //if liked, add to likedProducts
         this.likedProducts.push(id);
-      } else { //if unliked, remove from likedProducts
+      } else {
+        //if unliked, remove from likedProducts
         for (let i = 0; i < this.likedProducts.length; i++) {
           const curr_prdt = this.likedProducts[i];
           if (curr_prdt === id) {
-            this.likedProducts.splice(i, 1); 
+            this.likedProducts.splice(i, 1);
             break;
           }
         }
       }
-      let listOfId = new Object;
+      let listOfId = new Object();
       listOfId["pdt_id"] = this.likedProducts;
       database.collection("liked").doc("3").set(listOfId); //doc id is user id
-    }
+    }, 
   },
   created() {
     this.fetchProducts();
@@ -96,12 +131,12 @@ export default {
   width: 100%;
   min-height: 800px;
   position: relative;
+  /* margin-top: 6.5%; */
+ 
 }
-
 #filters {
   background-color: #81af93;
 }
-
 #filtersUL {
   width: 100%;
   max-width: 30%;
@@ -112,13 +147,11 @@ export default {
   color: white;
   font-family: "EB Garamond";
 }
-
 #filtersLI {
-  flex-grow: 0.3;
+  flex-grow: 0.3; 
   text-align: center;
   font-size: 20px;
 }
-
 #pdtlist {
   width: 100%;
   margin: 0px;
@@ -128,15 +161,11 @@ export default {
   list-style-type: none;
   padding: 0;
 }
-
-
 #ecopointslogo {
-    width: 20px ;
-    height: 20px; 
-    vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
 }
-
-
 #pdt {
   margin-top: 50px;
   text-align: center;
@@ -144,33 +173,61 @@ export default {
   flex-basis: 300px;
   min-width: 33.3%;
   max-width: 33.3%;
-  font-family: 'EB Garamond';
+  font-family: "EB Garamond";
   font-size: 24px;
   font-weight: bold;
-  color: #00565E;
+  color: #00565e;
 }
-
 #cost {
-    margin-left: 100px;
-    font-size: 20px;
+  margin-left: 100px;
+  font-size: 20px;
 }
+/* #points {
+  text-align: left;
+  background: #8ec693;
+  font-weight: normal;
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 12px;
+  margin-left: 40px;
+} */
+#productPoints {
+  background-color: #8ec693;
+  /* width: 100px;
+  height: 50px; */
+  border-radius: 20px;
+  /* line-height: 35px; */
+  padding: 6px;
 
-#points {
-    text-align: left;
-    background: #8EC693;
-    font-weight: normal;
-    font-size: 14px;
-    padding: 8px;
-    border-radius: 12px;
-    margin-left: 40px;
+  color: #006d77;
+  font-family: EB Garamond;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+
+  /*margin-left: 170px;*/
+  margin-left: 10%;
 }
-
+#leafIcon {
+  width: 3%;
+  height: 3%;
+  border: none;
+}
 #name_like {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-left: 55px;
-    
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-left: 55px;
 }
+/* noPdt: style of page when no prdts found */
+#noPdt {
+  font-family: "EB Garamond";
+  font-size: 32px;
+  font-weight: bold;
+  color: #00565e;
+  text-align: center;
+  padding: 5%;
+}
+
 
 </style>
