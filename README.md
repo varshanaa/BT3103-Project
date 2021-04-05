@@ -14,6 +14,7 @@
   - Easy, centralised platform to purchase eco-friendly items
   - Users can create personal accounts
   - Description with carbon footprint of each item, where it came from, etc
+  - Users can bookmark items under Liked Products to view later
   - Direct payment gateway
   - Users can view their purchase history
   - Point system: Reward for buying more environmentally-friendly products
