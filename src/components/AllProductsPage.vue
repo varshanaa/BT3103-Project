@@ -13,8 +13,7 @@
 
       <div v-if="products.length > 0">
         <ul id="pdtlist">
-
-            <li id="pdt" v-for="product in products" v-bind:key="product[0]"> 
+          <li id="pdt" v-for="product in products" v-bind:key="product[0]">
             <img
               v-bind:id="product[0]"
               width="250px"
@@ -40,10 +39,10 @@
           </li>
         </ul>
       </div>
-      <div v-else-if="show==false">
-          <div id=noPdt>
-              No products found.
-          </div>
+      <div v-else-if="show == false">
+        <div id="noPdt">
+          No products found.
+        </div>
       </div>
     </div>
     <footercomp></footercomp>
@@ -51,7 +50,7 @@
 </template>
 
 <script>
-import Header from "./HeaderComponent.vue";
+import Header from "./Header.vue";
 import Footer from "./FooterComponent.vue";
 import database from "../firebase.js"; //to be changed to the line below later
 // import {fb, database} from './firebase';
@@ -73,7 +72,7 @@ export default {
     likebutton: LikeButton,
   },
   methods: {
-    fetchProducts: function () {
+    fetchProducts: function() {
       const keyword = this.$route.query.searchTerm;
       database
         .collection("products")
@@ -87,17 +86,17 @@ export default {
               if (pdtName.toLowerCase().includes(keyword.toLowerCase())) {
                 this.products.push([doc.id, doc.data()]);
               } else {
-                  this.show = false; //product is not what user wants
+                this.show = false; //product is not what user wants
               }
             }
           });
         });
     },
-    route: function (event) {
+    route: function(event) {
       let product_id = event.target.getAttribute("id");
       this.$router.push({ name: "ipp", params: { id: product_id } });
     },
-    onChange: function (id, isClicked) {
+    onChange: function(id, isClicked) {
       // need to use this.user_idß
       if (isClicked) {
         //if liked, add to likedProducts
@@ -114,8 +113,11 @@ export default {
       }
       let listOfId = new Object();
       listOfId["pdt_id"] = this.likedProducts;
-      database.collection("liked").doc("3").set(listOfId); //doc id is user id
-    }, 
+      database
+        .collection("liked")
+        .doc("3")
+        .set(listOfId); //doc id is user id
+    },
   },
   created() {
     this.fetchProducts();
@@ -123,16 +125,13 @@ export default {
 };
 </script>
 
-
-
- <style scoped>
+<style scoped>
 #pagebody {
   background-color: #d8e2dc;
   width: 100%;
   min-height: 800px;
   position: relative;
   /* margin-top: 6.5%; */
- 
 }
 #filters {
   background-color: #81af93;
@@ -148,7 +147,7 @@ export default {
   font-family: "EB Garamond";
 }
 #filtersLI {
-  flex-grow: 0.3; 
+  flex-grow: 0.3;
   text-align: center;
   font-size: 20px;
 }
@@ -228,6 +227,4 @@ export default {
   text-align: center;
   padding: 5%;
 }
-
-
 </style>

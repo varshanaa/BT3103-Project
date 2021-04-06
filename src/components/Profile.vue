@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <headercomp></headercomp> -->
+    <headercomp></headercomp>
     <welcomecomp></welcomecomp>
     <button v-on:click="redeemPoints()" id="redeem">Redeem Eco-Points</button>
     <nav id="profnav">
@@ -8,7 +8,7 @@
       <button v-on:click="showHist()" id="navbut2">Purchase History</button>
       <button v-on:click="showLead()" id="navbut3">Leaderboard</button>
     </nav>
-    <div v-if="this.display==''"></div>
+    <div v-if="this.display == ''"></div>
     <div v-else-if="this.display == 'EcoPoints'">
       <ecocomp></ecocomp>
     </div>
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-//import Header from "./Header.vue";
-import Footer from "./Footer.vue";
+import Header from "./Header.vue";
+import Footer from "./FooterComponent.vue";
 import Welcome from "./Welcome.vue";
 import EcoPoints from "./ProfileDashboards/EcoPoints.vue";
 import Leaderboard from "./ProfileDashboards/Leaderboard.vue";
@@ -38,17 +38,17 @@ export default {
   data() {
     return {
       profile: [],
-      display: ""
+      display: "",
     };
   },
   components: {
-    //headercomp: Header,
+    headercomp: Header,
     footercomp: Footer,
     welcomecomp: Welcome,
     ecocomp: EcoPoints,
     leadercomp: Leaderboard,
     purchdashcomp: PurchDash,
-    purchhistcomp: PurchHist
+    purchhistcomp: PurchHist,
   },
   methods: {
     redeemPoints: function() {
@@ -62,11 +62,11 @@ export default {
     },
     showLead: function() {
       this.display = "Leaderboard";
-    }
+    },
   },
   beforeDestroy() {
     this.display = "";
-  }
+  },
 };
 </script>
 
