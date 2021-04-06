@@ -6,14 +6,19 @@
     />
     <Button
       v-bind:class="{ clicked: isClicked, unclicked: !isClicked }"
-      v-on:click="toggleLike"
+      v-on:click="
+        toggleLike();
+        onChange();
+      "
     >
-    <i class="fa fa-heart"></i>
+      <i class="fa fa-heart"></i>
     </Button>
   </div>
 </template>
 
 <script>
+import { database } from "../firebase";
+import firebase from "firebase/app";
 export default {
   data() {
     return {
@@ -21,9 +26,25 @@ export default {
     };
   },
   methods: {
-    toggleLike() {
+    toggleLike: function () {
       this.isClicked = !this.isClicked;
-      this.$emit("like", this.id, this.isClicked);
+    },
+    onChange: function () {
+      if (this.isClicked) {
+        database
+          .collection("users")
+          .doc("1")
+          .update({
+            liked: firebase.firestore.FieldValue.arrayUnion(this.id),
+          });
+      } else {
+        database
+          .collection("users")
+          .doc("1")
+          .update({
+            liked: firebase.firestore.FieldValue.arrayRemove(this.id),
+          });
+      }
     },
   },
   props: {
