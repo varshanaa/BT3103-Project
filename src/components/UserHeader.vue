@@ -16,7 +16,7 @@
             Welcome, {{this.name}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#"><b-icon style="margin-right: 15px;" icon="person-circle"></b-icon>View Profile</a>
+            <a class="dropdown-item" href="/user/profile"><b-icon style="margin-right: 15px;" icon="person-circle"></b-icon>View Profile</a>
             <a class="dropdown-item" href="/user/editprofile"><b-icon style="margin-right: 15px;" icon="pencil-square"></b-icon>Edit Profile</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" v-on:click="logout" style="cursor: pointer;"><b-icon style="margin-right: 15px;" icon="power"></b-icon>Logout</a>
