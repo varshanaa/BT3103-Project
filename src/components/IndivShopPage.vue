@@ -30,14 +30,13 @@
       </div>
 
       <span id="productHeader">Products:</span>
-      
 
       <ul id="productList">
         <li id="pdt" v-for="product in products" :key="product[0]">
           <img id="productImage" v-bind:src="product[1].img_url" /><br />
           <span id="productName">
             {{ product[1].name }}
-            <likeBtn v-bind:id="product[0]" v-on:like="onChange"></likeBtn>
+            <likeBtn v-bind:id="product[0]"></likeBtn>
           </span>
 
           <span id="productPrice"> ${{ product[1].price }} </span>
@@ -47,15 +46,14 @@
             {{ product[1].points }} points
           </span>
         </li>
-      </ul> 
+      </ul>
     </div>
     <footercomp></footercomp>
   </div>
 </template>
 
 <script>
-import database from "../firebase.js";
-// import {firebase, database} from '../firebase.js'
+import { database } from "../firebase";
 import HeaderComponent from "./HeaderComponent.vue";
 import LikeButton from "./LikeButton.vue";
 import FooterComponent from "./FooterComponent.vue";
@@ -93,27 +91,6 @@ export default {
           });
         });
     },
-    onChange: function (id, isClicked) {
-      if (isClicked) {
-        //if liked, add to likedProducts
-        this.likedProducts.push(id);
-      } else {
-        //if unliked, remove from likedProducts
-        for (let i = 0; i < this.likedProducts.length; i++) {
-          const curr_prdt = this.likedProducts[i];
-          if (curr_prdt === id) {
-            this.likedProducts.splice(i, 1);
-            break;
-          }
-        }
-      }
-      let listOfId = new Object();
-      listOfId["pdt_id"] = this.likedProducts;
-      // let user = firebase.auth().currentUser
-      database.collection("liked").doc("3").set(listOfId); //doc id is user id
-    }, 
-      
-    
   },
   created() {
     this.fetchItems();
@@ -216,6 +193,7 @@ export default {
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
+  font-weight: bold;
   line-height: 23px;
   display: flex;
   align-items: center;
@@ -263,7 +241,7 @@ li {
 #productPoints {
   background-color: #8ec693;
   border-radius: 20px;
-  line-height: 20px; 
+  line-height: 20px;
   padding: 6px;
 
   color: #006d77;
@@ -272,7 +250,7 @@ li {
   font-weight: 500;
   font-size: 16px;
 
-  margin-left: 170px;
+  margin-left: 50%;
 }
 
 #leafIcon {
