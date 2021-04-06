@@ -1,7 +1,6 @@
 <template>
   <div>
-    <headercomp></headercomp>
-    <welcomecomp></welcomecomp>
+    <Welcome/>
     <button v-on:click="redeemPoints()" id="redeem">Redeem Eco-Points</button>
     <nav id="profnav">
       <button v-on:click="showDash()" id="navbut1">Purchase Dashboard</button>
@@ -10,23 +9,22 @@
     </nav>
     <div v-if="this.display == ''"></div>
     <div v-else-if="this.display == 'EcoPoints'">
-      <ecocomp></ecocomp>
+      <EcoPoints/>
     </div>
     <div v-else-if="this.display == 'Leaderboard'">
-      <leadercomp></leadercomp>
+      <Leaderboard/>
     </div>
     <div v-else-if="this.display == 'PurchDash'">
-      <purchdashcomp></purchdashcomp>
+      <PurchDash/>
     </div>
     <div v-else-if="this.display == 'PurchHist'">
-      <purchhistcomp></purchhistcomp>
+      <PurchHist/>
     </div>
-    <footercomp></footercomp>
+    <Footer/>
   </div>
 </template>
 
 <script>
-import Header from "./Header.vue";
 import Footer from "./FooterComponent.vue";
 import Welcome from "./Welcome.vue";
 import EcoPoints from "./ProfileDashboards/EcoPoints.vue";
@@ -42,13 +40,12 @@ export default {
     };
   },
   components: {
-    headercomp: Header,
-    footercomp: Footer,
-    welcomecomp: Welcome,
-    ecocomp: EcoPoints,
-    leadercomp: Leaderboard,
-    purchdashcomp: PurchDash,
-    purchhistcomp: PurchHist,
+    Footer,
+    Welcome,
+    EcoPoints,
+    Leaderboard,
+    PurchDash,
+    PurchHist,
   },
   methods: {
     redeemPoints: function() {
