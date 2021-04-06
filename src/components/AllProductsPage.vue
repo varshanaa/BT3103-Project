@@ -24,12 +24,8 @@
             <br />
             <span id="name_like">
               {{ product[1].name }}
-              <likebutton
-                v-bind:id="product[0]"
-                v-bind:list="likedProducts"
-              ></likebutton
+              <likebutton v-bind:id="product[0]"></likebutton
             ></span>
-            <br />
             <span id="cost">${{ product[1].price }}</span>
             <span id="productPoints">
               <span id="leafIcon"><i class="fa fa-leaf"></i></span>
@@ -40,9 +36,7 @@
         </ul>
       </div>
       <div v-else-if="show == false">
-        <div id="noPdt">
-          No products found.
-        </div>
+        <div id="noPdt">No products found.</div>
       </div>
     </div>
     <footercomp></footercomp>
@@ -50,10 +44,10 @@
 </template>
 
 <script>
-import Header from "./Header.vue";
+import Header from "./HeaderComponent.vue";
 import Footer from "./FooterComponent.vue";
-import database from "../firebase.js"; //to be changed to the line below later
 // import {fb, database} from './firebase';
+import { database } from "../firebase";
 import LikeButton from "./LikeButton.vue";
 export default {
   data() {
@@ -72,7 +66,7 @@ export default {
     likebutton: LikeButton,
   },
   methods: {
-    fetchProducts: function() {
+    fetchProducts: function () {
       const keyword = this.$route.query.searchTerm;
       database
         .collection("products")
@@ -92,31 +86,9 @@ export default {
           });
         });
     },
-    route: function(event) {
+    route: function (event) {
       let product_id = event.target.getAttribute("id");
       this.$router.push({ name: "ipp", params: { id: product_id } });
-    },
-    onChange: function(id, isClicked) {
-      // need to use this.user_idß
-      if (isClicked) {
-        //if liked, add to likedProducts
-        this.likedProducts.push(id);
-      } else {
-        //if unliked, remove from likedProducts
-        for (let i = 0; i < this.likedProducts.length; i++) {
-          const curr_prdt = this.likedProducts[i];
-          if (curr_prdt === id) {
-            this.likedProducts.splice(i, 1);
-            break;
-          }
-        }
-      }
-      let listOfId = new Object();
-      listOfId["pdt_id"] = this.likedProducts;
-      database
-        .collection("liked")
-        .doc("3")
-        .set(listOfId); //doc id is user id
     },
   },
   created() {
@@ -125,13 +97,14 @@ export default {
 };
 </script>
 
-<style scoped>
+
+
+ <style scoped>
 #pagebody {
   background-color: #d8e2dc;
   width: 100%;
   min-height: 800px;
   position: relative;
-  /* margin-top: 6.5%; */
 }
 #filters {
   background-color: #81af93;
@@ -178,24 +151,14 @@ export default {
   color: #00565e;
 }
 #cost {
-  margin-left: 100px;
-  font-size: 20px;
-}
-/* #points {
-  text-align: left;
-  background: #8ec693;
+  margin-left: 0%;
+  font-size: 25px;
+  margin-top: 0px;
   font-weight: normal;
-  font-size: 14px;
-  padding: 8px;
-  border-radius: 12px;
-  margin-left: 40px;
-} */
+}
 #productPoints {
   background-color: #8ec693;
-  /* width: 100px;
-  height: 50px; */
   border-radius: 20px;
-  /* line-height: 35px; */
   padding: 6px;
 
   color: #006d77;
@@ -204,8 +167,8 @@ export default {
   font-weight: 500;
   font-size: 15px;
 
-  /*margin-left: 170px;*/
-  margin-left: 10%;
+  margin-left: 25%;
+  
 }
 #leafIcon {
   width: 3%;
@@ -214,9 +177,10 @@ export default {
 }
 #name_like {
   display: flex;
-  justify-content: center;
+  /*justify-content: center;*/
   gap: 10px;
-  margin-left: 55px;
+  margin-left: 20%;
+  align-items: center;
 }
 /* noPdt: style of page when no prdts found */
 #noPdt {
