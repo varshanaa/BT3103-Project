@@ -1,106 +1,89 @@
 <template>
-	<div class="homepage">
-		<div class="newspaper-content">
-			<div class="newspaper-feed">
-			</div>
-			<div class="stores-title"> Partner Stores </div>
-			<div class = "filters"> 
-				<div class= "categories-filter"> Categories </div>
-			</div>
-			<ul>
-				<li v-for="shop in shopsList" v-bind:key="shop.name">
-					<img v-bind:src="shop.img_url">
-					<h2> {{shop.name}} </h2>
-				</li>
-			</ul>
-		</div>
-		<Footer/>
-	</div> 
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C1D9CA;">
+    <a class="navbar-brand" href="/user/home" style="font-family:EB Garamond; margin-right: 10px; font-size: 23px;">
+      <img src="../../public/YGS-logo.png" width="30" height="30" class="d-inline-block align-top" style="margin: 0px 10px;">
+      Your Green Stop
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown justify-content-end">
+          <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#4e6657; margin-right: 10px;">
+            Welcome, {{this.name}}!
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#"><b-icon style="margin-right: 15px;" icon="person-circle"></b-icon>View Profile</a>
+            <a class="dropdown-item" href="/user/editprofile"><b-icon style="margin-right: 15px;" icon="pencil-square"></b-icon>Edit Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" v-on:click="logout" style="cursor: pointer;"><b-icon style="margin-right: 15px;" icon="power"></b-icon>Logout</a>
+          </div>
+        </li>
+        <li class="nav-item justify-content-end">
+          <LikedProducts/>
+        </li>
+        <li>
+          <b-icon icon="cart-2" width="30px" height="30px"></b-icon>
+        </li>
+      </ul>
+      
+    </div>
+  </nav>
+  <router-view/>
+</div>
 </template>
 
 <script>
-import {database} from "../firebase.js"
-import Footer from './FooterComponent.vue'
+import LikedProducts from './LikedProducts.vue'
+import {fb, database} from '../firebase';
 
-export default({
-	data(){
-		return{
-			shopsList:[],
-		}
-	},
-
-	components: {
-		Footer
-	},
-
-	methods: {
-		fetchItems: function(){
-			database.collection("companies").get().then((querySnapShot) =>{
-				let shop = {};
-				querySnapShot.forEach(doc => {
-					shop = doc.data();
-					this.shopsList.push(shop);
-				})
-			})
-		}
-	},
-
-	created(){
-		this.fetchItems()
-	}
-
-})
+export default {
+  data() {
+    return {
+      name: null
+    }
+  },
+  components: {
+    LikedProducts
+  },
+  methods: {
+    fetchUserData(){
+      let id = fb.auth().currentUser.uid;
+      database.collection("users").doc(id).get().then((doc) => {
+        this.name = doc.data().name
+        console.log(doc.data())
+      })
+    },
+    logout(){
+          fb.auth().signOut()
+          .then(() => {
+              this.$router.replace('/');
+          })
+          .catch((err) =>{
+              console.log(err);
+          });
+      }
+  },
+  created() {
+    this.fetchUserData()
+  }
+}
 </script>
 
-
 <style scoped>
-.homepage {
-	width: 100%;
-    margin: 0px;
-    box-sizing: border-box;
+header {
+	background: #EDF6F9;
 }
 
-.newspaper-feed {
-	width: 75%;
-	height: 500px;
-    border: 2px solid rgba(104, 138, 117, 1);
-    display: inline-block;
-    margin: 50px;
+#searchBar {
+  padding: 5px;
 }
 
-.stores-title {
-	font-size: 40px;
-	font-family: 'EB Garamond';
-}
-
-.filters {
-	margin-top: 40px;
-	margin-bottom: 20px;
-	font-size: 30px;
-}
-
-ul {
-    display: inline-flex;
-	flex-wrap: wrap;
-	gap:60px;
-    list-style-type: none;
-	justify-content: center;
-    padding-left: 0px;
-}
-
-li {
-    text-align: center;
-}
-
-img {
-    width: 380px;
-    height: 300px;
-}
-
-h2{
-	font-family: 'EB Garamond';
-	font-size: 20px;
-	color: rgba(0, 86, 94, 1);
-	padding:10px;
+.dropdown-item {
+  padding: 7px 24px;
+   margin: 7px 0px;
 }
 </style>
