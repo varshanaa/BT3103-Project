@@ -106,34 +106,31 @@ export default {
 #navbut1 {
   font-family: "EB Garamond";
   font-size: 20px;
-  color: white;
-  text-transform: uppercase;
+  color: black;
+
   background: #81af93;
   position: absolute;
   left: 30px;
   border: none;
-  font-weight: bold;
 }
 #navbut2 {
   font-family: "EB Garamond";
   font-size: 20px;
-  color: white;
-  text-transform: uppercase;
+  color: black;
+
   background: #81af93;
   position: absolute;
   left: 330px;
   border: none;
-  font-weight: bold;
 }
 #navbut3 {
   font-family: "EB Garamond";
   font-size: 20px;
-  color: white;
-  text-transform: uppercase;
+  color: black;
+
   background: #81af93;
   position: absolute;
   left: 630px;
   border: none;
-  font-weight: bold;
 }
 </style>
