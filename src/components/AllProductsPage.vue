@@ -1,13 +1,12 @@
 <template>
   <div>
-    <headercomp> </headercomp><br />
+    <headercomp></headercomp>
+    <br />
     <div id="pagebody">
       <div id="filters">
         <ul id="filtersUL">
-          <b> FILTERS: </b>
-          <li id="filtersLI" v-for="opt in optionsAPP" v-bind:key="opt">
-            {{ opt }}
-          </li>
+          <b>FILTERS:</b>
+          <li id="filtersLI" v-for="opt in optionsAPP" v-bind:key="opt">{{ opt }}</li>
         </ul>
       </div>
 
@@ -24,14 +23,17 @@
             <br />
             <span id="name_like">
               {{ product[1].name }}
-              <likebutton v-bind:id="product[0]"></likebutton
-            ></span>
+              <likebutton v-bind:id="product[0]"></likebutton>
+            </span>
             <span id="cost">${{ product[1].price }}</span>
             <span id="productPoints">
-              <span id="leafIcon"><i class="fa fa-leaf"></i></span>
+              <span id="leafIcon">
+                <i class="fa fa-leaf"></i>
+              </span>
               {{ product[1].points }} points
             </span>
-            <br /><br />
+            <br />
+            <br />
           </li>
         </ul>
       </div>
@@ -44,7 +46,7 @@
 </template>
 
 <script>
-import Header from "./HeaderComponent.vue";
+import Header from "./Header.vue";
 import Footer from "./FooterComponent.vue";
 // import {fb, database} from './firebase';
 import { database } from "../firebase";
@@ -57,22 +59,22 @@ export default {
       //user: fb.auth().currentUser,
       //user_id: user.uid
       show: true,
-      likedProducts: [],
+      likedProducts: []
     };
   },
   components: {
     headercomp: Header,
     footercomp: Footer,
-    likebutton: LikeButton,
+    likebutton: LikeButton
   },
   methods: {
-    fetchProducts: function () {
+    fetchProducts: function() {
       const keyword = this.$route.query.searchTerm;
       database
         .collection("products")
         .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
+        .then(snapshot => {
+          snapshot.docs.forEach(doc => {
             if (keyword === "" || keyword == null) {
               this.products.push([doc.id, doc.data()]);
             } else {
@@ -86,14 +88,14 @@ export default {
           });
         });
     },
-    route: function (event) {
+    route: function(event) {
       let product_id = event.target.getAttribute("id");
       this.$router.push({ name: "ipp", params: { id: product_id } });
-    },
+    }
   },
   created() {
     this.fetchProducts();
-  },
+  }
 };
 </script>
 
@@ -168,7 +170,6 @@ export default {
   font-size: 15px;
 
   margin-left: 25%;
-  
 }
 #leafIcon {
   width: 3%;
