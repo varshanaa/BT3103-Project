@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Welcome/>
+    <Welcome />
     <button v-on:click="redeemPoints()" id="redeem">Redeem Eco-Points</button>
     <nav id="profnav">
       <button v-on:click="showDash()" id="navbut1">Purchase Dashboard</button>
@@ -9,18 +9,18 @@
     </nav>
     <div v-if="this.display == ''"></div>
     <div v-else-if="this.display == 'EcoPoints'">
-      <EcoPoints/>
+      <EcoPoints />
     </div>
     <div v-else-if="this.display == 'Leaderboard'">
-      <Leaderboard/>
+      <Leaderboard />
     </div>
     <div v-else-if="this.display == 'PurchDash'">
-      <PurchDash/>
+      <PurchDash />
     </div>
     <div v-else-if="this.display == 'PurchHist'">
-      <PurchHist/>
+      <PurchHist />
     </div>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 
@@ -31,12 +31,13 @@ import EcoPoints from "./ProfileDashboards/EcoPoints.vue";
 import Leaderboard from "./ProfileDashboards/Leaderboard.vue";
 import PurchDash from "./ProfileDashboards/PurchDash.vue";
 import PurchHist from "./ProfileDashboards/PurchHist.vue";
+import { fb, database } from "../firebase.js";
 
 export default {
   data() {
     return {
-      profile: [],
-      display: "",
+      name: null,
+      display: ""
     };
   },
   components: {
@@ -45,9 +46,19 @@ export default {
     EcoPoints,
     Leaderboard,
     PurchDash,
-    PurchHist,
+    PurchHist
   },
   methods: {
+    fetchUserData: function() {
+      let id = fb.auth().currentUser.uid;
+      database
+        .collection("users")
+        .doc(id)
+        .get()
+        .then(doc => {
+          this.name = doc.data().name;
+        });
+    },
     redeemPoints: function() {
       this.display = "EcoPoints";
     },
@@ -59,11 +70,14 @@ export default {
     },
     showLead: function() {
       this.display = "Leaderboard";
-    },
+    }
+  },
+  created() {
+    this.fetchUserData();
   },
   beforeDestroy() {
     this.display = "";
-  },
+  }
 };
 </script>
 
