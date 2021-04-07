@@ -10,22 +10,14 @@
 
       <div>
         <ul id="shopInfo">
-          <li style="text-decoration: underline; text-align: left">
-            Objective:
-          </li>
+          <li style="text-decoration: underline; text-align: left">Objective:</li>
           <li style="text-align: left">{{ shopInfo[0].description }}</li>
-          <li style="text-decoration: underline; text-align: left">
-            Production Materials:
-          </li>
-          <li style="text-align: left">
-            {{ shopInfo[0].production_materials }}
-          </li>
-          <li style="text-decoration: underline; text-align: left">
-            Contact us:
-          </li>
-          <li style="text-align: left">
-            Contact us at {{ shopInfo[0].contact }} or {{ shopInfo[0].email }}
-          </li>
+          <li style="text-decoration: underline; text-align: left">Production Materials:</li>
+          <li style="text-align: left">{{ shopInfo[0].production_materials }}</li>
+          <li style="text-decoration: underline; text-align: left">Contact us:</li>
+          <li
+            style="text-align: left"
+          >Contact us at {{ shopInfo[0].contact }} or {{ shopInfo[0].email }}</li>
         </ul>
       </div>
 
@@ -33,16 +25,19 @@
 
       <ul id="productList">
         <li id="pdt" v-for="product in products" :key="product[0]">
-          <img id="productImage" v-bind:src="product[1].img_url" /><br />
+          <img id="productImage" v-bind:src="product[1].img_url" />
+          <br />
           <span id="productName">
             {{ product[1].name }}
             <likeBtn v-bind:id="product[0]"></likeBtn>
           </span>
 
-          <span id="productPrice"> ${{ product[1].price }} </span>
+          <span id="productPrice">${{ product[1].price }}</span>
 
           <span id="productPoints">
-            <span id="leafIcon"><i class="fa fa-leaf"></i></span>
+            <span id="leafIcon">
+              <i class="fa fa-leaf"></i>
+            </span>
             {{ product[1].points }} points
           </span>
         </li>
@@ -54,7 +49,7 @@
 
 <script>
 import { database } from "../firebase";
-import HeaderComponent from "./HeaderComponent.vue";
+import Header from "./Header.vue";
 import LikeButton from "./LikeButton.vue";
 import FooterComponent from "./FooterComponent.vue";
 
@@ -63,21 +58,21 @@ export default {
     return {
       shopInfo: [],
       products: [],
-      likedProducts: [],
+      likedProducts: []
     };
   },
   components: {
     likeBtn: LikeButton,
     footercomp: FooterComponent,
-    headerCom: HeaderComponent,
+    headerCom: Header
   },
   methods: {
-    fetchItems: function () {
+    fetchItems: function() {
       database
         .collection("companies")
         .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
+        .then(snapshot => {
+          snapshot.docs.forEach(doc => {
             this.shopInfo.push(doc.data());
           });
         });
@@ -85,16 +80,16 @@ export default {
       database
         .collection("products")
         .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
+        .then(snapshot => {
+          snapshot.docs.forEach(doc => {
             this.products.push([doc.id, doc.data()]);
           });
         });
-    },
+    }
   },
   created() {
     this.fetchItems();
-  },
+  }
 };
 </script>
 
