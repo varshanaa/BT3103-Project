@@ -1,6 +1,6 @@
 <template>
   <div id="welcome">
-    <div id="hello">Hello, {{ user_name }}!</div>
+    <div id="hello">Hello, {{ name }}!</div>
     <div id="greeting">Welcome back!</div>
     <div id="thanks">Thank you for being part of our community to preserve our mother Earth</div>
     <div id="points">
@@ -11,32 +11,28 @@
 </template>
 
 <script>
-import {database} from "../firebase.js";
+import { fb, database } from "../firebase.js";
 export default {
   data() {
     return {
-      users: [],
-      points: 30,
-      user_name: "Sarah Jane"
+      points: null,
+      name: null
     };
   },
   methods: {
-    fetchUsers: function() {
-      database.collection("users")
-        .get()
-        .then(snapshot => {
-          snapshot.docs.forEach(doc => {
-            this.users.push([doc.id, doc.data()]);
-          });
-        });
-    },
     fetchUserData: function() {
-      this.points = this.users[0][1]["points"];
-      this.user_name = this.users[0][1]["name"];
+      let id = fb.auth().currentUser.uid;
+      database
+        .collection("users")
+        .doc(id)
+        .get()
+        .then(doc => {
+          this.name = doc.data().name;
+          this.points = doc.data().points;
+        });
     }
   },
   created() {
-    this.fetchUsers();
     this.fetchUserData();
   }
 };
@@ -52,48 +48,38 @@ export default {
   top: 170px;
   left: 40%;
 }
-
 #hello {
   font-family: "EB Garamond";
-
   padding: 2%;
   color: dimgrey;
   font-weight: bold;
   font-size: 24px;
   text-transform: uppercase;
 }
-
 #greeting {
   font-family: "Apple Chancery";
-
   padding: 2%;
   color: #00565e;
   font-weight: bold;
   font-size: 30px;
 }
-
 #thanks {
   font-family: "EB Garamond";
-
   padding: 2%;
   color: #00565e;
   font-weight: normal;
   font-size: 15px;
 }
-
 #points {
   font-family: "Apple Chancery";
-
   padding: 2%;
   color: black;
   font-weight: bold;
   font-size: 30px;
 }
-
 #icon {
   max-width: 30px;
 }
-
 #dp {
   max-width: 80px;
   position: absolute;
