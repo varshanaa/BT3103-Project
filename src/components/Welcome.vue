@@ -48,48 +48,38 @@ export default {
   top: 170px;
   left: 40%;
 }
-
 #hello {
   font-family: "EB Garamond";
-
   padding: 2%;
   color: dimgrey;
   font-weight: bold;
   font-size: 24px;
   text-transform: uppercase;
 }
-
 #greeting {
   font-family: "Apple Chancery";
-
   padding: 2%;
   color: #00565e;
   font-weight: bold;
   font-size: 30px;
 }
-
 #thanks {
   font-family: "EB Garamond";
-
   padding: 2%;
   color: #00565e;
   font-weight: normal;
   font-size: 15px;
 }
-
 #points {
   font-family: "Apple Chancery";
-
   padding: 2%;
   color: black;
   font-weight: bold;
   font-size: 30px;
 }
-
 #icon {
   max-width: 30px;
 }
-
 #dp {
   max-width: 80px;
   position: absolute;

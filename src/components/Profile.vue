@@ -33,6 +33,7 @@ import PurchDash from "./ProfileDashboards/PurchDash.vue";
 import PurchHist from "./ProfileDashboards/PurchHist.vue";
 import { fb, database } from "../firebase.js";
 
+
 export default {
   data() {
     return {
@@ -94,7 +95,6 @@ export default {
   color: #d8e2dc;
   background: #006d77;
 }
-
 #profnav {
   position: absolute;
   width: 100%;
@@ -102,12 +102,10 @@ export default {
   top: 600px;
   background: #81af93;
 }
-
 #navbut1 {
   font-family: "EB Garamond";
   font-size: 20px;
   color: black;
-
   background: #81af93;
   position: absolute;
   left: 30px;
@@ -117,7 +115,6 @@ export default {
   font-family: "EB Garamond";
   font-size: 20px;
   color: black;
-
   background: #81af93;
   position: absolute;
   left: 330px;
@@ -127,7 +124,6 @@ export default {
   font-family: "EB Garamond";
   font-size: 20px;
   color: black;
-
   background: #81af93;
   position: absolute;
   left: 630px;
