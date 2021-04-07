@@ -33,7 +33,6 @@ import PurchDash from "./ProfileDashboards/PurchDash.vue";
 import PurchHist from "./ProfileDashboards/PurchHist.vue";
 import { fb, database } from "../firebase.js";
 
-
 export default {
   data() {
     return {
