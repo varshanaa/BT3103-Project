@@ -5,15 +5,22 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <br />
+
     <div id="pagebody">
       <div id="filters">
-        <ul id="filtersUL">
-          <b>FILTERS:</b>
-          <li id="filtersLI" v-for="opt in optionsAPP" v-bind:key="opt">{{ opt }}</li>
-        </ul>
+        <p id="filters-title">Filters</p>
+        <a class="nav-link dropdown-toggle active" id="price-range" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Price range
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        </div>
+        <a class="nav-link dropdown-toggle active" id="shop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Shop
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">View all products</a>
+        </div>
       </div>
-
       <div v-if="products.length > 0">
         <ul id="pdtlist">
           <li id="pdt" v-for="product in products" v-bind:key="product[0]">
@@ -109,22 +116,43 @@ export default {
 }
 #filters {
   background-color: #81af93;
-}
-#filtersUL {
   width: 100%;
-  max-width: 30%;
-  text-align: center;
-  font-size: 20px;
-  display: flex;
-  list-style-type: none;
-  color: white;
-  font-family: "EB Garamond";
+  height: 40px;
+  margin-top:0px;
+ 
 }
-#filtersLI {
-  flex-grow: 0.3;
-  text-align: center;
-  font-size: 20px;
+
+#filters-title{
+ font-family:  EB Garamond;
+ padding-top: 4px;
+ float: left;
+ padding-left: 20px;
+ font-size: 20px;
+ color: white;
+ text-transform: uppercase;
 }
+
+#price-range{  
+  color:white;
+  font-family:EB Garamond;
+  text-transform: uppercase; 
+  font-size: 16px;
+  float:left;
+  padding-top: 7px;
+  padding-left: 25px;
+  
+}
+
+#shop{
+  color:white;
+  font-family:EB Garamond;
+  text-transform: uppercase; 
+  font-size: 16px;
+  float:left;
+  padding-top: 7px;
+  padding-left: 25px;
+}
+
 #pdtlist {
   width: 100%;
   margin: 0px;
