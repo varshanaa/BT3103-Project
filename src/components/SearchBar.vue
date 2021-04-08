@@ -13,7 +13,7 @@ export default {
     route: function (event) {
       let keyword = event.target.value;
       this.$router
-        .push({ path: "app", query: { searchTerm: keyword } }) //link to allProductsPage
+        .push({ path: "products", query: { searchTerm: keyword } }) //link to Products.vue
         .then(() => location.reload());
     },
   },
@@ -22,14 +22,6 @@ export default {
 
 <style scoped>
 #searchbar {
-  position: absolute;
-  text-align: center;
-  top: 58px;
-  width: 300px;
-  height: 25px;
-  left: 40%;
-  font-family: "EB Garamond";
-  background: #c1d9ca;
   border-radius: 6px;
-} 
+}
 </style>
