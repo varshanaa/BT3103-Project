@@ -1,16 +1,26 @@
 <template>
   <div>
-    <!-- <headercomp></headercomp><br /> -->
+    <headercomp></headercomp>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <div id="pagebody">
       <div id="filters">
-        <ul id="filtersUL">
-          <b> FILTERS: </b>
-          <li id="filtersLI" v-for="opt in optionsAPP" v-bind:key="opt">
-            {{ opt }}
-          </li>
-        </ul>
+        <p id="filters-title">Filters</p>
+        <a class="nav-link dropdown-toggle active" id="price-range" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Price range
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        </div>
+        <a class="nav-link dropdown-toggle active" id="shop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Shop
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">View all products</a>
+        </div>
       </div>
-      <div>
+      <div v-if="products.length > 0">
         <ul id="pdtlist">
           <li id="pdt" v-for="product in products" v-bind:key="product[0]">
             <img
@@ -21,19 +31,23 @@
               v-on:click="notLoggedIn"
             />
             <br />
-            <span id="name">{{ product[1].name }}</span>
-            <br />
+            <span id="name">
+              {{ product[1].name }}
+            </span><br>
             <span id="cost">${{ product[1].price }}</span>
-            <span id="points">
-              <img
-                id="ecopointslogo"
-                src="https://www.flaticon.com/svg/vstatic/svg/525/525891.svg?token=exp=1616770944~hmac=76d70d7e6dedc91d7bd2ad46d38d22f4"
-              />
-              {{ product[1].points }} pts
+            <span id="productPoints">
+              <span id="leafIcon">
+                <i class="fa fa-leaf"></i>
+              </span>
+              {{ product[1].points }} points
             </span>
-            <br /><br />
+            <br />
+            <br />
           </li>
         </ul>
+      </div>
+      <div v-else-if="show == false">
+        <div id="noPdt">No products found.</div>
       </div>
     </div>
     <footercomp></footercomp>
@@ -41,47 +55,113 @@
 </template>
 
 <script>
-// this page is for non-logged in users
-
-//import Header from "./HeaderComponent.vue";
+import Header from "./Header.vue";
 import Footer from "./FooterComponent.vue";
-import database from "../firebase";
-//import LikeButton from "./LikeButton.vue";
+// import {fb, database} from './firebase';
+import { database } from "../firebase";
 export default {
   data() {
     return {
       products: [], //products is an array, where each element is an array -> [doc.id, doc.data()]
       optionsAPP: ["PRICE RANGE", "SHOP"],
+      //user: fb.auth().currentUser,
+      //user_id: user.uid
+      show: true
     };
   },
   components: {
-    //headercomp: Header,
-    footercomp: Footer,
-    //likebutton: LikeButton,
+    headercomp: Header,
+    footercomp: Footer
   },
   methods: {
     fetchProducts: function() {
+      const keyword = this.$route.query.searchTerm;
       database
         .collection("products")
         .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            this.products.push([doc.id, doc.data()]);
+        .then(snapshot => {
+          snapshot.docs.forEach(doc => {
+            if (keyword === "" || keyword == null) {
+              this.products.push([doc.id, doc.data()]);
+            } else {
+              let pdtName = doc.data().name;
+              if (pdtName.toLowerCase().includes(keyword.toLowerCase())) {
+                this.products.push([doc.id, doc.data()]);
+              } else {
+                this.show = false; //product is not what user wants
+              }
+            }
           });
         });
     },
     notLoggedIn: function() {
-      alert("Please log in to view this product.");
-      // user is not able to view individual product unless logged in
-    },
+      alert("Please log in to view this product.")
+    }
   },
   created() {
     this.fetchProducts();
-  },
+  }
 };
 </script>
 
-<style scoped>
+
+
+ <style scoped>
+#pagebody {
+  background-color: #d8e2dc;
+  width: 100%;
+  min-height: 800px;
+  position: relative;
+}
+#filters {
+  background-color: #81af93;
+  width: 100%;
+  height: 40px;
+  margin-top:0px;
+ 
+}
+
+#filters-title{
+ font-family:  EB Garamond;
+ padding-top: 4px;
+ float: left;
+ padding-left: 20px;
+ font-size: 20px;
+ color: white;
+ text-transform: uppercase;
+}
+
+#price-range{  
+  color:white;
+  font-family:EB Garamond;
+  text-transform: uppercase; 
+  font-size: 16px;
+  float:left;
+  padding-top: 7px;
+  padding-left: 25px;
+  
+}
+
+#shop{
+  color:white;
+  font-family:EB Garamond;
+  text-transform: uppercase; 
+  font-size: 16px;
+  float:left;
+  padding-top: 7px;
+  padding-left: 25px;
+}
+
+#pdtlist {
+  width: 100%;
+  margin: 0px;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+}
+
 #pdt {
   margin-top: 50px;
   text-align: center;
@@ -94,19 +174,41 @@ export default {
   font-weight: bold;
   color: #00565e;
 }
-
 #cost {
-  margin-left: 100px;
-  font-size: 20px;
-}
-
-#points {
-  text-align: left;
-  background: #8ec693;
+  margin-left: 20%;
+  font-size: 25px;
+  margin-top: 0px;
   font-weight: normal;
-  font-size: 14px;
-  padding: 8px;
-  border-radius: 12px;
-  margin-left: 40px;
+}
+#productPoints {
+  background-color: #8ec693;
+  border-radius: 20px;
+  padding: 6px;
+
+  color: #006d77;
+  font-family: EB Garamond;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+
+  margin-left:8%;
+}
+#leafIcon {
+  width: 3%;
+  height: 3%;
+  border: none;
+}
+#name {
+  text-align: center;
+  align-items: center;
+}
+/* noPdt: style of page when no prdts found */
+#noPdt {
+  font-family: "EB Garamond";
+  font-size: 32px;
+  font-weight: bold;
+  color: #00565e;
+  text-align: center;
+  padding: 5%;
 }
 </style>
