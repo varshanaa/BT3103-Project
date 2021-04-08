@@ -1,5 +1,9 @@
 <template>
-  <div></div>
+  <div id="hist">
+    <ul>
+      <li v-for="i in products" :key="i[0]">{{i}}</li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -9,8 +13,8 @@ export default {
   data() {
     return {
       user_id: null,
-      //product_ids: [],
-      //products: [],
+      product_ids: [],
+      products: [],
       purchased: []
     };
   },
@@ -43,16 +47,14 @@ export default {
 
     // },
 
-    fetchPurchased: function() {
-      var ids = [];
-      var products = [];
+    fetchProducts: function() {
       database
         .collection("purchased")
         .where("user_id", "==", this.user_id)
         .get()
         .then(snapshot => {
           snapshot.docs.forEach(doc => {
-            ids.push(doc.data().pdt_id);
+            this.product_ids.push(doc.data().pdt_id);
           });
         });
       database
@@ -60,13 +62,20 @@ export default {
         .get()
         .then(snapshot => {
           snapshot.docs.forEach(doc => {
-            products.push([doc.id, doc.data()]);
+            this.products.push(doc.data());
           });
         });
-      console.log(ids);
-      console.log(products);
-      ids.forEach(x => {
-        this.purchased.push(products[x - 1]);
+      //console.log(this.product_ids);
+      //console.log(this.products);
+      //console.log(this.products[4]);
+      //   ids.forEach(x => {
+      //     this.purchased.push(products[x - 1]);
+      //   });
+    },
+    fetchPurchased: function() {
+      //console.log(this.products[0]);
+      this.product_ids.forEach(x => {
+        this.purchased.push(this.products[x - 1]);
       });
     }
     // fetchPurchased: function() {
@@ -78,15 +87,23 @@ export default {
     //   this.purchased = arr;
     // }
   },
-  created() {
+  async created() {
     this.fetchUserData();
     // this.fetchProductIDs();
-    // this.fetchProducts();
-    this.fetchPurchased();
+    console.log(this.product_ids);
+    console.log(this.products);
+    this.fetchProducts().then(() => {
+      this.fetchPurchased();
+    });
+    //this.fetchPurchased();
   }
 };
 </script>
 
 
 <style scoped>
+#hist {
+  position: absolute;
+  top: 655px;
+}
 </style>
