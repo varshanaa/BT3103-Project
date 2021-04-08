@@ -1,7 +1,7 @@
 <template>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #C1D9CA;">
-  <a class="navbar-brand" href="/" style="font-family:EB Garamond; margin-right: 10px; font-size: 23px;">
-    <img src="../../public/YGS-logo.png" width="30" height="30" class="d-inline-block align-top" style="margin: 0px 10px;">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgba(237, 246, 249, 1);">
+  <a class="navbar-brand" href="/">
+    <img id = "logo" src="https://www.flaticon.com/svg/vstatic/svg/892/892890.svg?token=exp=1617825471~hmac=6747ed845224adf79557f06aa1e0cae3">
     Your Green Stop
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,7 +11,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin: 0px 10px;">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#4e6657;">
+        <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#4e6657;font-family:EB Garamond; font-size: 17px">
           Products
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -51,7 +51,21 @@ header {
 	background: #EDF6F9;
 }
 
+
 #searchBar {
   padding: 5px;
+}
+
+.navbar-brand{
+  font-weight: 700;
+  font-size: 16px;
+  text-transform:uppercase;
+  color: rgba(36,88,57,1);
+  font-family: EB Garamond;
+}
+#logo {
+    width: 30px;
+    height: 30px; 
+    margin-right: 7px;
 }
 </style>
