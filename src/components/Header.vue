@@ -16,11 +16,12 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <b-input-group id="searchBar" size="sm" class="mb-2">
-            <b-input-group-prepend is-text>
+            <search-bar></search-bar>
+            <!-- <b-input-group-prepend is-text>
               <b-icon icon="search"></b-icon>
             </b-input-group-prepend>
-            <b-form-input type="search" placeholder="Search products"></b-form-input>
-          </b-input-group>
+            <b-form-input type="search" placeholder="Search products"></b-form-input>-->
+          </b-input-group> 
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">View all products</a>
         </div>
@@ -38,10 +39,11 @@
 
 <script>
 import LoginSignup from './LoginSignup.vue'
-
+import SearchBar from './SearchBar.vue'
 export default {
   components: {
-    LoginSignup
+    LoginSignup,
+    SearchBar
   }
 }
 </script>
@@ -50,12 +52,9 @@ export default {
 header {
 	background: #EDF6F9;
 }
-
-
 #searchBar {
   padding: 5px;
 }
-
 .navbar-brand{
   font-weight: 700;
   font-size: 16px;
