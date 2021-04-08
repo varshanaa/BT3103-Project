@@ -13,7 +13,7 @@ export default {
     route: function (event) {
       let keyword = event.target.value;
       this.$router
-        .push({ path: "products", query: { searchTerm: keyword } }) //link to Products.vue
+        .push({ path: "/user/app", query: { searchTerm: keyword } }) //link to AllProductsPage.vue
         .then(() => location.reload());
     },
   },

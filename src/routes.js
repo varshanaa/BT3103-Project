@@ -5,9 +5,10 @@ import UserHeader from "./components/UserHeader.vue";
 import UserHome from "./components/UserHome.vue";
 import Profile from "./components/Profile.vue";
 import Products from "./components/Products.vue";
-import IPP from './components/IndividualProductPage.vue'
-import APP from './components/AllProductsPage.vue'
+import IPP from './components/IndividualProductPage.vue';
+import APP from './components/AllProductsPage.vue';
 import EditProfile from "./components/EditProfile.vue";
+import ISP from './components/IndividualShopPage.vue';
 import {fb} from './firebase'
 
 Vue.use(Router);
@@ -23,6 +24,10 @@ const router =  new Router({
     {   //for the non-logged-in users
         path: "/products",
         component: Products
+    },
+    {
+      path: "/isp", 
+      component: ISP
     },
     {
       path: "/user",
@@ -50,7 +55,7 @@ const router =  new Router({
         { 
           path: 'editprofile',
           component: EditProfile
-        }
+        },
       ]
     }
   ]
