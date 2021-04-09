@@ -1,7 +1,7 @@
 <template>
   <div id="hist">
     <ul>
-      <li v-for="i in products" :key="i[0]">{{i}}</li>
+      <li v-for="j in products" :key="j[0]">{{j}}</li>
     </ul>
   </div>
 </template>
@@ -57,14 +57,7 @@ export default {
             this.product_ids.push(doc.data().pdt_id);
           });
         });
-      database
-        .collection("products")
-        .get()
-        .then(snapshot => {
-          snapshot.docs.forEach(doc => {
-            this.products.push(doc.data());
-          });
-        });
+
       //console.log(this.product_ids);
       //console.log(this.products);
       //console.log(this.products[4]);
@@ -73,10 +66,19 @@ export default {
       //   });
     },
     fetchPurchased: function() {
+      database
+        .collection("products")
+        .where("pdt_id", "in", this.product_ids)
+        .get()
+        .then(snapshot => {
+          snapshot.docs.forEach(doc => {
+            this.products.push(doc.data());
+          });
+        });
       //console.log(this.products[0]);
-      this.product_ids.forEach(x => {
-        this.purchased.push(this.products[x - 1]);
-      });
+      // this.product_ids.forEach(x => {
+      //   this.purchased.push(this.products[x - 1]);
+      // });
     }
     // fetchPurchased: function() {
     //   var arr = [];
@@ -87,15 +89,15 @@ export default {
     //   this.purchased = arr;
     // }
   },
-  async created() {
+  created() {
     this.fetchUserData();
     // this.fetchProductIDs();
     console.log(this.product_ids);
-    console.log(this.products);
-    this.fetchProducts().then(() => {
-      this.fetchPurchased();
-    });
+    this.fetchProducts();
     //this.fetchPurchased();
+  },
+  mounted() {
+    this.fetchPurchased();
   }
 };
 </script>
