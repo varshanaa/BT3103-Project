@@ -1,7 +1,7 @@
 <template>
   <div id="lead">
     <ol>
-      <li v-for="j in users" :key="j[0]">{{j}}</li>
+      <li v-for="j in users" :key="j[0]">{{j[0]}}, {{j[1]}}</li>
     </ol>
   </div>
 </template>
