@@ -44,7 +44,7 @@ export default {
   height: 250px;
   background: #81af93;
   border-radius: 25px;
-  position: fixed;
+  position: absolute;
   top: 170px;
   left: 40%;
 }

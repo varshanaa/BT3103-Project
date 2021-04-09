@@ -1,7 +1,10 @@
 <template>
   <div id="hist">
     <ul>
-      <li v-for="j in products" :key="j[0]">{{j}}</li>
+      <li id="item" v-for="j in products" :key="j.name">
+        <img id="img1" v-bind:src="j.img_url" /> {{ j.name }} x {{ j.qty }}
+        {{ j.status }}
+      </li>
     </ul>
   </div>
 </template>
@@ -13,48 +16,23 @@ export default {
   data() {
     return {
       user_id: null,
-      product_ids: [],
+      // product_ids: [],
       products: [],
-      purchased: []
+      // purchased: [],
     };
   },
   methods: {
     fetchUserData: function() {
       this.user_id = fb.auth().currentUser.uid;
     },
-    // fetchProductIDs: function() {
-    //   database
-    //     .collection("purchased")
-    //     .where("user_id", "==", this.user_id)
-    //     .get()
-    //     .then(snapshot => {
-    //       snapshot.docs.forEach(doc => {
-    //         this.product_ids.push(doc.data().pdt_id);
-    //       });
-    //     });
-    // },
-    // fetchProducts: function() {
-    //   var arr = [];
-    //   database
-    //     .collection("products")
-    //     .get()
-    //     .then(snapshot => {
-    //       snapshot.docs.forEach(doc => {
-    //         arr.push([doc.id, doc.data()]);
-    //       });
-    //     });
-    //   console.log(arr);
-
-    // },
-
     fetchProducts: function() {
       database
         .collection("purchased")
         .where("user_id", "==", this.user_id)
         .get()
-        .then(snapshot => {
-          snapshot.docs.forEach(doc => {
-            this.product_ids.push(doc.data().pdt_id);
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            this.products.push(doc.data());
           });
         });
 
@@ -65,21 +43,21 @@ export default {
       //     this.purchased.push(products[x - 1]);
       //   });
     },
-    fetchPurchased: function() {
-      database
-        .collection("products")
-        .where("pdt_id", "in", this.product_ids)
-        .get()
-        .then(snapshot => {
-          snapshot.docs.forEach(doc => {
-            this.products.push(doc.data());
-          });
-        });
-      //console.log(this.products[0]);
-      // this.product_ids.forEach(x => {
-      //   this.purchased.push(this.products[x - 1]);
-      // });
-    }
+    // fetchPurchased: function() {
+    //   database
+    //     .collection("products")
+    //     .where("pdt_id", "in", [1, 2])
+    //     .get()
+    //     .then((snapshot) => {
+    //       snapshot.docs.forEach((doc) => {
+    //         this.products.push(doc.data());
+    //       });
+    //     });
+    //   //console.log(this.products[0]);
+    //   // this.product_ids.forEach(x => {
+    //   //   this.purchased.push(this.products[x - 1]);
+    //   // });
+    // },
     // fetchPurchased: function() {
     //   var arr = [];
     //   this.products.forEach(x => {
@@ -92,20 +70,30 @@ export default {
   created() {
     this.fetchUserData();
     // this.fetchProductIDs();
-    console.log(this.product_ids);
+    // console.log(this.product_ids);
     this.fetchProducts();
     //this.fetchPurchased();
   },
-  mounted() {
-    this.fetchPurchased();
-  }
+  // mounted() {
+  //   this.fetchPurchased();
+  // },
 };
 </script>
-
 
 <style scoped>
 #hist {
   position: absolute;
   top: 655px;
+}
+#item {
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+#img1 {
+  max-width: 100px;
+}
+
+ul {
+  list-style-type: none;
 }
 </style>
