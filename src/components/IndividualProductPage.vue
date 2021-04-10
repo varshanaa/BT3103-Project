@@ -1,17 +1,16 @@
 <template>
 <div>
-    <!-- <headercomp></headercomp><br> -->
     <div> 
         <div id="left-side">
             <ul>
                 <li><img id="productimg" :src= "this.pdt.data.img_url"></li><br>
                 <li>Price: ${{this.pdt.data.price}}</li><br>
-                <li><img src= "https://www.flaticon.com/svg/vstatic/svg/3428/3428273.svg?token=exp=1616926045~hmac=2c10a9d1a2633e89766b08ad8957415a">
-                Carbon Footprint: {{this.pdt.data.footprint}}</li><br>
-                <li><img id="ecopointslogo" src= "https://www.flaticon.com/svg/vstatic/svg/525/525891.svg?token=exp=1616770944~hmac=76d70d7e6dedc91d7bd2ad46d38d22f4">
+                <li><span id="co2footprint"></span>
+                Carbon Footprint: {{this.pdt.data.footprint}}g</li><br>
+                <li><span id="leafIcon"><i class="fa fa-leaf"></i></span>
                 <b> ECO Points: {{this.pdt.data.points}}</b></li><br>
-                <li><span>Quantity: </span><input type="number" id="qtyinput"></li><br><br>
-                <li><button id="addtocart">Add to Cart</button></li>
+                <li><qtyCounter v-on:counter="onCounter"></qtyCounter></li><br><br>
+                <li><AddToCart v-bind:addPdt="add_product"></AddToCart></li> 
             </ul>
         </div>
         <div id="right-side">
@@ -35,11 +34,11 @@
 </template>
 
 <script>
-// import Header from './HeaderComponent.vue';
 import Footer from "./FooterComponent.vue";
 import {fb, database} from "../firebase.js";
 import LikeButton from './LikeButton.vue';
-
+import AddToCart from './AddToCart.vue';
+import QuantityCounter from './QuantityCounter.vue';
 
 export default {
     data() {
@@ -51,7 +50,8 @@ export default {
             user: fb.auth().currentUser,
             //user_id: user.uid,
             company_id: '',
-            company_name: ''
+            company_name: '',
+            add_product: [this.id, 0]
         }
     },
     props: {
@@ -60,9 +60,10 @@ export default {
         }   
     },
     components: {
-        //headercomp: Header,
         footercomp: Footer,
-        likebutton: LikeButton
+        likebutton: LikeButton,
+        AddToCart,
+        qtyCounter: QuantityCounter
     },
     methods: {
         fetchItems: function() {
@@ -90,22 +91,8 @@ export default {
                 });
             });
         },
-        onChange: function (id, isClicked) {
-        // need to use this.user_idß
-            if (isClicked) { //if liked, add to likedProducts
-            this.likedProducts.push(id);
-            } else { //if unliked, remove from likedProducts
-                for (let i = 0; i < this.likedProducts.length; i++) {
-                const curr_prdt = this.likedProducts[i];
-                    if (curr_prdt === id) {
-                        this.likedProducts.splice(i, 1); 
-                        break;
-                    }
-                }
-            }
-            let listOfId = new Object;
-            listOfId["pdt_id"] = this.likedProducts;
-            database.collection("liked").doc("3").set(listOfId); //doc id is user id
+        onCounter: function(quantity) {
+            this.add_product[1] = quantity;
         }
     },
     created() {
@@ -154,6 +141,11 @@ img {
     width: 30px ;
     height: 30px; 
     vertical-align: middle;
+}
+
+#co2footprint {
+    content: url('https://api.iconify.design/iwwa:co2.svg?height=30');
+    vertical-align: -0.45em;
 }
 
 #addtocart {
