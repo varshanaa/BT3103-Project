@@ -5,7 +5,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-
     <div id="pagebody">
       <div id="filters">
         <p id="filters-title">Filters</p>
@@ -116,6 +115,7 @@ export default {
 }
 #filters {
   background-color: #81af93;
+
   width: 100%;
   height: 40px;
   margin-top:0px;

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <headercomp></headercomp>
     <br />
     <div id="pagebody">
       <div id="filters">
@@ -46,7 +45,6 @@
 </template>
 
 <script>
-import Header from "./Header.vue";
 import Footer from "./FooterComponent.vue";
 // import {fb, database} from './firebase';
 import { database } from "../firebase";
@@ -58,12 +56,10 @@ export default {
       optionsAPP: ["PRICE RANGE", "SHOP"],
       //user: fb.auth().currentUser,
       //user_id: user.uid
-      show: true,
-      likedProducts: []
+      show: true
     };
   },
   components: {
-    headercomp: Header,
     footercomp: Footer,
     likebutton: LikeButton
   },
@@ -135,11 +131,7 @@ export default {
   list-style-type: none;
   padding: 0;
 }
-#ecopointslogo {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-}
+
 #pdt {
   margin-top: 50px;
   text-align: center;
@@ -153,7 +145,7 @@ export default {
   color: #00565e;
 }
 #cost {
-  margin-left: 0%;
+  margin-left: 20%;
   font-size: 25px;
   margin-top: 0px;
   font-weight: normal;
@@ -169,7 +161,7 @@ export default {
   font-weight: 500;
   font-size: 15px;
 
-  margin-left: 25%;
+  margin-left:8%;
 }
 #leafIcon {
   width: 3%;
@@ -180,7 +172,7 @@ export default {
   display: flex;
   /*justify-content: center;*/
   gap: 10px;
-  margin-left: 20%;
+  margin-left: 30%;
   align-items: center;
 }
 /* noPdt: style of page when no prdts found */

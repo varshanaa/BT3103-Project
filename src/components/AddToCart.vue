@@ -16,7 +16,7 @@
                 </button>
             </div>
             <div class="modal-footer" style="border-top: none;">
-                <button type="button" class="btn btn-primary">View Cart</button>
+                <button type="button" class="btn btn-primary" v-on:click="$router.push('cartitems')">View Cart</button>
                 <button type="button" class="btn btn-primary">Continue Shopping</button>
             </div>
             </div>
@@ -27,6 +27,7 @@
 
 <script>
 import {fb, database} from '../firebase'
+
 export default {
   name: "AddToCart",
   props: {
@@ -40,7 +41,7 @@ export default {
                 let cart = doc.data();
                 let pdt_id = addPdt[0]
                 let pdt_amt = cart[pdt_id]
-                if (pdt_amt !== null) {
+                if (pdt_amt != null) {
                     let newQty = addPdt[1] + pdt_amt
                     cart[pdt_id] = newQty
                 } else {
@@ -48,7 +49,10 @@ export default {
                 }
                 database.collection("cart").doc(userid).set(cart)
             } else {
-                database.collection("cart").doc(userid).set(addPdt)
+                let cart = {}
+                let pdt_id = addPdt[0]
+                cart[pdt_id] = addPdt[1]
+                database.collection("cart").doc(userid).set(cart)
             }
         }).catch((error) => {
             console.log("Error getting document:", error);
