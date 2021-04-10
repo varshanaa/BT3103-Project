@@ -53,7 +53,7 @@ export default {
     },
   methods: {
     route: function() {
-      //this.$router.push({ name: "paymentconfirmation", params: {total: this.total, points: this.points}});
+      this.$router.push({ name: "cartconfirm", query: {points: this.points}});
     }
   }
   };
