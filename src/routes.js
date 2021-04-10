@@ -5,13 +5,14 @@ import UserHeader from "./components/UserHeader.vue";
 import UserHome from "./components/UserHome.vue";
 import Profile from "./components/Profile.vue";
 import Products from "./components/Products.vue";
-import IPP from './components/IndividualProductPage.vue'
-import APP from './components/AllProductsPage.vue'
+import IPP from './components/IndividualProductPage.vue';
+import APP from './components/AllProductsPage.vue';
 import EditProfile from "./components/EditProfile.vue";
 import CartItems from './components/Cart/CartItems.vue';
 import CartEmpty from './components/Cart/CartEmpty.vue';
 import CartPayment from './components/Cart/CartPayment.vue';
 import CartShipping from './components/Cart/CartShipping.vue';
+import ISP from './components/IndividualShopPage.vue';
 import {fb} from './firebase'
 
 Vue.use(Router);
@@ -27,6 +28,10 @@ const router =  new Router({
     {   //for the non-logged-in users
         path: "/products",
         component: Products
+    },
+    {
+      path: "/isp", 
+      component: ISP
     },
     {
       path: "/user",

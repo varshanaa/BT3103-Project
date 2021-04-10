@@ -6,6 +6,7 @@
 
 <style scoped>
 #footer {
+
     position: relative;
     background-color: #C1D9CA;
     min-height: 30px;
@@ -16,5 +17,4 @@
 #phrase {
     text-align: center;
 }
-
 </style>
