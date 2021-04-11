@@ -5,100 +5,111 @@ import UserHeader from "./components/UserHeader.vue";
 import UserHome from "./components/UserHome.vue";
 import Profile from "./components/Profile.vue";
 import Products from "./components/Products.vue";
-import IPP from './components/IndividualProductPage.vue';
-import APP from './components/AllProductsPage.vue';
+import IPP from "./components/IndividualProductPage.vue";
+import APP from "./components/AllProductsPage.vue";
 import EditProfile from "./components/EditProfile.vue";
-import CartItems from './components/Cart/CartItems.vue';
-import CartEmpty from './components/Cart/CartEmpty.vue';
-import CartPayment from './components/Cart/CartPayment.vue';
-import CartShipping from './components/Cart/CartShipping.vue';
-import ISP from './components/IndividualShopPage.vue';
-import {fb} from './firebase'
+import CartItems from "./components/Cart/CartItems.vue";
+import CartEmpty from "./components/Cart/CartEmpty.vue";
+import CartPayment from "./components/Cart/CartPayment.vue";
+import CartShipping from "./components/Cart/CartShipping.vue";
+import ISP from "./components/IndividualShopPage.vue";
+import FootBar from "./components/ProfileDashboards/charts/FootBar.vue";
+import EcoPoints from "./components/ProfileDashboards/EcoPoints.vue";
+import { fb } from "./firebase";
 
 Vue.use(Router);
 
-const router =  new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
       path: "/",
-      component: Home
-    },
-    {   //for the non-logged-in users
-        path: "/products",
-        component: Products
+      component: Home,
     },
     {
-      path: "/isp", 
-      component: ISP
+      //for the non-logged-in users
+      path: "/products",
+      component: Products,
+    },
+    {
+      path: "/isp",
+      component: ISP,
     },
     {
       path: "/user",
       meta: { requiresAuth: true },
       component: UserHeader,
-      children:[
+      children: [
         {
           path: "home",
-          component: UserHome
+          component: UserHome,
         },
         {
           path: "app",
-          component: APP
+          component: APP,
         },
         {
           path: "profile",
-          component: Profile
+          component: Profile,
         },
-        { 
-          path: 'ipp',
+        {
+          path: "ipp",
           component: IPP,
-          name: 'ipp',
-          props: true
-        },
-        { 
-          path: 'editprofile',
-          component: EditProfile
+          name: "ipp",
+          props: true,
         },
         {
-          path: 'cartitems',
+          path: "editprofile",
+          component: EditProfile,
+        },
+        {
+          path: "cartitems",
           component: CartItems,
-          name: 'cartitems',
-          props: true
+          name: "cartitems",
+          props: true,
         },
         {
-          path: 'cartempty',
+          path: "cartempty",
           component: CartEmpty,
-          name: 'cartempty'
+          name: "cartempty",
         },
-        { 
-        path: 'cartpayment',
-        component: CartPayment,
-        name: 'cartpayment'
+        {
+          path: "cartpayment",
+          component: CartPayment,
+          name: "cartpayment",
         },
-        { 
-          path: 'cartshipping',
+        {
+          path: "cartshipping",
           component: CartShipping,
-          name: 'cartshipping'
-          }
-      ]
-    }
-  ]
+          name: "cartshipping",
+        },
+        {
+          path: "footbar",
+          component: FootBar,
+          name: "footbar",
+        },
+        {
+          path: "ecopoints",
+          component: EcoPoints,
+          name: "ecopoints",
+        },
+      ],
+    },
+  ],
 });
 
-
 router.beforeEach((to, from, next) => {
-
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
-  const currentUser = fb.auth().currentUser
+  const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
+  const currentUser = fb.auth().currentUser;
 
   if (requiresAuth && !currentUser) {
-      next('/')
+    next("/");
   } else if (requiresAuth && currentUser) {
-      next()
+    next();
   } else {
-      next()
+    next();
   }
-})
+});
 
 export default router;
