@@ -4,8 +4,13 @@
       <h3>Thank you for these purchases which have helped to make the world a more sustainable place!</h3>
       <li id="item" v-for="j in products" :key="j.name">
         <img id="img1" v-bind:src="j.img_url" />
-        {{ j.name }} x {{ j.qty }}
-        {{ j.status }}
+        <ul>
+          <li id="description">{{ j.name }} x {{ j.qty }}</li>
+          <li id="description">
+            <img id="img2" src="https://image.flaticon.com/icons/png/128/679/679720.png" />
+            {{ j.status }}
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
@@ -88,14 +93,31 @@ export default {
   top: 655px;
 }
 #item {
-  padding-bottom: 20px;
-  padding-top: 10px;
+  padding-bottom: 0px;
+  padding-top: 20px;
+  background: #c1d9ca;
+  border-radius: 10px;
+  margin: 10px 0;
+  position: relative;
+  left: 30%;
+  width: 40%;
 }
 #img1 {
-  max-width: 100px;
+  position: relative;
+  left: 4%;
+  max-width: 170px;
+}
+#img2 {
+  max-width: 15px;
 }
 
 ul {
   list-style-type: none;
+  padding-bottom: 30px;
+}
+
+#description {
+  padding: 1%;
+  text-transform: capitalize;
 }
 </style>

@@ -1,14 +1,12 @@
 <template>
-  <div id="hist">
-    <ul>
-      <li v-for="i in rewards" :key="i.name">
+  <div id="eco">
+    <ul id="itemsList">
+      <li id="listitem" v-for="i in rewards" :key="i.name">
         {{i.name}}
         <br />
         Points Needed: {{i.points}}
         <br />
         Code to redeem: {{i.code}}
-        <br />
-        <br />
       </li>
     </ul>
   </div>
@@ -43,20 +41,30 @@ export default {
 </script>
 
 <style>
-#hist {
+#eco {
   position: absolute;
   top: 655px;
   background-color: white;
+  margin-bottom: 1px;
 }
-#item {
-  padding-bottom: 20px;
-  padding-top: 10px;
+#listitem {
+  padding-top: 2%;
+  padding-bottom: 2%;
+  position: relative;
+  left: 18%;
+  background-color: #c1d9ca;
+  margin-bottom: 2%;
+  margin-right: 3%;
+  flex-grow: 1;
+  flex-basis: 300px;
 }
 #img1 {
   max-width: 100px;
 }
 
-ul {
+#itemsList {
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
