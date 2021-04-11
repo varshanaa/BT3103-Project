@@ -4,8 +4,11 @@
     <div id="greeting">Welcome back!</div>
     <div id="thanks">Thank you for being part of our community to preserve our mother Earth</div>
     <div id="points">
-      {{points}}
-      <img id="icon" src="https://image.flaticon.com/icons/png/128/53/53775.png" />
+      You have {{points}} EcoPoints
+      <img
+        id="icon"
+        src="https://image.flaticon.com/icons/png/128/53/53775.png"
+      />
     </div>
   </div>
 </template>
@@ -40,24 +43,24 @@ export default {
 
 <style scoped>
 #welcome {
-  width: 500px;
+  width: 40%;
   height: 250px;
   background: #81af93;
   border-radius: 25px;
   position: absolute;
   top: 170px;
-  left: 40%;
+  left: 30%;
 }
 #hello {
   font-family: "EB Garamond";
   padding: 2%;
-  color: dimgrey;
+  color: black;
   font-weight: bold;
   font-size: 24px;
   text-transform: uppercase;
 }
 #greeting {
-  font-family: "Apple Chancery";
+  font-family: "EB Garamond";
   padding: 2%;
   color: #00565e;
   font-weight: bold;
@@ -71,7 +74,7 @@ export default {
   font-size: 15px;
 }
 #points {
-  font-family: "Apple Chancery";
+  font-family: "EB Garamond";
   padding: 2%;
   color: black;
   font-weight: bold;
