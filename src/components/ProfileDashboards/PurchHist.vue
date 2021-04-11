@@ -1,8 +1,10 @@
 <template>
   <div id="hist">
     <ul>
+      <h3>Thank you for these purchases which have helped to make the world a more sustainable place!</h3>
       <li id="item" v-for="j in products" :key="j.name">
-        <img id="img1" v-bind:src="j.img_url" /> {{ j.name }} x {{ j.qty }}
+        <img id="img1" v-bind:src="j.img_url" />
+        {{ j.name }} x {{ j.qty }}
         {{ j.status }}
       </li>
     </ul>
@@ -17,7 +19,7 @@ export default {
     return {
       user_id: null,
       // product_ids: [],
-      products: [],
+      products: []
       // purchased: [],
     };
   },
@@ -30,8 +32,8 @@ export default {
         .collection("purchased")
         .where("user_id", "==", this.user_id)
         .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
+        .then(snapshot => {
+          snapshot.docs.forEach(doc => {
             this.products.push(doc.data());
           });
         });
@@ -42,7 +44,7 @@ export default {
       //   ids.forEach(x => {
       //     this.purchased.push(products[x - 1]);
       //   });
-    },
+    }
     // fetchPurchased: function() {
     //   database
     //     .collection("products")
@@ -73,7 +75,7 @@ export default {
     // console.log(this.product_ids);
     this.fetchProducts();
     //this.fetchPurchased();
-  },
+  }
   // mounted() {
   //   this.fetchPurchased();
   // },

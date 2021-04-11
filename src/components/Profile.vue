@@ -8,9 +8,6 @@
       <button v-on:click="showLead()" id="navbut3">Leaderboard</button>
     </nav>
     <div v-if="this.display == ''"></div>
-    <div v-else-if="this.display == 'EcoPoints'">
-      <EcoPoints />
-    </div>
     <div v-else-if="this.display == 'Leaderboard'">
       <Leaderboard />
     </div>
@@ -19,6 +16,9 @@
     </div>
     <div v-else-if="this.display == 'PurchHist'">
       <PurchHist />
+    </div>
+    <div v-else-if="this.display == 'EcoPoints'">
+      <EcoPoints />
     </div>
     <Footer />
   </div>

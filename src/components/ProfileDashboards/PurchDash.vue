@@ -1,5 +1,6 @@
 <template>
   <div id="hist">
+    <h4>This section contains details regarding the carbon footprint of the items that you have purchased</h4>
     <div>Product with lowest footprint</div>
     <img id="img1" v-bind:src="this.products[0].img_url" />
     {{ this.products[0].name }}, Footprint: {{ this.products[0].footprint }}
@@ -8,24 +9,26 @@
     <br />
 
     <div>Product with highest footprint</div>
-    <img
-      id="img1"
-      v-bind:src="this.products[this.products.length - 1].img_url"
-    />
+    <img id="img1" v-bind:src="this.products[this.products.length - 1].img_url" />
     {{ this.products[this.products.length - 1].name }}, Footprint:
     {{ this.products[this.products.length - 1].footprint }}
+    <bar></bar>
   </div>
 </template>
 
 <script>
 import { fb, database } from "../../firebase.js";
+import Bar from "./charts/FootBar.vue";
 
 export default {
+  components: {
+    bar: Bar
+  },
   data() {
     return {
       user_id: null,
       // product_ids: [],
-      products: [],
+      products: []
       // purchased: [],
     };
   },
@@ -39,8 +42,8 @@ export default {
         .collection("purchased")
         .where("user_id", "==", this.user_id)
         .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
+        .then(snapshot => {
+          snapshot.docs.forEach(doc => {
             prods.push(doc.data());
           });
         });
@@ -52,7 +55,7 @@ export default {
       //   ids.forEach(x => {
       //     this.purchased.push(products[x - 1]);
       //   });
-    },
+    }
     // fetchPurchased: function() {
     //   database
     //     .collection("products")
@@ -83,7 +86,7 @@ export default {
     // console.log(this.product_ids);
     this.fetchProducts();
     //this.fetchPurchased();
-  },
+  }
   // mounted() {
   //   this.fetchPurchased();
   // },
