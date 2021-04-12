@@ -23,7 +23,7 @@
         <div id="content" >
         <ul id="left">
           <li><input placeholder="Full Name"></li><br>
-          <li><textarea placeholder="Address" height="80px" ></textarea></li><br>
+          <li><input placeholder="Address" height="80px"></li><br>
           <li><input placeholder="Country"></li><br>
           <li><input placeholder="City"></li><br>
           <li><input placeholder="Postal Code"></li><br>
@@ -32,16 +32,16 @@
         <ul id="right">
           <li id="rightLI" v-for= "item in products" v-bind:key="item.id">
             <span id="item_span"><img id="item_img" :src="item.img" /></span><br />
-            <span id="item_span"><b>{{ item.name }}</b><br />
+            <span id="item_span_middle"><b>{{ item.name }} (x {{ item.qty}})</b><br />
             <a id="co2footprint"></a><span> {{ item.footprint }}g</span></span><br />
-            <span id="item_span"> ${{item.price}}</span><br />
+            <span id="item_span"> ${{item.price*item.qty}}</span><br />
           </li><br><br>
         </ul>
         </div>
       </div>
       <div id="details">
-        <span><i class="fa fa-leaf leaf-icon"></i> Total ECO-Points: {{ points }}</span><br />
-        <span>Subtotal: ${{ total }}</span><br>
+        <span><i class="fa fa-leaf leaf-icon"></i> Total ECO-Points: {{ totalpoints }}</span><br />
+        <span>Total: ${{ total }}</span><br>
       </div>
       <div>
       <button id="payment" v-on:click="route()">Proceed to Pay</button>
@@ -59,8 +59,8 @@ import Footer from "../FooterComponent.vue";
 export default {
   data() {
     return {
-      total: 50,
-      points: 606
+      // total: 50,
+      // points: 606
     };
   },
   components: {
@@ -70,7 +70,7 @@ export default {
     products: {
       type: Object
     },
-    subtotal: {
+    total: {
       type: Number
     },
     totalpoints: {
@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     route: function() {
-      this.$router.push({ name: "cartpayment", params: {total: this.total, points: this.points}});
+      this.$router.push({ name: "cartpayment", params: {total: this.total, totalpoints: this.totalpoints}});
     }
   }
 };
@@ -151,6 +151,7 @@ hr {
 
 .leaf-icon {
   font-size: 20px;
+  color: #006d77;
 }
 
 #cartlist {
@@ -192,14 +193,18 @@ ul {
 }
 
 li {
-  flex: 1;
+  flex: 0.9;
   text-align: center;
 }
 
 #shipping {
-  flex: 1;
+  flex: 1.1;
   text-align: center;
   margin-right: 10%;
+}
+
+input {
+  width: 70%;
 }
 
 #co2footprint {
@@ -224,8 +229,13 @@ li {
 }
 
 #item_span {
-  flex-basis: 300px;
-  font-size: 18px;
+  flex: 0.5;
+  font-size: 15px;
+}
+
+#item_span_middle {
+  flex: 1;
+  font-size: 15px;
 }
 
 #payment {

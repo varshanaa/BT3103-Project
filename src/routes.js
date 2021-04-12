@@ -12,6 +12,7 @@ import CartItems from './components/Cart/CartItems.vue';
 import CartEmpty from './components/Cart/CartEmpty.vue';
 import CartPayment from './components/Cart/CartPayment.vue';
 import CartShipping from './components/Cart/CartShipping.vue';
+import CartConfirm from './components/Cart/CartConfirm.vue';
 import ISP from './components/IndividualShopPage.vue';
 import {fb} from './firebase'
 
@@ -74,13 +75,21 @@ const router =  new Router({
         { 
         path: 'cartpayment',
         component: CartPayment,
-        name: 'cartpayment'
+        name: 'cartpayment',
+        props: true
         },
         { 
           path: 'cartshipping',
           component: CartShipping,
-          name: 'cartshipping'
-          }
+          name: 'cartshipping',
+          props: true
+        },
+        {
+          path: 'cartconfirm',
+          name: 'cartconfirm',
+          component: CartConfirm,
+          props: true
+        }
       ]
     }
   ]

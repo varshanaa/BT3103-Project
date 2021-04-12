@@ -47,13 +47,15 @@
       </div>
       <div id="details">
         <button id="view_total" v-on:click= "findTotal" >View Total</button><br><br>
-        <span v-show= "this.totalpoints>0"><i class="fa fa-leaf leaf-icon"></i> Total ECO-Points: {{ totalpoints }}</span><br />
-        <span v-show= "this.grand_total>0">Discount: ${{ discount }}</span
-        ><br />
-        <span v-show= "this.grand_total>0">Subtotal: ${{ subtotal }}</span><br>
+        <span v-show= "this.totalpoints>0"><i class="fa fa-leaf leaf-icon"></i><b> Total ECO-Points: {{ totalpoints }}</b></span><br />
+        <span v-show= "this.subtotal>0">Subtotal: ${{ subtotal }}</span><br>
+        <span v-show= "this.subtotal>0">Discount: ${{ discount }}</span><br>
+        <span v-show= "this.subtotal>0"><b>Grand Total: ${{ grand_total() }}</b></span><br>
       </div>
       <div>
-      <button id="checkout" v-on:click="route()">Check Out</button>
+        <!-- v-bind:arr= "[this.products, this.grand_total, this.totalpoints]" -->
+      <!-- <button id="checkout" v-on:click="route()">Check Out</button> -->
+      <router-link id="checkout" :to="{ name: 'cartshipping', params: {products: this.products, total: this.total_final, totalpoints: this.totalpoints }}">Check Out</router-link>
       <router-link id="browse" to="/user/APP" exact>Continue Browsing</router-link>
       </div>
     </div>
@@ -72,17 +74,13 @@ export default {
       products: {},
       totalpoints: 0,
       discount: 0,
-      grand_total: 0
+      subtotal: 0,
+      total_final: 0
     };
   },
   components: {
     Footer,
     CartRemoveBtn,
-  },
-  computed: {
-    subtotal: function () {
-      return this.grand_total - this.discount;
-    },
   },
   methods: {
     retrieveCart: function () {
@@ -116,20 +114,21 @@ export default {
           });
         });
     },
+    grand_total: function() {
+      this.total_final = this.subtotal - this.discount;
+      return this.total_final;
+    },
     findTotal: function() {
-      this.grand_total = 0;
+      this.subtotal = 0;
       this.totalpoints = 0;
       for (var key in this.products) {
         let entry = this.products[key]
-        this.grand_total += entry.price * entry.qty;
+        this.subtotal += entry.price * entry.qty;
         this.totalpoints += entry.points * entry.qty;
       }
-    },
-    route: function() {
-      this.$router.push({ name: "cartshipping", params: { products: this.products, subtotal: this.subtotal, totalpoints: this.totalpoints} });
     }
   },
-  created() {
+  mounted() {
     this.retrieveCart();
   },
 };
@@ -139,7 +138,7 @@ export default {
 #pagebody {
   background-color: #d8e2dc;
   width: 100%;
-  min-height: 800px;
+  min-height: 900px;
   position: relative;
 }
 
@@ -201,6 +200,7 @@ hr {
 
 .leaf-icon {
   font-size: 20px;
+  color: #006d77;
 }
 
 #cartlist {
@@ -282,10 +282,10 @@ li {
   color: white;
   border-radius: 5px;
   padding: 7px;
-  margin-top: 10%;
   position: relative;
   float: right;
   margin-right: -12%;
+  margin-top: 12%;
 }
 
 #view_total {
@@ -306,9 +306,9 @@ li {
   color: white;
   border-radius: 5px;
   padding: 7px;
-  margin-top: 10%;
   position: relative;
   float: right;
   margin-right: -5%;
+  margin-top: 12%;
 }
 </style>
