@@ -164,7 +164,6 @@ export default {
 }
 #filters {
   background-color: #81af93;
-
   width: 100%;
   height: 40px;
   margin-top:0px;

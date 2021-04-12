@@ -47,7 +47,7 @@ const router = new Router({
           component: UserHome,
         },
         {
-          path: "app",
+          path: "products",
           component: APP,
         },
         {

@@ -23,7 +23,7 @@
             <b-form-input type="search" placeholder="Search products"></b-form-input>-->
           </b-input-group> 
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">View all products</a>
+          <a class="dropdown-item" href="/products">View all products</a>
         </div>
       </li>
     </ul>
