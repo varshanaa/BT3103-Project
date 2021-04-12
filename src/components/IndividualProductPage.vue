@@ -20,7 +20,7 @@
         <div id="right-side">
             <ul>
                 <li id="name"><b>{{this.pdt.data.name}}</b>
-                <likebutton v-bind:id="this.id" v-on:like= "onLike"></likebutton></li>
+                <likebutton v-bind:id="this.id"></likebutton></li>
                 <li id="company_name"> From: {{this.company_name}}</li><br><br><br>
                 <li id="green"><u>DESCRIPTION</u></li>
                 <li id="black">{{this.pdt.data.description}}</li><br><br>

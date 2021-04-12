@@ -17,11 +17,12 @@
 </template>
 
 <script>
-import { database } from "../firebase";
+import { fb, database } from "../firebase";
 import firebase from "firebase/app";
 export default {
   data() {
     return {
+      userid: null,
       isClicked: false,
     };
   },
@@ -30,17 +31,19 @@ export default {
       this.isClicked = !this.isClicked;
     },
     onChange: function () {
+      this.userid = fb.auth().currentUser.uid;
       if (this.isClicked) {
+
         database
           .collection("users")
-          .doc("1")
+          .doc(this.userid)
           .update({
             liked: firebase.firestore.FieldValue.arrayUnion(this.id),
           });
       } else {
         database
           .collection("users")
-          .doc("1")
+          .doc(this.userid)
           .update({
             liked: firebase.firestore.FieldValue.arrayRemove(this.id),
           });
