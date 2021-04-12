@@ -12,12 +12,26 @@
           Price range
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <p> Minimum price </p>
+          <input type="number" v-model.lazy="price.minimum" required/>
+          <p class="maximum"> Maximum price </p>
+          <input type="number" v-model.lazy="price.maximum" required/>
+          <br/>
+          <button class="filter-button" v-on:click="filterPrice"> Filter </button>
+          <button class="clear-button" v-on:click="clearProducts"> Clear </button>
         </div>
-        <a class="nav-link dropdown-toggle active" id="shop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div>
+          <a class="nav-link dropdown-toggle active" id="shop-range" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Shop
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">View all products</a>
+          </a>
+          <div class="dropdown-menu" type="button"  aria-labelledby="dropdownMenuButton">
+            <ul id="shopList">
+              <button id="shop-button" class="dropdown-item" v-on:click="clearProducts">All</button>
+              <li id="shop" v-for="shop in shops" v-bind:key="shop.name">
+                <button id="shop-button" class="dropdown-item" v-on:click="filterShop(shop.name)">{{shop.name}}</button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div v-if="products.length > 0">
@@ -63,10 +77,16 @@ export default {
   data() {
     return {
       products: [], //products is an array, where each element is an array -> [doc.id, doc.data()]
+      originalProducts: [],
+      shops: [],
       optionsAPP: ["PRICE RANGE", "SHOP"],
       //user: fb.auth().currentUser,
       //user_id: user.uid
-      show: true
+      show: true,
+      price:{
+        minimum: parseInt(''),
+        maximum: parseInt(''),
+      },
     };
   },
   components: {
@@ -92,14 +112,43 @@ export default {
               }
             }
           });
+          this.originalProducts = this.products;
         });
     },
+
+    fetchCompanies: function(){
+      database.collection("companies").get().then((querySnapShot) => {
+        querySnapShot.docs.forEach( doc => {
+          let shop = doc.data();
+          this.shops.push(shop)
+        })
+      })
+    }
+    ,
     notLoggedIn: function() {
       alert("Please log in to view this product.")
+    },
+
+    filterPrice: function(){
+      this.products = this.originalProducts;
+      var priceFilteredProducts = this.products.filter((product) => parseInt(product[1].price * 100)/100 >= this.price.minimum && parseInt(product[1].price * 100)/100 <= this.price.maximum);
+      this.products = priceFilteredProducts;
+    },
+
+    filterShop: function(name){
+      this.products = this.originalProducts;
+      var shopFilteredProducts = this.products.filter((product) => product[1].company_name == name)
+      this.products = shopFilteredProducts;
+      console.log(this.products)
+    },
+
+    clearProducts: function(){
+      this.products = this.originalProducts;
     }
   },
   created() {
     this.fetchProducts();
+    this.fetchCompanies();
   }
 };
 </script>
@@ -143,7 +192,7 @@ export default {
   
 }
 
-#shop{
+#shop-range{
   color:white;
   font-family:EB Garamond;
   text-transform: uppercase; 
@@ -152,6 +201,59 @@ export default {
   padding-top: 7px;
   padding-left: 25px;
 }
+
+
+p{
+  padding-left: 20px;
+  font-family:EB Garamond;
+}
+
+input{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.maximum{
+  margin-top: 10px;
+}
+
+.filter-button{
+  margin-top: 20px;
+  margin-left: 25px;
+  font-family: EB Garamond;
+  background: #688A75;
+  border-radius: 10px;
+  font-size: 15px;
+  width: 80px;
+}
+
+.clear-button{
+  margin-top: 20px;
+  margin-left: 20px;
+  font-family: EB Garamond;
+  background: #688A75;
+  border-radius: 10px;
+  font-size: 15px;
+  width: 80px;
+}
+
+#shopList {
+  list-style-type: none;
+  font-family: EB Garamond;
+  float:left;
+  text-align: left;
+  padding-left:0px;
+  font-size: 15px;
+}
+
+#shop{
+  padding-top: 7px;
+}
+
+#shop-button:active{
+  background-color: #81af93;
+}
+
 
 #pdtlist {
   width: 100%;

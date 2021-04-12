@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <button type="button" class="btn btn-primary" style="background-color:rgba(237, 246, 249, 1); border-color: #C1D9CA;" data-toggle="modal" data-target="#login"><b-icon icon="person-circle" style="color:#688A75;"></b-icon>
+        <button type="button" class="btn btn-primary" style="background-color:rgba(237, 246, 249, 1); border-color: rgba(237, 246, 249, 1);" data-toggle="modal" data-target="#login"><b-icon icon="person-circle" style="color:#688A75;"></b-icon>
         </button>
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

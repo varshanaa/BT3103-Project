@@ -24,8 +24,6 @@
       <div id="buttons"> 
       <button id="cancel" v-on:click="goback()">Cancel</button>
       <button id="continue" v-on:click="route()">Continue</button><br><br>
-      <!-- :to="{ name: 'fund-subscribers', params: { id: fund.id } }" -->
-      <!-- <router-link id="browseBtn" to="/user/home" exact>Continue Browsing</router-link> -->
       </div>
       </div>
     </div>
