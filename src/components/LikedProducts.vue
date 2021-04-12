@@ -1,7 +1,7 @@
 <template>
   <div class="liked">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" style="background-color: #C1D9CA; border-color: #C1D9CA;" data-toggle="modal" data-target="#likedProducts">
+        <button type="button" class="btn btn-primary" style="background-color:rgba(237, 246, 249, 1); border-color: rgba(237, 246, 249, 1);" data-toggle="modal" data-target="#likedProducts">
         <b-icon icon="suit-heart" style="color:#688A75;"></b-icon>
         </button>
 
