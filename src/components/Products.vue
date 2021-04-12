@@ -256,44 +256,43 @@ input{
 
 
 #pdtlist {
-  width: 100%;
-  margin: 0px;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
+  margin-top:40px;
+  display: inline-flex;
+	flex-wrap: wrap;
+	gap:90px;
   list-style-type: none;
-  padding: 0;
+	justify-content: left;
+  margin-left: 60px;
+  padding:0px;
 }
 
 #pdt {
-  margin-top: 50px;
   text-align: center;
-  font-size: 20px;
-  flex-basis: 300px;
-  min-width: 33.3%;
-  max-width: 33.3%;
-  font-family: "EB Garamond";
-  font-size: 24px;
-  font-weight: bold;
-  color: #00565e;
+	list-style-type: none;
 }
+
+img {
+    width: 280px;
+    height: 280px;
+}
+
 #cost {
   margin-left: 20%;
   font-size: 25px;
   margin-top: 0px;
   font-weight: normal;
+  font-family: EB Garamond;
 }
+
 #productPoints {
   background-color: #8ec693;
   border-radius: 20px;
   padding: 6px;
-
   color: #006d77;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
-
   margin-left:8%;
 }
 #leafIcon {
@@ -304,6 +303,8 @@ input{
 #name {
   text-align: center;
   align-items: center;
+  font-family: EB Garamond;
+  font-size: 20px;
 }
 /* noPdt: style of page when no prdts found */
 #noPdt {

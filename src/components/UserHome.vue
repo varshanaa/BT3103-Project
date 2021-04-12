@@ -1,19 +1,19 @@
 <template>
 	<div class="homepage">
 		<div class="newspaper-content">
+			<a href="#" class="nav-prev arrow left" v-on:click="prevNews()"></a>
 			<div class="newspaper-feed">
+				<img class="news" v-bind:src="this.newsfeed[this.index].image" v-bind:href="this.newsfeed[this.index].link"/> 
 			</div>
+			<a href="#" class="nav-next arrow right" v-on:click="nextNews()"></a>
+		</div>
 			<div class="stores-title"> Partner Stores </div>
-			<div class = "filters"> 
-				<div class= "categories-filter"> Categories </div>
-			</div>
 			<ul>
 				<li v-for="shop in shopsList" v-bind:key="shop.name">
-					<img v-bind:src="shop.img_url">
+					<img v-bind:src="shop.img_url" >
 					<h2> {{shop.name}} </h2>
 				</li>
 			</ul>
-		</div>
 		<Footer/>
 	</div> 
 </template>
@@ -26,6 +26,8 @@ export default({
 	data(){
 		return{
 			shopsList:[],
+			newsfeed:[],
+			index: 0,
 		}
 	},
 
@@ -42,11 +44,39 @@ export default({
 					this.shopsList.push(shop);
 				})
 			})
+		},
+		fetchnews: function(){
+			database.collection("newsfeed").get().then((querySnapShot) => {
+				let news ={};
+				querySnapShot.forEach(doc =>{
+					news = doc.data();
+					this.newsfeed.push(news);
+				})
+			}) 
+		},
+
+		prevNews: function(){
+			if(this.index != 0){
+				this.index -= 1;
+			} else{
+				this.index == 0;
+			}
+		},
+
+		nextNews: function(){
+			if(this.index < this.newsfeed.length){
+				this.index += 1;
+				console.log(this.index)
+			} else{
+				this.index = this.newsfeed.length;
+			}
 		}
+
 	},
 
 	created(){
-		this.fetchItems()
+		this.fetchItems(),
+		this.fetchnews()
 	}
 
 })
@@ -61,11 +91,16 @@ export default({
 }
 
 .newspaper-feed {
-	width: 75%;
+	width: 70%;
 	height: 500px;
-    border: 2px solid rgba(104, 138, 117, 1);
-    display: inline-block;
-    margin: 50px;
+  border: 6px solid rgba(104, 138, 117, 1);
+  display: inline-block;
+  margin: 50px;
+}
+.news{
+	margin-top:5px;
+	width: 100%;
+	height: 480px;
 }
 
 .stores-title {
@@ -80,16 +115,17 @@ export default({
 }
 
 ul {
-    display: inline-flex;
+  display: inline-flex;
 	flex-wrap: wrap;
 	gap:60px;
-    list-style-type: none;
+  list-style-type: none;
 	justify-content: center;
-    padding-left: 0px;
+  padding-left: 0px;
 }
 
 li {
-    text-align: center;
+  text-align: center;
+	list-style-type: none;
 }
 
 img {
@@ -103,4 +139,33 @@ h2{
 	color: rgba(0, 86, 94, 1);
 	padding:10px;
 }
+
+.arrow{
+	position:absolute;
+	top: 48%;z-index:9999;
+	width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border-top: .2rem solid #fff;
+  border-right: .2rem solid #fff;
+  box-shadow: 0 0 0 lightgray;
+  transition: all 200ms ease;
+  mix-blend-mode: difference;
+}
+
+.arrow.left{
+  left: 20px;
+  transform: translate3d(0,-50%,0) rotate(-135deg);
+}
+
+.arrow.right{
+	right: 20px;
+  transform: translate3d(0,-50%,0) rotate(45deg);
+}
+
+.nav-prev,.nav-next{
+  top:48%;
+}
+
+
 </style>

@@ -1,18 +1,38 @@
 <template>
   <div>
     <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        />
-    <br />
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <div id="pagebody">
       <div id="filters">
-        <ul id="filtersUL">
-          <b>FILTERS:</b>
-          <li id="filtersLI" v-for="opt in optionsAPP" v-bind:key="opt">{{ opt }}</li>
-        </ul>
+        <p id="filters-title">Filters</p>
+          <a class="nav-link dropdown-toggle active" id="price-range" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Price range
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <p> Minimum price </p>
+          <input type="number" v-model.lazy="price.minimum" required/>
+          <p class="maximum"> Maximum price </p>
+          <input type="number" v-model.lazy="price.maximum" required/>
+          <br/>
+          <button class="filter-button" v-on:click="filterPrice"> Filter </button>
+          <button class="clear-button" v-on:click="clearProducts"> Clear </button>
+        </div>
+        <div>
+          <a class="nav-link dropdown-toggle active" id="shop-range" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Shop
+          </a>
+          <div class="dropdown-menu" type="button"  aria-labelledby="dropdownMenuButton">
+            <ul id="shopList">
+              <button id="shop-button" class="dropdown-item" v-on:click="clearProducts">All</button>
+              <li id="shop" v-for="shop in shops" v-bind:key="shop.name">
+                <button id="shop-button" class="dropdown-item" v-on:click="filterShop(shop.name)">{{shop.name}}</button>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-
       <div v-if="products.length > 0">
         <ul id="pdtlist">
           <li id="pdt" v-for="product in products" v-bind:key="product[0]">
@@ -55,10 +75,16 @@ export default {
   data() {
     return {
       products: [], //products is an array, where each element is an array -> [doc.id, doc.data()]
+      originalProducts: [],
+      shops: [],
       optionsAPP: ["PRICE RANGE", "SHOP"],
       //user: fb.auth().currentUser,
       //user_id: user.uid
-      show: true
+      show: true,
+      price:{
+        minimum: parseInt(''),
+        maximum: parseInt(''),
+      },
     };
   },
   components: {
@@ -84,7 +110,32 @@ export default {
               }
             }
           });
+          this.originalProducts = this.products;
         });
+    },
+    fetchCompanies: function(){
+      database.collection("companies").get().then((querySnapShot) => {
+        querySnapShot.docs.forEach( doc => {
+          let shop = doc.data();
+          this.shops.push(shop)
+        })
+      })
+    },
+    filterPrice: function(){
+      this.products = this.originalProducts;
+      var priceFilteredProducts = this.products.filter((product) => parseInt(product[1].price * 100)/100 >= this.price.minimum && parseInt(product[1].price * 100)/100 <= this.price.maximum);
+      this.products = priceFilteredProducts;
+    },
+
+    filterShop: function(name){
+      this.products = this.originalProducts;
+      var shopFilteredProducts = this.products.filter((product) => product[1].company_name == name)
+      this.products = shopFilteredProducts;
+      console.log(this.products)
+    },
+
+    clearProducts: function(){
+      this.products = this.originalProducts;
     },
     route: function(event) {
       let product_id = event.target.getAttribute("id");
@@ -93,6 +144,7 @@ export default {
   },
   created() {
     this.fetchProducts();
+    this.fetchCompanies();
   }
 };
 </script>
@@ -106,24 +158,98 @@ export default {
   min-height: 800px;
   position: relative;
 }
+
 #filters {
   background-color: #81af93;
-}
-#filtersUL {
   width: 100%;
-  max-width: 30%;
-  text-align: center;
-  font-size: 20px;
-  display: flex;
+  height: 40px;
+  margin-top:0px;
+ 
+}
+
+#filters-title{
+ font-family:  EB Garamond;
+ padding-top: 4px;
+ float: left;
+ padding-left: 20px;
+ font-size: 20px;
+ color: white;
+ text-transform: uppercase;
+}
+
+#price-range{  
+  color:white;
+  font-family:EB Garamond;
+  text-transform: uppercase; 
+  font-size: 16px;
+  float:left;
+  padding-top: 7px;
+  padding-left: 25px;
+  
+}
+
+#shop-range{
+  color:white;
+  font-family:EB Garamond;
+  text-transform: uppercase; 
+  font-size: 16px;
+  float:left;
+  padding-top: 7px;
+  padding-left: 25px;
+}
+
+p{
+  padding-left: 20px;
+  font-family:EB Garamond;
+}
+
+input{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.maximum{
+  margin-top: 10px;
+}
+
+.filter-button{
+  margin-top: 20px;
+  margin-left: 25px;
+  font-family: EB Garamond;
+  background: #688A75;
+  border-radius: 10px;
+  font-size: 15px;
+  width: 80px;
+}
+
+.clear-button{
+  margin-top: 20px;
+  margin-left: 20px;
+  font-family: EB Garamond;
+  background: #688A75;
+  border-radius: 10px;
+  font-size: 15px;
+  width: 80px;
+}
+
+#shopList {
   list-style-type: none;
-  color: white;
-  font-family: "EB Garamond";
+  font-family: EB Garamond;
+  float:left;
+  text-align: left;
+  padding-left:0px;
+  font-size: 15px;
 }
-#filtersLI {
-  flex-grow: 0.3;
-  text-align: center;
-  font-size: 20px;
+
+#shop{
+  padding-top: 7px;
 }
+
+#shop-button:active{
+  background-color: #81af93;
+}
+
+
 #pdtlist {
   width: 100%;
   margin: 0px;
