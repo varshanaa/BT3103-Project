@@ -255,25 +255,28 @@ input{
 
 
 #pdtlist {
-  margin-top:40px;
-  display: inline-flex;
-	flex-wrap: wrap;
-	gap:90px;
+  width: 100%;
+  margin: 0px;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
   list-style-type: none;
-	justify-content: left;
-  margin-left: 60px;
-  padding:0px;
+  padding: 0;
 }
 
 #pdt {
+  margin-top: 50px;
   text-align: center;
-	list-style-type: none;
+  font-size: 20px;
+  flex-basis: 300px;
+  min-width: 33.3%;
+  max-width: 33.3%;
+  font-family: "EB Garamond";
+  font-size: 24px;
+  font-weight: bold;
+  color: #00565e;
 }
 
-img {
-    width: 280px;
-    height: 280px;
-}
 
 #cost {
   margin-left: 20%;
