@@ -15,19 +15,20 @@
       </div>
       <div id="cartlist">
         <ul>
-          <li><b id="amount">Total: SGD${{total}}</b></li><br>
+          <li><b id="amount">Total: SGD ${{total}}</b></li><br><br>
           <li><input placeholder="Card Holder's Name"></li><br>
           <li><input placeholder="Card Number"></li><br>
           <li><input placeholder="Expiry Date"></li><br>
           <li><input placeholder="CVV"></li>
-        </ul>
+        </ul><br><br>
       <div id="buttons"> 
-      <router-link id="cancel" to="/user/cartshipping" exact>Cancel</router-link>
-      <button id="continue" v-on:click="route()">Continue</button>
+      <button id="cancel" v-on:click="goback()">Cancel</button>
+      <button id="continue" v-on:click="route()">Continue</button><br><br>
       </div>
       </div>
+    </div>
     <Footer></Footer>
-  </div>
+  
   </div>
 </template>
 
@@ -44,16 +45,19 @@ export default {
     Footer
   },
   props: {
-    subtotal: {
+    total: {
       type: Number
-      },
-      points: {
-          type: Number
-      }
     },
+    totalpoints: {
+      type: Number
+    }
+  },
   methods: {
     route: function() {
-      this.$router.push({ name: "cartconfirm", query: {points: this.points}});
+      this.$router.push({ name: "cartconfirm", params: {points: this.totalpoints}});
+    },
+    goback: function() {
+      this.$router.push({name: "cartshipping"});
     }
   }
   };
@@ -125,6 +129,7 @@ hr {
 
 .leaf-icon {
   font-size: 20px;
+  color: #006d77;
 }
 
 #cartlist {
@@ -132,19 +137,17 @@ hr {
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-  max-height: 350px;
+  height: 70%;
   background-color: whitesmoke;
   border-radius: 25px;
   position: relative;
   float: left;
   margin-top: 14%;
   margin-left: 18%;
-  overflow-y: scroll;
   padding-right: 0.5%;
 }
 
 #amount {
-    padding-top: 1.5%;
     font-size: 30px;
 }
 
@@ -152,30 +155,40 @@ ul {
     list-style-type: none;
 }
 
-/* #buttons {
-    display: flex;
-    justify-content: space-evenly;
-} */
+input {
+  width: 60%;
+}
+
+#buttons {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5%;
+}
 
 #continue {
-    width: 100px;
+  float: right;
   font-family: "Garamond";
-  font-size: 15px;
+  font-size: 20px;
   background-color: #688a75;
   border-color: #688a75;
   color: white;
   border-radius: 5px;
-  padding: 7px;
+  height: 50px;
+  width: 150px;
+  margin-right: 30%;
+
 }
 
 #cancel {
-    width: 100px;
+  float: left;
   font-family: "Garamond";
-  font-size: 15px;
+  font-size: 20px;
   background-color: #688a75;
   border-color: #688a75;
   color: white;
   border-radius: 5px;
-  padding: 10px;
+  height: 50px;
+  width: 150px;
+  margin-left: 30%;
 }
 </style>

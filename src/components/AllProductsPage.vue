@@ -1,5 +1,9 @@
 <template>
   <div>
+    <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
     <br />
     <div id="pagebody">
       <div id="filters">
@@ -26,9 +30,7 @@
             </span>
             <span id="cost">${{ product[1].price }}</span>
             <span id="productPoints">
-              <span id="leafIcon">
-                <i class="fa fa-leaf"></i>
-              </span>
+              <i class="fa fa-leaf leaf-icon"></i>
               {{ product[1].points }} points
             </span>
             <br />
@@ -163,11 +165,12 @@ export default {
 
   margin-left:8%;
 }
-#leafIcon {
-  width: 3%;
-  height: 3%;
-  border: none;
+
+.leaf-icon {
+  font-size: 20px;
+  color: #006d77;
 }
+
 #name_like {
   display: flex;
   /*justify-content: center;*/

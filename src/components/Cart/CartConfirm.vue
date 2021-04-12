@@ -32,8 +32,7 @@
 </template>
 
 <script>
-import Footer from "./FooterComponent.vue";
-
+import Footer from "../FooterComponent.vue";
 export default {
   data() {
     return {
@@ -44,9 +43,9 @@ export default {
   },
   methods: {
     getPoints: function() {
-      return this.$route.query.points;     
+      return this.$route.params.points;    
     },
-  },
+  }
 };
 </script>
 
@@ -57,7 +56,6 @@ export default {
   min-height: 800px;
   position: relative;
 }
-
 .cart-icon {
   position: absolute;
   font-size: 40px;
@@ -69,21 +67,17 @@ export default {
   line-height: 70px;
   vertical-align: middle;
   align-content: center;
-
   left: 25%;
   top: 14%;
 }
-
 hr {
   position: absolute;
   width: 45%;
   height: 0px;
   border-top: 2px dashed #006d77;
-
   top: 16%;
   left: 28%;
 }
-
 .card-icon {
   position: absolute;
   font-size: 35px;
@@ -94,11 +88,9 @@ hr {
   text-align: center;
   line-height: 70px;
   vertical-align: middle;
-
   left: 46%;
   top: 14%;
 }
-
 .tick-icon {
   position: absolute;
   font-size: 40px;
@@ -109,16 +101,13 @@ hr {
   text-align: center;
   line-height: 70px;
   vertical-align: middle;
-
   left: 71%;
   top: 14%;
 }
-
 #message {
   position: absolute;
   top: 28%;
   left: 40%;
-
   font-family: "Garamond";
   font-size: 40px;
   font-weight: bold;
@@ -126,7 +115,6 @@ hr {
   text-align: center;
   font-variant: small-caps;
 }
-
 .leaf-icon {
   position: absolute;
   font-size: 30px;
@@ -134,30 +122,26 @@ hr {
   left: 38%; 
   color: #006d77;
 }
-
 #ecoPoints {
   position: absolute;
   top: 43%;
   left: 40%;
-
   font-family: "Garamond";
   font-size: 25px;
   font-weight: bold;
   color: #000000;
   text-align: center;
 }
-
 #browseBtn {
   position: absolute;
   top: 52%;
   left: 43%;
-
   font-family: "Garamond";
   font-size: 22px;
   color: white;
-  background: #006d77;
+  background: #688a75;
+  border-color: #688a75;
   text-decoration: none;
-
   border-radius: 5px;
   padding: 8px;
 }

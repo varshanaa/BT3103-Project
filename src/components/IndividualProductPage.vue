@@ -1,5 +1,9 @@
 <template>
 <div>
+    <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
     <div> 
         <div id="left-side">
             <ul>
@@ -7,7 +11,7 @@
                 <li>Price: ${{this.pdt.data.price}}</li><br>
                 <li><span id="co2footprint"></span>
                 Carbon Footprint: {{this.pdt.data.footprint}}g</li><br>
-                <li><span id="leafIcon"><i class="fa fa-leaf"></i></span>
+                <li><i class="fa fa-leaf leaf-icon"></i>
                 <b> ECO Points: {{this.pdt.data.points}}</b></li><br>
                 <li><qtyCounter v-on:counter="onCounter"></qtyCounter></li><br><br>
                 <li><AddToCart v-bind:addPdt="add_product"></AddToCart></li> 
@@ -146,6 +150,11 @@ img {
 #co2footprint {
     content: url('https://api.iconify.design/iwwa:co2.svg?height=30');
     vertical-align: -0.45em;
+}
+
+.leaf-icon {
+  font-size: 20px;
+  color: #006d77;
 }
 
 #addtocart {

@@ -12,6 +12,7 @@ import CartItems from "./components/Cart/CartItems.vue";
 import CartEmpty from "./components/Cart/CartEmpty.vue";
 import CartPayment from "./components/Cart/CartPayment.vue";
 import CartShipping from "./components/Cart/CartShipping.vue";
+import CartConfirm from './components/Cart/CartConfirm.vue';
 import ISP from "./components/IndividualShopPage.vue";
 import FootBar from "./components/ProfileDashboards/charts/FootBar.vue";
 import EcoPoints from "./components/ProfileDashboards/EcoPoints.vue";
@@ -74,15 +75,23 @@ const router = new Router({
           component: CartEmpty,
           name: "cartempty",
         },
-        {
-          path: "cartpayment",
-          component: CartPayment,
-          name: "cartpayment",
+        { 
+        path: 'cartpayment',
+        component: CartPayment,
+        name: 'cartpayment',
+        props: true
         },
         {
           path: "cartshipping",
           component: CartShipping,
-          name: "cartshipping",
+          name: 'cartshipping',
+          props: true
+        },
+        {
+          path: 'cartconfirm',
+          name: 'cartconfirm',
+          component: CartConfirm,
+          props: true
         },
         {
           path: "footbar",
