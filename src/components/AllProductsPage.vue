@@ -282,7 +282,6 @@ input{
   background-color: #8ec693;
   border-radius: 20px;
   padding: 6px;
-
   color: #006d77;
   font-family: EB Garamond;
   font-style: normal;

@@ -3,10 +3,10 @@
 		<Header/>
 		<div class="newspaper-content">
 			<a href="#" class="nav-prev arrow left" v-on:click="prevNews()"></a>
-			<div class="newspaper-feed">
-				<img class="news" v-bind:src="this.newsfeed[this.index].image" v-bind:href="this.newsfeed[this.index].link"/> 
-			</div>
-			<a href="#" class="nav-next arrow right" v-on:click="nextNews()"></a>
+			<a class="newspaper-feed">
+				<img class="news" v-bind:src="this.newsfeed[this.index].image" :href="this.newsfeed[this.index].link"/> 
+			</a>
+			<a  class="nav-next arrow right" v-on:click="nextNews()"></a>
 		</div>
 			<div class="stores-title"> Partner Stores </div>
 			<ul>
@@ -50,11 +50,11 @@ export default({
 		},
 		fetchnews: function(){
 			database.collection("newsfeed").get().then((querySnapShot) => {
-				let news ={};
 				querySnapShot.forEach(doc =>{
-					news = doc.data();
+					let news = doc.data();
 					this.newsfeed.push(news);
 				})
+				console.log(this.newsfeed[0].link)
 			}) 
 		},
 
@@ -69,11 +69,11 @@ export default({
 		nextNews: function(){
 			if(this.index < this.newsfeed.length){
 				this.index += 1;
-				console.log(this.index)
 			} else{
 				this.index = this.newsfeed.length;
 			}
-		}
+		},
+
 
 	},
 
