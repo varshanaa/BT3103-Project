@@ -16,6 +16,7 @@ import CartConfirm from './components/Cart/CartConfirm.vue';
 import ISP from "./components/IndividualShopPage.vue";
 import FootBar from "./components/ProfileDashboards/charts/FootBar.vue";
 import EcoPoints from "./components/ProfileDashboards/EcoPoints.vue";
+import Shop from "./components/Shop.vue";
 import { fb } from "./firebase";
 
 Vue.use(Router);
@@ -34,9 +35,10 @@ const router = new Router({
       component: Products,
     },
     {
-      path: "/isp",
-      component: ISP,
-    },
+      path: "/shop",
+      component: Shop,
+    }, 
+    
     {
       path: "/user",
       meta: { requiresAuth: true },
@@ -103,6 +105,13 @@ const router = new Router({
           component: EcoPoints,
           name: "ecopoints",
         },
+        {
+          path: "isp",
+          component: ISP,
+          name: "isp",
+          props: true
+        }, 
+        
       ],
     },
   ],
