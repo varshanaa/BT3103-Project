@@ -1,7 +1,6 @@
 <template>
   <div>
-    <headerCom></headerCom>
-
+    
     <div id="content">
       <p id="picture">
         <img id="shopImage" v-bind:src="shopInfo[0].img_url" />
@@ -32,14 +31,17 @@
             <likeBtn v-bind:id="product[0]"></likeBtn>
           </span>
 
-          <span id="productPrice">${{ product[1].price }}</span>
-
+          
+          <span id="productPrice">${{ product[1].price }}</span>         
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
           <span id="productPoints">
             <span id="leafIcon">
               <i class="fa fa-leaf"></i>
             </span>
             {{ product[1].points }} points
-          </span>
+          </span>    
+        
+
         </li>
       </ul>
     </div>
@@ -48,8 +50,7 @@
 </template>
 
 <script>
-import { database } from "../firebase";
-import Header from "./Header.vue";
+import { fb, database } from "../firebase";
 import LikeButton from "./LikeButton.vue";
 import FooterComponent from "./FooterComponent.vue";
 
@@ -58,13 +59,13 @@ export default {
     return {
       shopInfo: [],
       products: [],
-      likedProducts: []
+      likedProducts: [],
+      userid: fb.auth().currentUser.uid, 
     };
   },
   components: {
     likeBtn: LikeButton,
     footercomp: FooterComponent,
-    headerCom: Header
   },
   methods: {
     fetchItems: function() {
@@ -180,18 +181,17 @@ export default {
   max-width: 28%;
   min-width: 25%;
   padding-top: 5%;
-  padding-right: 3%;
+  justify-content: space-evenly;
 }
 
 #productName {
   font-family: EB Garamond;
   font-style: normal;
-  font-weight: 500;
   font-size: 20px;
   font-weight: bold;
-  line-height: 23px;
+
   display: flex;
-  align-items: center;
+  justify-content: space-evenly;
 
   color: #00565e;
 }
@@ -203,16 +203,12 @@ export default {
 
 #productPrice {
   position: absolute;
-  width: 163px;
-  height: 36px;
-  margin-top: 0px;
+  justify-content: space-evenly;
 
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
   font-size: 25px;
-  line-height: 23px;
-  display: flex;
 
   color: #00565e;
 }
@@ -220,23 +216,21 @@ export default {
 #productList {
   position: absolute;
   top: 45%;
-  left: 10%;
+  margin-left: 0%;
   display: flex;
-  flex-wrap: wrap;
-  list-style-type: none;
-  padding: 0;
+  flex-wrap: wrap; 
+  list-style-type: none; 
   align-items: center;
 }
 
 li {
-  flex-grow: 1;
   padding: 10px;
 }
 
 #productPoints {
   background-color: #8ec693;
   border-radius: 20px;
-  line-height: 20px;
+  line-height: 42px;
   padding: 6px;
 
   color: #006d77;
