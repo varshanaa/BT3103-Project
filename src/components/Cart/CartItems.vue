@@ -13,7 +13,8 @@
           <i class="fa fa-check fa-5x tick-icon"></i>
         </span>
       </div>
-      <div id="cartlist">
+      <div v-show="Object.keys(this.products).length>0">
+      <div id="cartlist" >
         <ul id="headings">
           <li id="productheader">Product</li>
           <li>Price</li>
@@ -47,17 +48,23 @@
       </div>
       <div id="details">
         <button id="view_total" v-on:click= "findTotal" >View Total</button><br><br>
-        <span v-show= "this.totalpoints>0"><i class="fa fa-leaf leaf-icon"></i><b> Total ECO-Points: {{ totalpoints }}</b></span><br />
-        <span v-show= "this.subtotal>0">Subtotal: ${{ subtotal }}</span><br>
-        <span v-show= "this.subtotal>0">Discount: ${{ discount }}</span><br>
-        <span v-show= "this.subtotal>0"><b>Grand Total: ${{ grand_total() }}</b></span><br>
+        <span v-show="this.totalpoints > 0"><i class="fa fa-leaf leaf-icon"></i><b> Total ECO-Points: {{ totalpoints }}</b></span><br />
+        <span v-show="this.subtotal > 0">Subtotal: ${{ subtotal }}</span><br>
+        <span v-show="this.subtotal > 0">Discount: ${{ discount }}</span><br>
+        <span v-show="this.subtotal > 0"><b>Grand Total: ${{ grand_total() }}</b></span><br>
       </div>
       <div>
-        <!-- v-bind:arr= "[this.products, this.grand_total, this.totalpoints]" -->
-      <!-- <button id="checkout" v-on:click="route()">Check Out</button> -->
-      <router-link id="checkout" :to="{ name: 'cartshipping', params: {products: this.products, total: this.total_final, totalpoints: this.totalpoints }}">Check Out</router-link>
-      <router-link id="browse" to="/user/APP" exact>Continue Browsing</router-link>
+      <button v-on:click="checkViewed()" id="checkout">Check Out</button>
+      <button id="browse" v-on:click="pushBrowse()">Continue Browsing</button>
       </div>
+    </div>
+    <!-- if this.products is an empty object-->
+    <div v-if="Object.keys(this.products).length == 0 && this.loading==false">
+        <p id="empty-text"> Your cart is empty.</p><br>
+
+      <!-- note: router-link to home page -->
+      <router-link id="browseBtn" to="/user/home" exact>Continue Browsing</router-link>
+    </div>
     </div>
     <Footer></Footer>
   </div>
@@ -75,7 +82,10 @@ export default {
       totalpoints: 0,
       discount: 0,
       subtotal: 0,
-      total_final: 0
+      total_final: 0,
+      cart: {},
+      loading: true,
+      viewTotalClicked: false
     };
   },
   components: {
@@ -83,25 +93,19 @@ export default {
     CartRemoveBtn,
   },
   methods: {
-    retrieveCart: function () {
+    async retrieveCart() {
       let userid = fb.auth().currentUser.uid;
-      database
-        .collection("cart")
-        .doc(userid)
-        .get()
-        .then((doc) => {
-          this.cart = doc.data();
-        });
-      database
-        .collection("products")
-        .get()
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
+      const doc = await database.collection("cart").doc(userid).get()
+      this.cart = doc.data();
+      let productsObj =  {}
+      // once this.cart has been defined with the products in the cart, retrieve those products from database
+      const snapshot = await database.collection("products").get()
+      snapshot.docs.forEach( (doc) => {
             let data = doc.data();
             let pdtID = data.pdt_id;
             if (this.cart[pdtID] != null) {
               let val = parseInt(data.price).toFixed(2);
-              this.products[pdtID] = {
+              productsObj[pdtID] = {
                 name: data.name,
                 img: data.img_url,
                 footprint: data.footprint,
@@ -111,8 +115,9 @@ export default {
                 id: pdtID,
               };
             }
-          });
-        });
+      });
+      this.loading = false;
+      return productsObj;
     },
     grand_total: function() {
       this.total_final = this.subtotal - this.discount;
@@ -126,11 +131,23 @@ export default {
         this.subtotal += entry.price * entry.qty;
         this.totalpoints += entry.points * entry.qty;
       }
+    this.viewTotalClicked = true;
+    },
+    checkViewed: function() {
+      if (!(this.viewTotalClicked)) {
+        alert("Please view total before proceeding.");
+      }
+      else {
+        this.$router.push({ name: 'cartshipping', params: {products: this.products, total: this.total_final, totalpoints: this.totalpoints }})
+      }
+    },
+    pushBrowse() {
+      this.$router.push({path: '/user/products'})
     }
   },
-  mounted() {
-    this.retrieveCart();
-  },
+  created() {
+    this.retrieveCart().then((productsObj) => {this.products = productsObj})
+  }
 };
 </script>
 
@@ -274,6 +291,16 @@ li {
   flex-basis: 200px;
 }
 
+#view_total {
+  font-family: "Garamond";
+  font-size: 15px;
+  background-color: #688a75;
+  border-color: #688a75;
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
 #checkout {
   font-family: "Garamond";
   font-size: 15px;
@@ -288,15 +315,6 @@ li {
   margin-top: 12%;
 }
 
-#view_total {
-  font-family: "Garamond";
-  font-size: 15px;
-  background-color: #688a75;
-  border-color: #688a75;
-  color: white;
-  border-radius: 5px;
-  padding: 5px;
-}
 
 #browse {
   font-family: "Garamond";
@@ -310,5 +328,33 @@ li {
   float: right;
   margin-right: -5%;
   margin-top: 12%;
+}
+
+/* these are for an empty cart */
+#empty-text {
+  position: absolute;
+  top: 43%;
+  left: 42%;
+  align-content: center;
+  font-family: "Garamond";
+  font-size: 25px;
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
+}
+
+#browseBtn {
+  position: absolute;
+  top: 52%;
+  left: 43%;
+
+  font-family: "Garamond";
+  font-size: 22px;
+  color: white;
+  background: #006d77;
+  text-decoration: none;
+
+  border-radius: 5px;
+  padding: 8px;
 }
 </style>
