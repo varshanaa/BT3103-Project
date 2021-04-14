@@ -10,7 +10,7 @@
 			<div class="stores-title"> Partner Stores </div>
 			<ul>
 				<li v-for="shop in shopsList" v-bind:key="shop.name">
-					<img v-bind:src="shop.img_url" >
+					<img v-bind:src="shop.img_url" :id="shop.name" v-on:click="route($event)">
 					<h2> {{shop.name}} </h2>
 				</li>
 			</ul>
@@ -70,7 +70,12 @@ export default({
 			} else{
 				this.index = this.newsfeed.length;
 			}
-		}
+		},
+
+		route: function(event) {
+			let shop_name = event.target.getAttribute("id");
+			this.$router.push({ name: "isp", params: { id: shop_name } });
+		},
 
 	},
 
