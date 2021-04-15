@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headercomp></headercomp>
+    <Header/>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -8,23 +8,23 @@
     <div id="pagebody">
       <div id="filters">
         <p id="filters-title">Filters:</p>
-        <a class="nav-link dropdown-toggle active" id="price-range" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle active filters" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Price range
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <p> Minimum price </p>
+          <p style="margin-bottom: 3px;"> Minimum price </p>
           <input type="number" v-model.lazy="price.minimum" required/>
-          <p class="maximum"> Maximum price </p>
+          <p style="margin-bottom: 3px;"> Maximum price </p>
           <input type="number" v-model.lazy="price.maximum" required/>
           <br/>
           <button class="filter-button" v-on:click="filterPrice"> Filter </button>
-          <button class="clear-button" v-on:click="clearProducts"> Clear </button>
+          <button class="filter-button" v-on:click="clearProducts"> Clear </button>
         </div>
         <div>
-          <a class="nav-link dropdown-toggle active" id="shop-range" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle active filters" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Shop
           </a>
-          <div class="dropdown-menu" type="button"  aria-labelledby="dropdownMenuButton">
+          <div class="dropdown-menu" type="button" aria-labelledby="dropdownMenuButton">
             <ul id="shopList">
               <button id="shop-button" class="dropdown-item" v-on:click="clearProducts">All</button>
               <li id="shop" v-for="shop in shops" v-bind:key="shop.name">
@@ -43,9 +43,10 @@
               height="250px"
               :src="product[1].img_url"
               v-on:click="notLoggedIn"
+              style="cursor: pointer;"
             />
             <br />
-            <span id="name">
+            <span id="name" v-on:click="notLoggedIn" style="cursor: pointer;">
               {{ product[1].name }}
             </span><br>
             <span id="cost">${{ product[1].price }}</span>
@@ -84,13 +85,13 @@ export default {
       //user_id: user.uid
       show: true,
       price:{
-        minimum: parseInt(''),
-        maximum: parseInt(''),
+        minimum: 0,
+        maximum: 0,
       },
     };
   },
   components: {
-    headercomp: Header,
+    Header,
     Footer
   },
   methods: {
@@ -115,7 +116,6 @@ export default {
           this.originalProducts = this.products;
         });
     },
-
     fetchCompanies: function(){
       database.collection("companies").get().then((querySnapShot) => {
         querySnapShot.docs.forEach( doc => {
@@ -155,51 +155,37 @@ export default {
 
 
 
- <style scoped>
+<style scoped>
 #pagebody {
   background-color: #d8e2dc;
   width: 100%;
   min-height: 800px;
   position: relative;
 }
+
 #filters {
   background-color: #81af93;
   width: 100%;
   height: 40px;
   margin-top:0px;
- 
 }
 
 #filters-title{
  font-family:  EB Garamond;
- padding-top: 4px;
  float: left;
  padding-left: 20px;
- font-size: 20px;
+ font-size: 25px;
  color: white;
 }
 
-#price-range{  
+.filters{  
   color:white;
   font-family:EB Garamond;
-  text-transform: uppercase; 
-  font-size: 16px;
+  font-size: 17px;
   float:left;
   padding-top: 7px;
-  padding-left: 25px;
-  
+  padding-left: 25px; 
 }
-
-#shop-range{
-  color:white;
-  font-family:EB Garamond;
-  text-transform: uppercase; 
-  font-size: 16px;
-  float:left;
-  padding-top: 7px;
-  padding-left: 25px;
-}
-
 
 p{
   padding-left: 20px;
@@ -207,32 +193,20 @@ p{
 }
 
 input{
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.maximum{
-  margin-top: 10px;
+  margin: 5px 20px 10px;
 }
 
 .filter-button{
   margin-top: 20px;
   margin-left: 25px;
-  font-family: EB Garamond;
-  background: #688A75;
+  background-color: #688A75;
+  border-color: #688A75;
+  font-family: 'Work Sans';
+  color: white;
   border-radius: 10px;
   font-size: 15px;
   width: 80px;
-}
-
-.clear-button{
-  margin-top: 20px;
-  margin-left: 20px;
-  font-family: EB Garamond;
-  background: #688A75;
-  border-radius: 10px;
-  font-size: 15px;
-  width: 80px;
+  padding: 3px;
 }
 
 #shopList {
@@ -241,7 +215,8 @@ input{
   float:left;
   text-align: left;
   padding-left:0px;
-  font-size: 15px;
+  font-size: 16px;
+  margin-bottom: 0px;
 }
 
 #shop{
@@ -252,7 +227,6 @@ input{
   background-color: #81af93;
 }
 
-
 #pdtlist {
   width: 100%;
   margin: 0px;
@@ -260,31 +234,26 @@ input{
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  padding: 20px 50px;
+  padding: 20px 150px;
 }
 
 #pdt {
-  margin-top: 50px;
+  margin-top: 30px;
   text-align: center;
   font-size: 20px;
   flex-basis: 300px;
-  min-width: 33.3%;
-  max-width: 33.3%;
   font-family: "EB Garamond";
   font-size: 24px;
   font-weight: bold;
   color: #00565e;
+  padding: 0px 50px;
 }
-
-
 #cost {
   margin-left: 20%;
   font-size: 25px;
   margin-top: 0px;
   font-weight: normal;
-  font-family: EB Garamond;
 }
-
 #productPoints {
   background-color: #8ec693;
   border-radius: 20px;
@@ -296,17 +265,12 @@ input{
   font-size: 15px;
   margin-left:8%;
 }
-#leafIcon {
-  width: 3%;
-  height: 3%;
-  border: none;
-}
-#name {
-  text-align: center;
-  align-items: center;
-  font-family: EB Garamond;
+
+.leaf-icon {
   font-size: 20px;
+  color: #006d77;
 }
+
 /* noPdt: style of page when no prdts found */
 #noPdt {
   font-family: "EB Garamond";
@@ -315,5 +279,9 @@ input{
   color: #00565e;
   text-align: center;
   padding: 5%;
+}
+
+.dropdown-menu {
+  padding:20px 10px;
 }
 </style>

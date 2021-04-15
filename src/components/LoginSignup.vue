@@ -128,7 +128,7 @@ export default {
                         .catch(function(error) {
                             console.error("Error writing document: ", error);
                         });
-                        this.$router.replace('user/home');
+                        this.$router.push('user/home').then(() => {location.reload()});
                     })
                     .catch(function(error) {
                     var errorCode = error.code;

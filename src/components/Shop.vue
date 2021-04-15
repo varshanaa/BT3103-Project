@@ -2,6 +2,10 @@
   <div>
     <Header/>
     <div id="content">
+      <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
       <p id="picture">
         <img id="shopImage" v-bind:src="shopInfo[0].img_url" />
       </p>
@@ -21,16 +25,28 @@
       <span id="productHeader">Products:</span>
 
       <ul id="productList">
-        <li id="pdt" v-for="product in products" :key="product[0]">
-          <img id="productImage" v-bind:src="product[1].img_url" />
+        <li id="pdt" v-for="product in products" v-bind:key="product[0]">
+          <img
+            v-bind:id="product[0]"
+            width="250px"
+            height="250px"
+            :src="product[1].img_url"
+            v-on:click="notLoggedIn"
+            style="cursor: pointer;"
+          />
           <br />
-          <span id="productName"> {{ product[1].name }}</span>   
-          <span id="productPrice">${{ product[1].price }}</span>
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+          <span id="name" v-on:click="notLoggedIn" style="cursor: pointer;">
+            {{ product[1].name }}
+          </span><br>
+          <span id="cost">${{ product[1].price }}</span>
           <span id="productPoints">
-              <i class="fa fa-leaf" style="width: 3%; height: 3%; border: none; padding-right: 5%"></i>
+            <span id="leafIcon">
+              <i class="fa fa-leaf"></i>
+            </span>
             {{ product[1].points }} points
-          </span>      
+          </span>
+          <br />
+          <br />
         </li>
       </ul>
     </div>
@@ -81,7 +97,10 @@ export default {
             }
           });
         });
-    }
+    },
+    notLoggedIn: function() {
+      alert("Please log in to view this product.")
+    },
   },
   created() {
     this.fetchItems();
@@ -101,7 +120,7 @@ export default {
   width: 55%;
   height: 35%;
   left: 5%;
-  top: 3%;
+  top: 5%;
   border: 5px solid #688a75;
   box-sizing: border-box;
   position: absolute;
@@ -110,13 +129,13 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  left: 5%;
-  top: 10%;
+  left: 3%;
+  top: 5%;
 }
 #shopTitle {
   position: absolute;
   left: 70%;
-  top: 2%;
+  top: 4%;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
@@ -128,15 +147,13 @@ export default {
 }
 #shopInfo {
   position: absolute;
-  left: 65%;
-  top: 8%;
+  left: 64%;
+  top: 10%;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
   font-size: 22px;
   line-height: 39px;
-  display: flex;
-  align-items: center;
   text-align: justify;
   color: #26413c;
   display: flex;
@@ -160,31 +177,45 @@ export default {
   color: #00565e;
 }
 #pdt {
-  min-width: 33%;
-  padding-top: 5%;
-  justify-content: space-evenly;
-}
-#productName {
-  font-family: EB Garamond;
-  font-style: normal;
+  margin-top: 40px;
+  text-align: center;
   font-size: 20px;
+  flex-basis: 300px;
+  min-width: 33.3%;
+  max-width: 33.3%;
+  font-family: "EB Garamond";
+  font-size: 24px;
   font-weight: bold;
-  display: flex;
-  justify-content: space-evenly;
   color: #00565e;
 }
-#productImage {
-  width: 250px;
-  height: 250px;
+#cost {
+  margin-left: 28%;
+  font-size: 25px;
+  margin-top: 0px;
+  font-weight: normal;
+  font-family: EB Garamond;
 }
-#productPrice {
-  position: absolute;
-  justify-content: space-evenly;
+#productPoints {
+  background-color: #8ec693;
+  border-radius: 20px;
+  padding: 6px;
+  color: #006d77;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
-  font-size: 25px;
-  color: #00565e;
+  font-size: 15px;
+  margin-left:8%;
+}
+#leafIcon {
+  width: 3%;
+  height: 3%;
+  border: none;
+}
+#name {
+  text-align: center;
+  align-items: center;
+  font-family: EB Garamond;
+  font-size: 20px;
 }
 #productList {
   position: absolute;
@@ -194,22 +225,11 @@ export default {
   flex-wrap: wrap; 
   list-style-type: none; 
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0px 50px;
 }
 li {
   padding: 10px;
-}
-#productPoints {
-  background-color: #8ec693;
-  border-radius: 20px;
-  line-height: 42px; /*align with price*/
-  
-  padding: 6px; 
-  color: #006d77;
-  font-family: EB Garamond;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  margin-left: 50%; 
-  
 }
 </style>

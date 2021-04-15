@@ -12,23 +12,23 @@
                 <li><span id="co2footprint"></span>
                 Carbon Footprint: {{this.pdt.data.footprint}}g</li><br>
                 <li><i class="fa fa-leaf leaf-icon"></i>
-                <b> ECO Points: {{this.pdt.data.points}}</b></li><br>
-                <li><qtyCounter v-on:counter="onCounter"></qtyCounter></li><br><br>
+                <b> ECO Points: {{this.pdt.data.points}}</b></li>
+                <li><qtyCounter v-on:counter="onCounter"></qtyCounter></li>
                 <li><AddToCart v-bind:addPdt="add_product"></AddToCart></li> 
             </ul>
         </div>
         <div id="right-side">
             <ul>
                 <li id="name"><b>{{this.pdt.data.name}}</b>
-                <likebutton v-bind:id="this.id" v-bind:liked="liked"></likebutton></li>
-                <li id="company_name"> From: {{this.company_name}}</li><br><br><br>
-                <li id="green"><u>DESCRIPTION</u></li>
-                <li id="black">{{this.pdt.data.description}}</li><br><br>
-                <li id="green"><u>INGREDIENT SPECIFICATIONS</u></li>
-                <li id="black">{{this.pdt.data.ingred_spec}}</li><br><br>
-                <li id="green"><u>PRODUCT SPECIFICATIONS</u></li>
-                <li id="black">{{this.pdt.data.product_spec}}</li><br><br>
-                <li id="green"><u>CARING FOR ME</u></li>
+                <likebutton v-bind:id="id" v-bind:liked="liked"></likebutton></li>
+                <li id="company_name"> From: {{this.company_name}}</li><br><br>
+                <li id="green"><u>Description</u></li>
+                <li id="black">{{this.pdt.data.description}}</li><br>
+                <li id="green"><u>Ingredient Specifications</u></li>
+                <li id="black">{{this.pdt.data.ingred_spec}}</li><br>
+                <li id="green"><u>Product Specifications</u></li>
+                <li id="black">{{this.pdt.data.product_spec}}</li><br>
+                <li id="green"><u>Caring For Me</u></li>
                 <li id="black">{{this.pdt.data.care}}</li>
             </ul>
         </div>
@@ -93,9 +93,9 @@ export default {
             });
         },
         fetchLikedProducts: function() {
-            database.collection("users").doc(fb.auth().currentUser.uid).get().then((doc) => {
-                this.liked = doc.data().liked;
-                console.log(this.liked)
+            let user_id = fb.auth().currentUser.uid
+            database.collection("users").doc(user_id).get().then((doc)=> {
+                this.liked = doc.data().liked
             })
         },
         onCounter: function(quantity) {
@@ -103,9 +103,9 @@ export default {
         }
     },
     created() {
-        this.fetchItems();
-        this.fetchCompany();
-        this.fetchLikedProducts();
+        this.fetchItems(),
+        this.fetchCompany(),
+        this.fetchLikedProducts()
   },
 }
 </script>
@@ -199,6 +199,7 @@ img {
     text-align: left;
     color: #006D77;
     margin-left: 15%;
+    font-variant-caps: small-caps;
 }
 
 #black {

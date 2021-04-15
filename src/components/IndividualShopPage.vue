@@ -23,28 +23,30 @@
       <span id="productHeader">Products:</span>
 
       <ul id="productList">
-        <li id="pdt" v-for="product in products" :key="product[0]">
-          <img 
+        <li id="pdt" v-for="product in products" v-bind:key="product[0]">
+          <img
             v-bind:id="product[0]"
             width="250px"
             height="250px"
-            v-bind:src="product[1].img_url"
-            v-on:click="route($event)" />
+            :src="product[1].img_url"
+            v-on:click="route($event)"
+            style="cursor: pointer;"
+          />
           <br />
-          <span id="productName">
+          <span id="name" v-on:click="route($event)" style="cursor: pointer;">
             {{ product[1].name }}
-            <likeBtn v-bind:id="product[0]"></likeBtn>
-          </span>
-
-          
-          <span id="productPrice">${{ product[1].price }}</span>         
+            <likeBtn v-bind:id="product[0]" v-bind:liked="likedProducts"></likeBtn>
+          </span><br>
+          <span id="cost">${{ product[1].price }}</span>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
           <span id="productPoints">
             <span id="leafIcon">
               <i class="fa fa-leaf"></i>
             </span>
             {{ product[1].points }} points
-          </span>    
+          </span>
+          <br />
+          <br />
         </li>
       </ul>
     </div>
@@ -98,6 +100,12 @@ export default {
           });
         });
     },
+    fetchLikedProducts: function() {
+      let user_id = fb.auth().currentUser.uid
+      database.collection("users").doc(user_id).get().then((doc)=> {
+        this.likedProducts = doc.data().liked
+      })
+    },
     route: function(event) {
       let product_id = event.target.getAttribute("id");
       this.$router.push({ name: "ipp", params: { id: product_id } });
@@ -105,6 +113,7 @@ export default {
   },
   created() {
     this.fetchItems();
+    this.fetchLikedProducts()
   }
 };
 </script>
@@ -121,7 +130,7 @@ export default {
   width: 55%;
   height: 35%;
   left: 5%;
-  top: 3%;
+  top: 5%;
   border: 5px solid #688a75;
   box-sizing: border-box;
   position: absolute;
@@ -130,13 +139,13 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  left: 5%;
-  top: 10%;
+  left: 3%;
+  top: 5%;
 }
 #shopTitle {
   position: absolute;
-  left: 65%;
-  top: 2%;
+  left: 70%;
+  top: 4%;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
@@ -148,15 +157,13 @@ export default {
 }
 #shopInfo {
   position: absolute;
-  left: 65%;
-  top: 8%;
+  left: 64%;
+  top: 10%;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
   font-size: 22px;
   line-height: 39px;
-  display: flex;
-  align-items: center;
   text-align: justify;
   color: #26413c;
   display: flex;
@@ -180,27 +187,45 @@ export default {
   color: #00565e;
 }
 #pdt {
-  padding-top: 5%;
-  justify-content: space-evenly;
-  min-width: 33%;
-}
-#productName {
-  font-family: EB Garamond;
-  font-style: normal;
+  margin-top: 40px;
+  text-align: center;
   font-size: 20px;
+  flex-basis: 300px;
+  min-width: 33.3%;
+  max-width: 33.3%;
+  font-family: "EB Garamond";
+  font-size: 24px;
   font-weight: bold;
-  display: flex;
-  justify-content: space-evenly;
   color: #00565e;
 }
-#productPrice {
-  position: absolute;
-  justify-content: space-evenly;
+#cost {
+  margin-left: 28%;
+  font-size: 25px;
+  margin-top: 0px;
+  font-weight: normal;
+  font-family: EB Garamond;
+}
+#productPoints {
+  background-color: #8ec693;
+  border-radius: 20px;
+  padding: 6px;
+  color: #006d77;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
-  font-size: 25px;
-  color: #00565e;
+  font-size: 15px;
+  margin-left:8%;
+}
+#leafIcon {
+  width: 3%;
+  height: 3%;
+  border: none;
+}
+#name {
+  text-align: center;
+  align-items: center;
+  font-family: EB Garamond;
+  font-size: 20px;
 }
 #productList {
   position: absolute;
@@ -210,25 +235,11 @@ export default {
   flex-wrap: wrap; 
   list-style-type: none; 
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0px 50px;
 }
 li {
   padding: 10px;
-}
-#productPoints {
-  background-color: #8ec693;
-  border-radius: 20px;
-  line-height: 42px;
-  padding: 6px;
-  color: #006d77;
-  font-family: EB Garamond;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  margin-left: 50%;
-}
-#leafIcon {
-  width: 3%;
-  height: 3%;
-  border: none;
 }
 </style>

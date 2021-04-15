@@ -32,7 +32,7 @@
 		<ul>
 			<li v-for="shop in shopsList" v-bind:key="shop.name">
 				<img v-bind:src="shop.img_url" :id="shop.name" v-on:click="route($event)">
-				<h2> {{shop.name}} </h2>
+				<h2 v-on:click="route($event)"> {{shop.name}} </h2>
 			</li>
 		</ul>
 		<Footer/>
@@ -66,7 +66,7 @@ export default({
 				})
 			})
 		},
-		fetchnews: function(){
+		fetchNews: function(){
 			database.collection("newsfeed").get().then((querySnapShot) => {
 				let news ={};
 				querySnapShot.forEach(doc =>{
@@ -75,24 +75,6 @@ export default({
 				})
 			}) 
 		},
-
-		prevNews: function(){
-			if(this.index != 0){
-				this.index -= 1;
-			} else{
-				this.index == 0;
-			}
-		},
-
-		nextNews: function(){
-			if(this.index < this.newsfeed.length){
-				this.index += 1;
-				console.log(this.index)
-			} else{
-				this.index = this.newsfeed.length;
-			}
-		},
-		
 		route: function(event) {
 			let shop_name = event.target.getAttribute("id");
 			this.$router.push({ name: "isp", params: { id: shop_name } });
@@ -102,7 +84,7 @@ export default({
 
 	created(){
 		this.fetchItems(),
-		this.fetchnews()
+		this.fetchNews()
 	}
 
 })
@@ -173,6 +155,7 @@ h5 {
 img {
     width: 350px;
     height: 300px;
+	cursor: pointer;
 }
 
 h2 {
@@ -180,5 +163,7 @@ h2 {
 	font-size: 20px;
 	color: rgba(0, 86, 94, 1);
 	padding:10px;
+	cursor: pointer;
+	font-weight: bold;
 }
 </style>

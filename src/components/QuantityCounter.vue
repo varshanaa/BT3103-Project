@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-on:click= "decrement()"> -</button>
+    <button v-on:click= "decrement()">-</button>
     <span id="quantity">{{qty}}</span>
     <button v-on:click= "increment()">+</button>
   </div>
@@ -30,16 +30,16 @@ export default {
 
 <style scoped>
 button{
-     background-color: #688A75;
+    background-color: #B3CDBD;
     border-color: #688A75;
     font-family: 'EB Garamond';
-    color: white;
     text-align: center; 
     width: 40px;
-    margin-left: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    height: 40px;
 }
 
 #quantity {
-    margin-left: 15px;
 }
 </style>

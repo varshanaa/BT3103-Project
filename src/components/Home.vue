@@ -33,7 +33,7 @@
 		<ul>
 			<li v-for="shop in shopsList" v-bind:key="shop.name">
 				<img v-bind:src="shop.img_url" :id="shop.name" v-on:click="route($event)">
-				<h2> {{shop.name}} </h2>
+				<h2 v-on:click="route($event)"> {{shop.name}} </h2>
 			</li>
 		</ul>
 		<Footer/>
@@ -78,6 +78,7 @@ export default({
 				console.log(this.newsfeed[0].link)
 			}) 
 		},
+		
 		route: function(event) {
 			let shop_name = event.target.getAttribute("id");
 			this.$router.push({ name: "shop", params: { id: shop_name } });
@@ -156,6 +157,7 @@ h5 {
 img {
     width: 350px;
     height: 300px;
+	cursor: pointer;
 }
 
 h2 {
@@ -163,5 +165,8 @@ h2 {
 	font-size: 20px;
 	color: rgba(0, 86, 94, 1);
 	padding:10px;
+	cursor: pointer;
+	//font-weight: bold;
+	text-decoration: underline;
 }
 </style>
