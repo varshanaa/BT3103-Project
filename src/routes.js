@@ -13,7 +13,7 @@ import CartPayment from "./components/Cart/CartPayment.vue";
 import CartShipping from "./components/Cart/CartShipping.vue";
 import CartConfirm from './components/Cart/CartConfirm.vue';
 import ISP from "./components/IndividualShopPage.vue";
-import Shop from "./components/Shop.vue"
+import Shop from "./components/Shop.vue";
 import FootBar from "./components/ProfileDashboards/charts/FootBar.vue";
 import EcoPoints from "./components/ProfileDashboards/EcoPoints.vue";
 import { fb } from "./firebase";
@@ -34,7 +34,6 @@ const router = new Router({
       component: Products,
     },
     {
-      //for the non-logged-in users
       path: "/shop/:id",
       component: Shop,
       name: "shop",
@@ -104,12 +103,6 @@ const router = new Router({
         {
           path: "ecopoints",
           component: EcoPoints
-        },
-        {
-          path: "/isp/:id",
-          component: ISP,
-          name: "isp",
-          props: true,
         },
       ],
     },
