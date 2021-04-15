@@ -1,6 +1,6 @@
 <template>
-  <div>
-    
+
+  <div>   
     <div id="content">
       <p id="picture">
         <img id="shopImage" v-bind:src="shopInfo[0].img_url" />
@@ -180,10 +180,9 @@ export default {
   color: #00565e;
 }
 #pdt {
-  max-width: 28%;
-  min-width: 25%;
   padding-top: 5%;
   justify-content: space-evenly;
+  min-width: 33%;
 }
 #productName {
   font-family: EB Garamond;
