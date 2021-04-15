@@ -62,10 +62,12 @@ export default {
             }
           });
         });
-      this.renderChart(this.datacollection, this.options);
     },
   },
   created() {
     this.fetchItems();
   },
+  mounted() {
+    this.renderChart(this.datacollection, this.options);
+  }
 };

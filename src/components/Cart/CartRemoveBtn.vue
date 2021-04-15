@@ -27,7 +27,7 @@ export default {
                     new_cart[key_val] = cart[key_val];
                 }
             }
-            database.collection("cart").doc(userid).set(new_cart);
+            database.collection("cart").doc(userid).set(new_cart).then(() => {location.reload()});
         })
       }
   }
