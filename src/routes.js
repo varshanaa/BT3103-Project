@@ -9,14 +9,12 @@ import IPP from "./components/IndividualProductPage.vue";
 import APP from "./components/AllProductsPage.vue";
 import EditProfile from "./components/EditProfile.vue";
 import CartItems from "./components/Cart/CartItems.vue";
-import CartEmpty from "./components/Cart/CartEmpty.vue";
 import CartPayment from "./components/Cart/CartPayment.vue";
 import CartShipping from "./components/Cart/CartShipping.vue";
 import CartConfirm from './components/Cart/CartConfirm.vue';
 import ISP from "./components/IndividualShopPage.vue";
 import FootBar from "./components/ProfileDashboards/charts/FootBar.vue";
 import EcoPoints from "./components/ProfileDashboards/EcoPoints.vue";
-import Shop from "./components/Shop.vue";
 import { fb } from "./firebase";
 
 Vue.use(Router);
@@ -35,10 +33,11 @@ const router = new Router({
       component: Products,
     },
     {
-      path: "/shop",
-      component: Shop,
-    }, 
-    
+      path: "/isp/:id",
+      component: ISP,
+      name: "isp",
+      props: true,
+    },
     {
       path: "/user",
       meta: { requiresAuth: true },
@@ -57,10 +56,16 @@ const router = new Router({
           component: Profile,
         },
         {
-          path: "ipp",
+          path: "ipp/:id",
           component: IPP,
           name: "ipp",
           props: true,
+        },
+        {
+          path:"isp/:id",
+          component: ISP,
+          name: "isp",
+          props:true
         },
         {
           path: "editprofile",
@@ -72,16 +77,11 @@ const router = new Router({
           name: "cartitems",
           props: true,
         },
-        {
-          path: "cartempty",
-          component: CartEmpty,
-          name: "cartempty",
-        },
         { 
-        path: 'cartpayment',
-        component: CartPayment,
-        name: 'cartpayment',
-        props: true
+          path: 'cartpayment',
+          component: CartPayment,
+          name: 'cartpayment',
+          props: true
         },
         {
           path: "cartshipping",
@@ -97,21 +97,12 @@ const router = new Router({
         },
         {
           path: "footbar",
-          component: FootBar,
-          name: "footbar",
+          component: FootBar
         },
         {
           path: "ecopoints",
-          component: EcoPoints,
-          name: "ecopoints",
+          component: EcoPoints
         },
-        {
-          path: "isp",
-          component: ISP,
-          name: "isp",
-          props: true
-        }, 
-        
       ],
     },
   ],
