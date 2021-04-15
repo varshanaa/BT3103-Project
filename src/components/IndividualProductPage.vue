@@ -20,7 +20,7 @@
         <div id="right-side">
             <ul>
                 <li id="name"><b>{{this.pdt.data.name}}</b>
-                <likebutton v-bind:id="this.id"></likebutton></li>
+                <likebutton v-bind:id="this.id" v-bind:liked="liked"></likebutton></li>
                 <li id="company_name"> From: {{this.company_name}}</li><br><br><br>
                 <li id="green"><u>DESCRIPTION</u></li>
                 <li id="black">{{this.pdt.data.description}}</li><br><br>
@@ -33,12 +33,12 @@
             </ul>
         </div>
     </div>
-    <footercomp></footercomp>
+    <Footer/>
 </div>
 </template>
 
 <script>
-import Footer from "./FooterComponent.vue";
+import Footer from "./Footer.vue";
 import {fb, database} from "../firebase.js";
 import LikeButton from './LikeButton.vue';
 import AddToCart from './AddToCart.vue';
@@ -51,20 +51,17 @@ export default {
                 pdtID: this.id,
                 data: []
             },
-            user: fb.auth().currentUser,
-            //user_id: user.uid,
             company_id: '',
             company_name: '',
-            add_product: [this.id, 0]
+            add_product: [this.id, 1],
+            liked: []
         }
     },
     props: {
-    id: {
-      type: String,
-        }   
+        id: String
     },
     components: {
-        footercomp: Footer,
+        Footer,
         likebutton: LikeButton,
         AddToCart,
         qtyCounter: QuantityCounter
@@ -95,6 +92,12 @@ export default {
                 });
             });
         },
+        fetchLikedProducts: function() {
+            database.collection("users").doc(fb.auth().currentUser.uid).get().then((doc) => {
+                this.liked = doc.data().liked;
+                console.log(this.liked)
+            })
+        },
         onCounter: function(quantity) {
             this.add_product[1] = quantity;
         }
@@ -102,6 +105,7 @@ export default {
     created() {
         this.fetchItems();
         this.fetchCompany();
+        this.fetchLikedProducts();
   },
 }
 </script>

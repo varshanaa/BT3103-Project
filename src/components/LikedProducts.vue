@@ -1,7 +1,7 @@
 <template>
   <div class="liked">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" style="background-color:rgba(237, 246, 249, 1); border-color: rgba(237, 246, 249, 1);" data-toggle="modal" data-target="#likedProducts">
+        <button type="button" v-on:click="fetchLikedProducts" class="btn btn-primary" style="background-color:rgba(237, 246, 249, 1); border-color: rgba(237, 246, 249, 1); margin:2px;" data-toggle="modal" data-target="#likedProducts">
         <b-icon icon="suit-heart" style="color:#688A75;"></b-icon>
         </button>
 
@@ -19,7 +19,7 @@
                 <div v-if="this.liked.length === 0" style="padding: 15px;">No products liked yet.</div>
                 <ul v-else v-for="(item,index) in this.liked" :key="index">
                 <li>
-                    <img :src="item.img_url" width="90" height="90">
+                    <img :src="item.img" width="90" height="90">
                     <div id="pdtCell" style="display: grid; margin: 2px 10px; align-content: start; text-align: left;">
                         <h5 style="font-size: 17px; padding:0px;">{{item.name}}</h5>
                         <span style="justify-self: self-start;">
@@ -27,7 +27,7 @@
                         </span>
                     </div>
                     <div style="flex: auto; text-align: right; margin: 2px 0px;">
-                    <h5 style="font-size: 17px; padding:0px 15px;">${{item.price.toFixed(2)}}</h5>
+                    <h5 style="font-size: 17px; padding:0px 15px;">${{parseFloat(item.price).toFixed(2)}}</h5>
                     </div>
                 </li>
                 </ul>
@@ -55,6 +55,7 @@ export default {
       fetchLikedProducts: function(){
           this.userid = fb.auth().currentUser.uid;
           database.collection("users").doc(this.userid).get().then(doc => {
+            this.liked = []
             let pdtList = doc.data().liked;
             for (const pdt_id of pdtList) {
                 database.collection("products").doc(pdt_id).get().then(snapshot => {
@@ -70,9 +71,6 @@ export default {
             }
           });
       }
-  },
-  created() {
-      //this.fetchLikedProducts();
   }
 };
 </script>
@@ -86,7 +84,6 @@ export default {
 }
 .modal-content{
     background-color: #C1D9CA;
-    opacity: 0.9;
 }
 h5 {
     padding: 10px;

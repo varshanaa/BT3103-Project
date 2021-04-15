@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <span>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -13,7 +13,7 @@
     >
       <i class="fa fa-heart"></i>
     </Button>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       userid: null,
-      isClicked: false,
+      isClicked: this.liked.includes(this.id)
     };
   },
   methods: {
@@ -48,11 +48,12 @@ export default {
             liked: firebase.firestore.FieldValue.arrayRemove(this.id),
           });
       }
-    },
+    }
   },
   props: {
     id: String,
-  },
+    liked: Array
+  }
 };
 </script>
 

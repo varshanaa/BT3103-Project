@@ -45,38 +45,35 @@
             </span>
             {{ product[1].points }} points
           </span>    
-        
-
         </li>
       </ul>
     </div>
-    <footercomp></footercomp>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import { fb, database } from "../firebase";
 import LikeButton from "./LikeButton.vue";
-import FooterComponent from "./FooterComponent.vue";
-
+import Footer from "./Footer.vue";
 export default {
   data() {
     return {
       shopInfo: [],
-      company_name: this.id, //took from userHome
       products: [],
       likedProducts: [],
       userid: fb.auth().currentUser.uid, 
+      company_name: this.id, //took from userHome
     };
-  },
-  components: {
-    likeBtn: LikeButton,
-    footercomp: FooterComponent,
   },
   props: {
     id: {
       type: String,
     }   
+  },
+  components: {
+    likeBtn: LikeButton,
+    Footer,
   },
   methods: {
     fetchItems: function() {
@@ -90,7 +87,6 @@ export default {
             }
           });
         });
-
       database
         .collection("products")
         .get()
@@ -102,7 +98,6 @@ export default {
           });
         });
     },
-
     route: function(event) {
       let product_id = event.target.getAttribute("id");
       this.$router.push({ name: "ipp", params: { id: product_id } });
@@ -122,7 +117,6 @@ export default {
   height: 1500px;
   left: 0px;
 }
-
 #picture {
   width: 55%;
   height: 35%;
@@ -130,10 +124,8 @@ export default {
   top: 3%;
   border: 5px solid #688a75;
   box-sizing: border-box;
-
   position: absolute;
 }
-
 #shopImage {
   position: absolute;
   width: 100%;
@@ -141,29 +133,23 @@ export default {
   left: 5%;
   top: 10%;
 }
-
 #shopTitle {
   position: absolute;
   left: 65%;
   top: 2%;
-
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
   font-size: 48px;
-
   display: flex;
   align-items: center;
-  
-  text-align:center;
+  text-align: center;
   color: #00565e;
 }
-
 #shopInfo {
   position: absolute;
   left: 65%;
   top: 8%;
-
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
@@ -173,19 +159,16 @@ export default {
   align-items: center;
   text-align: justify;
   color: #26413c;
-
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
   padding: 0;
   align-items: center;
 }
-
 #productHeader {
   position: absolute;
   left: 4%;
   top: 45%;
-
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
@@ -194,41 +177,32 @@ export default {
   display: flex;
   align-items: center;
   text-align: center;
-
   color: #00565e;
 }
-
 #pdt {
   max-width: 28%;
   min-width: 25%;
   padding-top: 5%;
-  justify-content: space-evenly; 
+  justify-content: space-evenly;
 }
-
 #productName {
   font-family: EB Garamond;
   font-style: normal;
   font-size: 20px;
   font-weight: bold;
-
   display: flex;
-  justify-content: space-evenly; 
-
+  justify-content: space-evenly;
   color: #00565e;
 }
-
 #productPrice {
   position: absolute;
   justify-content: space-evenly;
-
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
   font-size: 25px;
-
   color: #00565e;
 }
-
 #productList {
   position: absolute;
   top: 50%;
@@ -238,26 +212,21 @@ export default {
   list-style-type: none; 
   align-items: center;
 }
-
 li {
   padding: 10px;
 }
-
 #productPoints {
   background-color: #8ec693;
   border-radius: 20px;
   line-height: 42px;
   padding: 6px;
-
   color: #006d77;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-
   margin-left: 50%;
 }
-
 #leafIcon {
   width: 3%;
   height: 3%;
