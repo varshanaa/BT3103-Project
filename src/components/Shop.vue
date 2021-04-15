@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header/>
     <div id="content">
       <p id="picture">
         <img id="shopImage" v-bind:src="shopInfo[0].img_url" />
@@ -27,7 +28,7 @@
           <span id="productPrice">${{ product[1].price }}</span>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
           <span id="productPoints">
-              <i class="fa fa-leaf" style="width: 3%; height: 3%; border: none;"></i>
+              <i class="fa fa-leaf" style="width: 3%; height: 3%; border: none; padding-right: 5%"></i>
             {{ product[1].points }} points
           </span>      
         </li>
@@ -39,16 +40,24 @@
 
 <script>
 import { database } from "../firebase";
+import Header from "./Header.vue"
 import Footer from "./Footer.vue";
 export default {
   data() {
     return {
       shopInfo: [],
       products: [],
+      company_name: this.id, //took from Home
     };
   },
   components: {
     Footer,
+    Header,
+  },
+  props: {
+    id: {
+      type: String,
+    }   
   },
   methods: {
     fetchItems: function() {
@@ -57,7 +66,9 @@ export default {
         .get()
         .then(snapshot => {
           snapshot.docs.forEach(doc => {
-            this.shopInfo.push(doc.data());
+            if (this.company_name === doc.data().name) {
+              this.shopInfo.push(doc.data()); 
+            }
           });
         });
       database
@@ -65,7 +76,9 @@ export default {
         .get()
         .then(snapshot => {
           snapshot.docs.forEach(doc => {
-            this.products.push([doc.id, doc.data()]);
+            if (this.company_name === doc.data().company_name) {
+              this.products.push([doc.id, doc.data()]);
+            }
           });
         });
     }
@@ -147,8 +160,7 @@ export default {
   color: #00565e;
 }
 #pdt {
-  max-width: 28%;
-  min-width: 25%;
+  min-width: 33%;
   padding-top: 5%;
   justify-content: space-evenly;
 }
@@ -176,7 +188,7 @@ export default {
 }
 #productList {
   position: absolute;
-  top: 45%;
+  top: 50%;
   margin-left: 0%;
   display: flex;
   flex-wrap: wrap; 
@@ -189,17 +201,15 @@ li {
 #productPoints {
   background-color: #8ec693;
   border-radius: 20px;
-  line-height: 40px; /*align with price*/
+  line-height: 42px; /*align with price*/
   
   padding: 6px; 
   color: #006d77;
   font-family: EB Garamond;
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
-  
-  text-align: right;
+  font-size: 14px;
   margin-left: 50%; 
-  margin-top: 10%;
+  
 }
 </style>
