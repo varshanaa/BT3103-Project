@@ -16,10 +16,10 @@
       <div id="cartlist">
         <ul>
           <li><b id="amount">Total: SGD ${{total}}</b></li><br><br>
-          <li><input placeholder="Card Holder's Name"></li><br>
-          <li><input placeholder="Card Number"></li><br>
-          <li><input placeholder="Expiry Date"></li><br>
-          <li><input placeholder="CVV"></li>
+          <li><input v-model="card_name" placeholder="Card Holder's Name" type="text"></li><br>
+          <li><input v-model="card_number" placeholder="Card Number" type="number"></li><br>
+          <li><input v-model="expiry" placeholder="Expiry Date" type="text"></li><br>
+          <li><input v-model="cvv" placeholder="CVV" type="number" ></li>
         </ul><br><br>
       <div id="buttons"> 
       <button id="cancel" v-on:click="goback()">Cancel</button>
@@ -34,17 +34,24 @@
 
 <script>
 import Footer from "../Footer.vue";
-// import { fb, database } from "../../firebase.js";
+import { fb, database } from "../../firebase.js";
 
 export default {
   data() {
     return {
+      card_name: '',
+      card_number: '',
+      expiry: '',
+      cvv: ''
     };
   },
   components: {
     Footer
   },
   props: {
+    products: {
+      type: Object
+    },
     total: {
       type: Number
     },
@@ -54,7 +61,27 @@ export default {
   },
   methods: {
     route: function() {
+      if (this.card_name == '' || this.card_number == '' || this.expiry == '' || this.cvv == '') {
+        alert("Fill in all details before proceeding.");
+      }
+      else {
+      let userid = fb.auth().currentUser.uid;
+      for (var pdt_id in this.products) {
+        let pdt = this.products[pdt_id];
+      let new_purchase = {}
+      new_purchase.footprint = pdt.footprint
+      new_purchase.img_url = pdt.img
+      new_purchase.name = pdt.name
+      new_purchase.pdt_id = pdt.id
+      new_purchase.points = pdt.points
+      new_purchase.status = 'purchased'
+      new_purchase.user_id = userid
+      new_purchase.qty = pdt.qty
+      console.log(new_purchase)
+      database.collection("purchased").doc().set(new_purchase)
+      }
       this.$router.push({ name: "cartconfirm", params: {points: this.totalpoints}});
+      }
     },
     goback: function() {
       this.$router.push({name: "cartshipping"});

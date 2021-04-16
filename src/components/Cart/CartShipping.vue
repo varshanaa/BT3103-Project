@@ -22,12 +22,12 @@
         <br />
         <div id="content" >
         <ul id="left">
-          <li><input placeholder="Full Name"></li><br>
-          <li><input placeholder="Address" height="80px"></li><br>
-          <li><input placeholder="Country"></li><br>
-          <li><input placeholder="City"></li><br>
-          <li><input placeholder="Postal Code"></li><br>
-          <li><input placeholder="Contact No."></li>
+          <li><input v-model="full_name" placeholder="Full Name" type="text"></li><br>
+          <li><input v-model="address" placeholder="Address" height="80px" type="text"></li><br>
+          <li><input v-model="country" placeholder="Country" type="text"></li><br>
+          <li><input v-model="city" placeholder="City" type="text"></li><br>
+          <li><input v-model="postal_code" placeholder="Postal Code" type="number"></li><br>
+          <li><input v-model="contact" placeholder="Contact No." type="number"></li>
         </ul>
         <ul id="right">
           <li id="rightLI" v-for= "item in products" v-bind:key="item.id">
@@ -45,7 +45,7 @@
       </div>
       <div>
       <button id="payment" v-on:click="route()">Proceed to Pay</button>
-      <router-link id="update" to="/user/cartitems" exact>Update Cart</router-link>
+      <router-link id="update" to="/user/cartitems" exact>Update Cart</router-link><br>
       </div>
     </div>
     <Footer/>
@@ -54,13 +54,17 @@
 
 <script>
 import Footer from "../Footer.vue";
-// import { fb, database } from "../../firebase.js";
+//import { fb, database } from "../../firebase.js";
 
 export default {
   data() {
     return {
-      // total: 50,
-      // points: 606
+      full_name: '',
+      address: '',
+      country: '',
+      city: '',
+      postal_code: '',
+      contact: ''
     };
   },
   components: {
@@ -79,7 +83,13 @@ export default {
   },
   methods: {
     route: function() {
-      this.$router.push({ name: "cartpayment", params: {total: this.total, totalpoints: this.totalpoints}});
+      // checking if any input fields are empty before proceeding to payment page
+      if (this.full_name == '' || this.address == '' || this.country == '' || this.city == '' || this.postal_code == '' || this.contact == '') {
+        alert("Fill in all details before proceeding.");
+      }
+      else {
+      this.$router.push({ name: "cartpayment", params: {products: this.products, total: this.total, totalpoints: this.totalpoints}});
+      }
     }
   }
 };
@@ -159,7 +169,7 @@ hr {
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-  max-height: 350px;
+  max-height: 400px;
   background-color: whitesmoke;
   border-radius: 25px;
   position: relative;

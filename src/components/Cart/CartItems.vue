@@ -52,8 +52,6 @@
         <span v-show="this.subtotal > 0">Subtotal: ${{ subtotal }}</span><br>
         <span v-show="this.subtotal > 0">Discount: ${{ discount }}</span><br>
         <span v-show="this.subtotal > 0"><b>Grand Total: ${{ grand_total() }}</b></span><br>
-      </div>
-      <div>
       <button v-on:click="checkViewed()" id="checkout">Check Out</button>
       <button id="browse" v-on:click="pushBrowse()">Continue Browsing</button>
       </div>
@@ -288,7 +286,7 @@ li {
   padding: 7px;
   position: relative;
   float: right;
-  margin-right: -12%;
+  margin-right: -10%;
   margin-top: 12%;
 }
 #browse {
@@ -301,10 +299,10 @@ li {
   padding: 7px;
   position: relative;
   float: right;
-  margin-right: -5%;
+  margin-right: 5%;
   margin-top: 12%;
 }
-/* these are for an empty cart */
+/* the following are for an empty cart */
 #empty-text {
   position: absolute;
   top: 43%;
