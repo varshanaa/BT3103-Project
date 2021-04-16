@@ -93,7 +93,7 @@ export default {
                         for (let i=0; i < modalsBackdrops.length; i++) {
                             document.body.removeChild(modalsBackdrops[i]);
                         }
-                    this.$router.replace('user/home');  
+                    this.$router.replace('user/home').then(() => location.reload());  
                 })
                 .catch(function(error) {
                     var errorCode = error.code;
