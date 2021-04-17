@@ -22,12 +22,12 @@
         <br />
         <div id="content" >
         <ul id="left">
-          <li><input v-model="full_name" placeholder="Full Name" type="text"></li><br>
-          <li><input v-model="address" placeholder="Address" height="80px" type="text"></li><br>
-          <li><input v-model="country" placeholder="Country" type="text"></li><br>
-          <li><input v-model="city" placeholder="City" type="text"></li><br>
-          <li><input v-model="postal_code" placeholder="Postal Code" type="number"></li><br>
-          <li><input v-model="contact" placeholder="Contact No." type="number"></li>
+          <li><input v-model="full_name" placeholder="Full Name"></li><br>
+          <li><input v-model="address" placeholder="Address" height="80px"></li><br>
+          <li><input v-model="country" placeholder="Country"></li><br>
+          <li><input v-model="city" placeholder="City"></li><br>
+          <li><input v-model="postal_code" placeholder="Postal Code"></li><br>
+          <li><input v-model="contact" placeholder="Contact No."></li>
         </ul>
         <ul id="right">
           <li id="rightLI" v-for= "item in products" v-bind:key="item.id">
@@ -40,17 +40,16 @@
         </div>
       </div>
       <div id="details">
-        <span><i class="fa fa-leaf leaf-icon"></i> Total ECO-Points: {{ totalpoints }}</span><br />
-        <span>Total: ${{ total }}</span><br>
-      </div>
-      <div>
-      <button id="payment" v-on:click="route()">Proceed to Pay</button>
-      <router-link id="update" to="/user/cartitems" exact>Update Cart</router-link><br>
+        <b><i class="fa fa-leaf leaf-icon"></i> Total Eco points: {{ totalpoints }}</b><br />
+        <b>Total: ${{ total.toFixed(2) }}</b><br>
+        <router-link id="update" to="/user/cartitems" exact>Update Cart</router-link>
+        <button id="payment" v-on:click="route()">Proceed to Pay</button>
       </div>
     </div>
     <Footer/>
   </div>
 </template>
+
 
 <script>
 import Footer from "../Footer.vue";
@@ -99,8 +98,6 @@ export default {
 #pagebody {
   background-color: #d8e2dc;
   width: 100%;
-  min-height: 800px;
-  position: relative;
 }
 
 .cart-icon {
@@ -114,9 +111,8 @@ export default {
   line-height: 70px;
   vertical-align: middle;
   align-content: center;
-
   left: 25%;
-  top: 14%;
+  top: 20%;
 }
 
 hr {
@@ -124,8 +120,7 @@ hr {
   width: 47%;
   height: 0px;
   border-top: 2px dashed #006d77;
-
-  top: 16%;
+  top: 22%;
   left: 28%;
 }
 
@@ -139,9 +134,9 @@ hr {
   text-align: center;
   line-height: 70px;
   vertical-align: middle;
-
-  left: 46%;
-  top: 14%;
+  border: 3px solid black;
+  left: 48%;
+  top: 20%;
 }
 
 .tick-icon {
@@ -154,9 +149,8 @@ hr {
   text-align: center;
   line-height: 70px;
   vertical-align: middle;
-
   left: 71%;
-  top: 14%;
+  top: 20%;
 }
 
 .leaf-icon {
@@ -169,21 +163,26 @@ hr {
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-  max-height: 400px;
+  margin-top: 200px;
+  margin-bottom: 30px;
   background-color: whitesmoke;
   border-radius: 25px;
-  position: relative;
-  float: left;
-  margin-top: 14%;
-  margin-left: 18%;
-  overflow-y: scroll;
-  padding-right: 0.5%;
 }
 
-#headings, #content {
+#headings {
   display: flex;
   list-style-type: none;
-  padding: 1%;
+  font-family: 'EB Garamond';
+  font-size: 20px;
+  margin-bottom: 0px;
+  padding-left: 0px;
+  padding-top: 30px;
+}
+
+#content {
+  display: flex;
+  list-style-type: none;
+  padding: 0px 20px 30px;
   font-family: 'EB Garamond';
   font-size: 20px;
 }
@@ -191,11 +190,13 @@ hr {
 #left {
   float: left;
   flex: 1;
+  padding: 0;
 }
 
 #right {
   float: right;
   flex: 1;
+  padding: 0;
 }
 
 ul {
@@ -208,9 +209,8 @@ li {
 }
 
 #shipping {
-  flex: 1.1;
+  flex: 1;
   text-align: center;
-  margin-right: 10%;
 }
 
 input {
@@ -223,10 +223,8 @@ input {
 }
 
 #details {
-  margin-top: 1%;
-  position: relative;
-  float: right;
-  margin-right: 18%;
+  text-align: end;
+  width:80%;
 }
 
 #item_img {
@@ -236,6 +234,7 @@ input {
 
 #rightLI {
   display: flex;
+  padding: 0px 0px 10px;
 }
 
 #item_span {
@@ -256,10 +255,7 @@ input {
   color: white;
   border-radius: 5px;
   padding: 7px;
-  margin-top: 5%;
-  position: relative;
-  float: right;
-  margin-right: -12%;
+  margin: 20px 0px 40px;
 }
 
 #update {
@@ -269,10 +265,7 @@ input {
   border-color: #688a75;
   color: white;
   border-radius: 5px;
-  padding: 9px;
-  margin-top: 5%;
-  position: relative;
-  float: right;
-  margin-right: -4%;
+  padding: 12px;
+  margin:20px;
 }
 </style>

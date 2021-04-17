@@ -14,18 +14,17 @@
         </span>
       </div>
 
-      <div>
+      <div id="content">
         <p id="message">Payment Complete!</p>
         <span>
           <i class="fa fa-leaf fa-5x leaf-icon"></i>
           <span id="ecoPoints">
-            Total Eco-points earned: {{ getPoints() }}
+            Total Eco points earned: {{ getPoints() }}
           </span>
-        </span>
+        </span><br><br><br>
+        <!-- note: router-link to home page -->
+        <router-link id="browseBtn" to="/user/home" exact>Continue Browsing</router-link>
       </div>
-
-      <!-- note: router-link to home page -->
-      <router-link id="browseBtn" to="/user/home" exact>Continue Browsing</router-link>
     </div>
     <Footer/>
   </div>
@@ -53,9 +52,8 @@ export default {
 #pagebody {
   background-color: #d8e2dc;
   width: 100%;
-  min-height: 800px;
-  position: relative;
 }
+
 .cart-icon {
   position: absolute;
   font-size: 40px;
@@ -67,17 +65,20 @@ export default {
   line-height: 70px;
   vertical-align: middle;
   align-content: center;
+
   left: 25%;
-  top: 14%;
+  top: 20%;
 }
+
 hr {
   position: absolute;
-  width: 45%;
+  width: 47%;
   height: 0px;
   border-top: 2px dashed #006d77;
-  top: 16%;
+  top: 22%;
   left: 28%;
 }
+
 .card-icon {
   position: absolute;
   font-size: 35px;
@@ -88,9 +89,10 @@ hr {
   text-align: center;
   line-height: 70px;
   vertical-align: middle;
-  left: 46%;
-  top: 14%;
+  left: 48%;
+  top: 20%;
 }
+
 .tick-icon {
   position: absolute;
   font-size: 40px;
@@ -101,13 +103,15 @@ hr {
   text-align: center;
   line-height: 70px;
   vertical-align: middle;
+  border: 3px solid black;
   left: 71%;
-  top: 14%;
+  top: 20%;
+}
+.leaf-icon {
+  font-size: 20px;
+  color: #006d77;
 }
 #message {
-  position: absolute;
-  top: 28%;
-  left: 40%;
   font-family: "Garamond";
   font-size: 40px;
   font-weight: bold;
@@ -115,17 +119,18 @@ hr {
   text-align: center;
   font-variant: small-caps;
 }
-.leaf-icon {
-  position: absolute;
-  font-size: 30px;
-  top: 43%;
-  left: 38%; 
-  color: #006d77;
+#content {
+  width: 50%;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 200px;
+  margin-bottom: 100px;
+  background-color: whitesmoke;
+  border-radius: 25px;
+  padding: 50px
 }
 #ecoPoints {
-  position: absolute;
-  top: 43%;
-  left: 40%;
   font-family: "Garamond";
   font-size: 25px;
   font-weight: bold;
@@ -133,9 +138,6 @@ hr {
   text-align: center;
 }
 #browseBtn {
-  position: absolute;
-  top: 52%;
-  left: 43%;
   font-family: "Garamond";
   font-size: 22px;
   color: white;
@@ -144,5 +146,6 @@ hr {
   text-decoration: none;
   border-radius: 5px;
   padding: 8px;
+  margin: 20px;
 }
 </style>
