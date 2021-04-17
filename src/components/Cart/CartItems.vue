@@ -13,14 +13,14 @@
           <i class="fa fa-check fa-5x tick-icon"></i>
         </span>
       </div>
-      <div v-show="Object.keys(this.products).length>0">
+      <div v-show="Object.keys(this.products).length>0" style="margin-top: 200px;">
       <div id="cartlist" >
         <ul id="headings">
           <li id="productheader">Product</li>
           <li>Price</li>
           <li>Quantity</li>
           <li>Total</li>
-          <li>ECO Points</li>
+          <li>Eco Points</li>
           <br />
         </ul>
         <br />
@@ -47,13 +47,14 @@
         </ul>
       </div>
       <div id="details">
+      <span>Discount Code: <input v-model="discountcode"></span><br><br>
         <button id="view_total" v-on:click= "findTotal" >View Total</button><br><br>
         <span v-show="this.totalpoints > 0"><i class="fa fa-leaf leaf-icon"></i><b> Total ECO-Points: {{ totalpoints }}</b></span><br />
         <span v-show="this.subtotal > 0">Subtotal: ${{ subtotal }}</span><br>
         <span v-show="this.subtotal > 0">Discount: ${{ discount }}</span><br>
         <span v-show="this.subtotal > 0"><b>Grand Total: ${{ grand_total() }}</b></span><br>
-      <button v-on:click="checkViewed()" id="checkout">Check Out</button>
       <button id="browse" v-on:click="pushBrowse()">Continue Browsing</button>
+      <button v-on:click="checkViewed()" id="checkout">Check Out</button>
       </div>
     </div>
     <!-- if this.products is an empty object-->
@@ -78,6 +79,7 @@ export default {
       products: {},
       totalpoints: 0,
       discount: 0,
+      discountcode: '',
       subtotal: 0,
       total_final: 0,
       cart: {},
@@ -117,16 +119,46 @@ export default {
       return productsObj;
     },
     grand_total: function() {
-      this.total_final = this.subtotal - this.discount;
-      return this.total_final;
+      const amount = this.subtotal - this.discount;
+      if (this.amount < 0) {
+        this.total_final = 0;
+      }
+      else {
+        this.total_final = amount;
+      }
+      return this.total_final.toFixed(2);
     },
-    findTotal: function() {
+    findTotal: async function() {
       this.subtotal = 0;
       this.totalpoints = 0;
+      this.discount = 0;
       for (var key in this.products) {
         let entry = this.products[key]
         this.subtotal += entry.price * entry.qty;
         this.totalpoints += entry.points * entry.qty;
+        this.subtotal = this.subtotal.toFixed(2)
+      }
+      // checking for discounts
+      if (this.discountcode !='') {
+        let userid = fb.auth().currentUser.uid;
+        const doc = await database.collection('users').doc(userid).get()
+        const userPoints = doc.data().points
+        if (this.discountcode == '10OFFALL' && userPoints >= 1000) {
+          this.discount = this.subtotal*0.1
+          this.discount = this.discount.toFixed(2)
+        }
+        else if (this.discountcode == '5OFFALL' && userPoints >= 2500) {
+          this.discount = this.subtotal*0.05
+        }
+        else if (this.discountcode == '$10OFF' && userPoints >= 1500) {
+          this.discount = 10
+        }
+        else if (this.discountcode == '$15OFF' && userPoints >= 2000) {
+          this.discount = 15
+        }
+        else if (this.discountcode == '$20OFF' && userPoints >= 2500) {
+          this.discount = 20
+        }
       }
     this.viewTotalClicked = true;
     },
@@ -152,9 +184,8 @@ export default {
 #pagebody {
   background-color: #d8e2dc;
   width: 100%;
-  min-height: 900px;
-  position: relative;
 }
+
 .cart-icon {
   position: absolute;
   font-size: 40px;
@@ -166,17 +197,20 @@ export default {
   line-height: 70px;
   vertical-align: middle;
   align-content: center;
+  border:3px solid black;
   left: 25%;
-  top: 14%;
+  top: 20%;
 }
+
 hr {
   position: absolute;
   width: 47%;
   height: 0px;
   border-top: 2px dashed #006d77;
-  top: 16%;
+  top: 22%;
   left: 28%;
 }
+
 .card-icon {
   position: absolute;
   font-size: 35px;
@@ -187,9 +221,10 @@ hr {
   text-align: center;
   line-height: 70px;
   vertical-align: middle;
-  left: 46%;
-  top: 14%;
+  left: 48%;
+  top: 20%;
 }
+
 .tick-icon {
   position: absolute;
   font-size: 40px;
@@ -201,7 +236,7 @@ hr {
   line-height: 70px;
   vertical-align: middle;
   left: 71%;
-  top: 14%;
+  top: 20%;
 }
 .leaf-icon {
   font-size: 20px;
@@ -212,42 +247,37 @@ hr {
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-  max-height: 350px;
   background-color: whitesmoke;
   border-radius: 25px;
-  position: relative;
-  float: left;
-  margin-top: 14%;
-  margin-left: 18%;
-  overflow-y: scroll;
-  padding-right: 0.5%;
 }
 #headings {
   display: flex;
   list-style-type: none;
   border-bottom: 1px solid black;
   padding: 2%;
+  margin-bottom: 0px;
+  font-weight: bold;
 }
 #itemrow {
   display: flex;
   list-style-type: none;
+  padding: 10px;
 }
 ul {
   list-style-type: none;
+  padding: 30px;
 }
 li {
   flex: 1.5;
   text-align: center;
 }
 #productheader {
-  flex: 8.5;
+  flex: 6;
   text-align: center;
-  margin-right: 10%;
 }
 #itemname {
-  flex: 8.5;
+  flex: 6;
   text-align: center;
-  margin-right: 10%;
   display: flex;
 }
 #co2footprint {
@@ -255,10 +285,8 @@ li {
   vertical-align: -0.5em;
 }
 #details {
-  margin-top: 1%;
-  position: relative;
-  float: right;
-  margin-right: 18%;
+  text-align: end;
+  width:80%;
 }
 #item_img {
   width: 80px;
@@ -266,6 +294,7 @@ li {
 }
 #item_span {
   flex-basis: 200px;
+  text-align: left;
 }
 #view_total {
   font-family: "Garamond";
@@ -284,10 +313,6 @@ li {
   color: white;
   border-radius: 5px;
   padding: 7px;
-  position: relative;
-  float: right;
-  margin-right: -10%;
-  margin-top: 12%;
 }
 #browse {
   font-family: "Garamond";
@@ -297,16 +322,10 @@ li {
   color: white;
   border-radius: 5px;
   padding: 7px;
-  position: relative;
-  float: right;
-  margin-right: 5%;
-  margin-top: 12%;
+  margin: 20px 20px 40px;
 }
 /* the following are for an empty cart */
 #empty-text {
-  position: absolute;
-  top: 43%;
-  left: 42%;
   align-content: center;
   font-family: "Garamond";
   font-size: 25px;
@@ -315,9 +334,6 @@ li {
   text-align: center;
 }
 #browseBtn {
-  position: absolute;
-  top: 52%;
-  left: 43%;
   font-family: "Garamond";
   font-size: 22px;
   color: white;
