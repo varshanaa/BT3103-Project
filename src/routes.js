@@ -16,6 +16,13 @@ import ISP from "./components/IndividualShopPage.vue";
 import Shop from "./components/Shop.vue";
 import FootBar from "./components/ProfileDashboards/charts/FootBar.vue";
 import EcoPoints from "./components/ProfileDashboards/EcoPoints.vue";
+
+import CompanyHeader from "./components/Company/CompanyHeader.vue";
+import CompanyHome from "./components/Company/CompanyHome.vue";
+import EditDescription from "./components/Company/EditDescription.vue";
+import EditProducts from "./components/Company/EditProducts.vue";
+import AddProducts from "./components/Company/AddProducts.vue";
+
 import { fb } from "./firebase";
 
 Vue.use(Router);
@@ -39,6 +46,7 @@ const router = new Router({
       name: "shop",
       props: true,
     },
+  
     {
       path: "/user",
       meta: { requiresAuth: true },
@@ -103,6 +111,37 @@ const router = new Router({
         {
           path: "ecopoints",
           component: EcoPoints
+        },
+      ],
+    },
+    {
+      path: "/company",
+      //meta: { requiresAuth: true },
+      component: CompanyHeader,
+      children: [
+        {
+          path: "home",
+          component: CompanyHome,
+          name: "companyHome",
+          props: true,
+        },
+        {
+          path: "editDescription",
+          component: EditDescription,
+          name: "editDescription",
+          props: true,
+        },
+        {
+          path: "editProducts",
+          component: EditProducts,
+          name: "editProducts",
+          props: true,
+        },
+        {
+          path: "addProducts",
+          component: AddProducts,
+          name: "addProducts",
+          props: true,
         },
       ],
     },
