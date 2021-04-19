@@ -40,7 +40,7 @@
               </li>
               <li>${{ item.price }}</li>
               <li>{{ item.qty }}</li>
-              <li>${{ item.price * item.qty }}</li>
+              <li>${{ (item.price * item.qty).toFixed(2) }}</li>
               <li>{{ item.qty * item.points }}</li>
             </ul>
           </li>
@@ -84,7 +84,8 @@ export default {
       total_final: 0,
       cart: {},
       loading: true,
-      viewTotalClicked: false
+      viewTotalClicked: false,
+      minusPoints: 0
     };
   },
   components: {
@@ -95,32 +96,33 @@ export default {
     async retrieveCart() {
       let userid = fb.auth().currentUser.uid;
       const doc = await database.collection("cart").doc(userid).get()
-      this.cart = doc.data();
       let productsObj =  {}
-      // once this.cart has been defined with the products in the cart, retrieve those products from database
-      const snapshot = await database.collection("products").get()
-      snapshot.docs.forEach( (doc) => {
+      if (doc.exists) {
+        this.cart = doc.data();
+        // once this.cart has been defined with the products in the cart, retrieve those products from database
+        const snapshot = await database.collection("products").get()
+        snapshot.docs.forEach( (doc) => {
             let data = doc.data();
             let pdtID = data.pdt_id;
             if (this.cart[pdtID] != null) {
-              let val = parseInt(data.price).toFixed(2);
               productsObj[pdtID] = {
                 name: data.name,
                 img: data.img_url,
                 footprint: data.footprint,
-                price: val,
+                price: data.price,
                 points: data.points,
                 qty: this.cart[pdtID],
                 id: pdtID,
               };
             }
-      });
+        });
+      }
       this.loading = false;
       return productsObj;
     },
     grand_total: function() {
       const amount = this.subtotal - this.discount;
-      if (this.amount < 0) {
+      if (amount < 0) {
         this.total_final = 0;
       }
       else {
@@ -136,38 +138,46 @@ export default {
         let entry = this.products[key]
         this.subtotal += entry.price * entry.qty;
         this.totalpoints += entry.points * entry.qty;
-        this.subtotal = this.subtotal.toFixed(2)
       }
       // checking for discounts
       if (this.discountcode !='') {
         let userid = fb.auth().currentUser.uid;
         const doc = await database.collection('users').doc(userid).get()
         const userPoints = doc.data().points
-        if (this.discountcode == '10OFFALL' && userPoints >= 1000) {
+        if (this.discountcode == '10OFFALL' && userPoints >= 3000) {
           this.discount = this.subtotal*0.1
           this.discount = this.discount.toFixed(2)
+          this.minusPoints = 3000
         }
         else if (this.discountcode == '5OFFALL' && userPoints >= 2500) {
           this.discount = this.subtotal*0.05
+          this.minusPoints = 2500
         }
         else if (this.discountcode == '$10OFF' && userPoints >= 1500) {
           this.discount = 10
+          this.minusPoints = 1500
         }
         else if (this.discountcode == '$15OFF' && userPoints >= 2000) {
           this.discount = 15
+          this.minusPoints = 2000
         }
         else if (this.discountcode == '$20OFF' && userPoints >= 2500) {
           this.discount = 20
+          this.minusPoints = 250
+        }
+        else {
+          alert('Insufficient Points/Invalid Discount Code')
         }
       }
-    this.viewTotalClicked = true;
+      this.subtotal = this.subtotal.toFixed(2)
+      this.viewTotalClicked = true;
     },
     checkViewed: function() {
       if (!(this.viewTotalClicked)) {
         alert("Please view total before proceeding.");
       }
       else {
-        this.$router.push({ name: 'cartshipping', params: {products: this.products, total: this.total_final, totalpoints: this.totalpoints }})
+        this.$router.push({ name: 'cartshipping', params: {products: this.products, total: this.total_final, totalpoints: this.totalpoints, minusPoints: this.minusPoints }})
       }
     },
     pushBrowse() {
