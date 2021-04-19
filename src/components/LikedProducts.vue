@@ -23,7 +23,7 @@
                     <div id="pdtCell" style="display: grid; margin: 2px 10px; align-content: start; text-align: left;">
                         <h5 class="pdtName">{{item.name}}</h5>
                         <span style="justify-self: self-start;">
-                            <span id="co2footprint"></span> {{ item.footprint}}g
+                            <span id="co2footprint"></span> {{item.footprint}}g
                         </span>
                     </div>
                     <div style="flex: auto; text-align: right; margin: 2px 0px;">
