@@ -18,10 +18,10 @@
             <div class="modal-body" style="padding: 0px 10px">
                 <div v-if="this.liked.length === 0" style="padding: 15px;">No products liked yet.</div>
                 <ul v-else v-for="(item,index) in this.liked" :key="index">
-                <li>
+                <li v-on:click="route($event)" :id="item.id">
                     <img :src="item.img" width="90" height="90">
                     <div id="pdtCell" style="display: grid; margin: 2px 10px; align-content: start; text-align: left;">
-                        <h5 style="font-size: 17px; padding:0px;">{{item.name}}</h5>
+                        <h5 class="pdtName">{{item.name}}</h5>
                         <span style="justify-self: self-start;">
                             <span id="co2footprint"></span> {{ item.footprint}}g
                         </span>
@@ -52,15 +52,16 @@ export default {
       }
   },
   methods:{
-      fetchLikedProducts: function(){
-          this.userid = fb.auth().currentUser.uid;
-          database.collection("users").doc(this.userid).get().then(doc => {
+    fetchLikedProducts: function(){
+        this.userid = fb.auth().currentUser.uid;
+        database.collection("users").doc(this.userid).get().then(doc => {
             this.liked = []
             let pdtList = doc.data().liked;
             for (const pdt_id of pdtList) {
                 database.collection("products").doc(pdt_id).get().then(snapshot => {
                     let pdt = snapshot.data();
                     let pdtObject = {
+                        id: pdt_id,
                         img: pdt.img_url,
                         footprint: pdt.footprint,
                         price: pdt.price,
@@ -69,8 +70,12 @@ export default {
                     this.liked.push(pdtObject);
                 })
             }
-          });
-      }
+        });
+    },
+    route: function(event) {
+        let pdt_id = event.target.getAttribute("id");
+		this.$router.push({ name: "ipp", params: { id: pdt_id } }).then(() => {location.reload()});
+	}
   }
 };
 </script>
@@ -110,6 +115,11 @@ li {
     display: flex;
     padding: 15px;
     margin:10px;
+}
+.pdtName {
+    font-size: 17px; 
+    padding:0px; 
+    cursor: pointer;
 }
 #co2footprint {
     content: url('https://api.iconify.design/iwwa:co2.svg?height=30');
